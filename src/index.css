@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-paper: #F1ECE2;
+  --color-asphalt: #1A1C1E;
+  --color-orange: #E4501D;
+  --color-teal: #1D5A52;
+  --color-yellow: #E5A823;
+  --color-steel: #6E7A82;
+  --color-chalk: #FAF7F0;
+}
+
+html, body {
+  background-color: var(--color-paper);
+  color: var(--color-asphalt);
+  font-family: 'Instrument Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hard Stamp Shadows */
+.stamp {
+  box-shadow: 3px 3px 0px #1A1C1E;
+}
+
+.stamp-sm {
+  box-shadow: 2px 2px 0px #1A1C1E;
+}
+
+.stamp-lg {
+  box-shadow: 5px 5px 0px #1A1C1E;
+}
+
+.stamp-orange {
+  box-shadow: 3px 3px 0px #E4501D;
+}
+
+.stamp-teal {
+  box-shadow: 3px 3px 0px #1D5A52;
+}
+
+.stamp-yellow {
+  box-shadow: 3px 3px 0px #E5A823;
+}
+
+.stamp-white {
+  box-shadow: 3px 3px 0px #FAF7F0;
+}
+
+/* Hazard Stripe Warning Patterns */
+.hazard-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    #E5A823,
+    #E5A823 12px,
+    #1A1C1E 12px,
+    #1A1C1E 24px
+  );
+}
+
+.hazard-stripes-sm {
+  background: repeating-linear-gradient(
+    -45deg,
+    #E5A823,
+    #E5A823 8px,
+    #1A1C1E 8px,
+    #1A1C1E 16px
+  );
+}
+
+.hazard-stripes-subtle {
+  background: repeating-linear-gradient(
+    -45deg,
+    #6E7A82,
+    #6E7A82 8px,
+    #1A1C1E 8px,
+    #1A1C1E 16px
+  );
+}
+
+/* Perforated Ticket Edge */
+.ticket-perforated-r {
+  position: relative;
+}
+.ticket-perforated-r::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  bottom: 0;
+  width: 2px;
+  background-image: linear-gradient(to bottom, #1A1C1E 50%, transparent 50%);
+  background-size: 2px 8px;
+}
+
+.ticket-notch-y {
+  position: relative;
+}
+.ticket-notch-y::before,
+.ticket-notch-y::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-paper);
+  border: 1.5px solid #1A1C1E;
+  border-radius: 50%;
+  z-index: 10;
+}
+.ticket-notch-y::before {
+  top: -8px;
+  left: 68%;
+  transform: translateX(-50%);
+}
+.ticket-notch-y::after {
+  bottom: -8px;
+  left: 68%;
+  transform: translateX(-50%);
+}
+
+/* Industrial Grid & Manifest lines */
+.bg-manifest-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(26, 28, 30, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26, 28, 30, 0.05) 1px, transparent 1px);
+}
+
+/* Stencil and road signage labels */
+.stencil-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+/* Monospace data numbers */
+.mono-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Industrial buttons */
+.btn-industrial {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 150ms ease-out;
+}
+.btn-industrial:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+}
+.btn-industrial:active:not(:disabled) {
+  transform: translate(1px, 1px);
+}
+
+/* Custom crisp scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1ECE2;
+  border-left: 1.5px solid #1A1C1E;
+}
+::-webkit-scrollbar-thumb {
+  background: #1A1C1E;
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E4501D;
+}
+
+/* Print / PDF Bilty Consignment Note Export Styles */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  header,
+  footer,
+  nav,
+  .no-print,
+  button:not(.print-include) {
+    display: none !important;
+  }
+
+  main,
+  .max-w-7xl,
+  .max-w-5xl,
+  .max-w-4xl {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .stamp,
+  .stamp-sm,
+  .stamp-lg,
+  .stamp-orange,
+  .stamp-teal,
+  .stamp-yellow {
+    box-shadow: none !important;
+  }
+
+  .border,
+  .border-\[1\.5px\],
+  .border-\[2px\] {
+    border-color: #1A1C1E !important;
+  }
+
+  .bg-chalk,
+  .bg-paper {
+    background-color: #FFFFFF !important;
+  }
+
+  @page {
+    margin: 1cm;
+    size: A4 portrait;
+  }
+}
