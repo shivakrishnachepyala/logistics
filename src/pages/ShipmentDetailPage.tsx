@@ -41,11 +41,11 @@ export const ShipmentDetailPage: React.FC = () => {
             {lang === 'hi' ? 'इस नंबर का कोई पार्सल दर्ज नहीं है:' : 'No record under identifier:'} <strong className="font-mono text-asphalt">{id}</strong>.
           </p>
           <Link
-            to="/dashboard"
+            to="/manager/shipments"
             className="btn-industrial bg-asphalt text-paper text-xs px-4 py-2.5 border border-asphalt hover:bg-orange inline-flex items-center gap-1.5 min-h-[44px]"
           >
             <IndustrialIcon name="box" size={14} />
-            <span>{t('nav.dashboard')}</span>
+            <span>{lang === 'hi' ? 'कंसाइनमेंट सूची' : 'Shipments Grid'}</span>
           </Link>
         </div>
       </div>
@@ -119,10 +119,10 @@ export const ShipmentDetailPage: React.FC = () => {
                 <span>{lang === 'hi' ? 'रसीद प्रिंट करें' : 'PRINT RECEIPT'}</span>
               </button>
               <Link
-                to="/dashboard"
+                to="/manager/shipments"
                 className="btn-industrial bg-chalk text-asphalt text-xs px-3.5 py-2.5 border-[1.5px] border-asphalt hover:bg-paper min-h-[48px] flex items-center gap-1.5"
               >
-                <span>← {t('nav.dashboard')}</span>
+                <span>← {lang === 'hi' ? 'कंसाइनमेंट सूची' : 'Shipments'}</span>
               </Link>
             </div>
           </div>

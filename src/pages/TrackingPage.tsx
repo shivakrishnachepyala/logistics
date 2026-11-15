@@ -48,79 +48,79 @@ export const TrackingPage: React.FC = () => {
   ];
 
   return (
-    <div className="flex-1 py-6 sm:py-10 bg-paper">
+    <div className="flex-1 py-8 sm:py-12 bg-slate-50 text-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top Breadcrumb & Title */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-asphalt pb-4">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
-            <div className="font-heading font-black text-xs text-orange tracking-widest uppercase mb-1">
-              {t('track.sub')}
+            <div className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
+              {lang === 'hi' ? 'रीयल-टाइम ट्रैकिंग कंसोल' : 'Real-Time Telematics & Tracking'}
             </div>
-            <h1 className="font-heading font-black text-3xl sm:text-4xl uppercase text-asphalt leading-none">
-              {t('track.title')}
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
+              {t('track.title', 'Live Shipment Tracking')}
             </h1>
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Link
-              to="/dashboard"
-              className="btn-industrial bg-chalk text-asphalt text-xs px-3.5 py-2.5 border-[1.5px] border-asphalt hover:bg-paper min-h-[44px] flex items-center gap-1.5"
+              to="/"
+              className="bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-1.5 transition-colors"
             >
-              <span>← {t('nav.dashboard')}</span>
+              <span>← {lang === 'hi' ? 'होम' : 'Back to Home'}</span>
             </Link>
             <Link
               to="/create"
-              className="btn-industrial bg-orange text-white text-xs px-3.5 py-2.5 border-[1.5px] border-asphalt hover:bg-orange-hover min-h-[44px] flex items-center gap-1.5 stamp-sm"
+              className="bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-all flex items-center gap-1.5"
             >
               <IndustrialIcon name="plus" size={14} />
-              <span>{t('nav.newShipment')}</span>
+              <span>{t('nav.newShipment', 'Book Shipment')}</span>
             </Link>
           </div>
         </div>
 
         {/* Search Input Bar */}
-        <div className="bg-chalk border-[2px] border-asphalt p-4 sm:p-5 stamp mb-8">
-          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm mb-8">
+          <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <input
                 type="text"
-                placeholder={t('track.inputPlaceholder')}
+                placeholder={t('track.inputPlaceholder', 'Enter Consignment Number (e.g. FLX-8829-JPR)...')}
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
-                className="w-full bg-paper text-asphalt text-sm font-mono px-4 py-3 border-[1.5px] border-asphalt rounded-[2px] uppercase placeholder:text-steel focus:outline-none focus:bg-white min-h-[48px]"
+                className="w-full bg-slate-50 text-slate-900 text-sm font-mono px-4 py-3 pl-11 border border-slate-200 rounded-xl uppercase placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white transition-all shadow-2xs"
               />
-              <span className="absolute right-3.5 top-3.5 text-steel pointer-events-none">
+              <span className="absolute left-3.5 top-3.5 text-slate-400 pointer-events-none">
                 <IndustrialIcon name="barcode" size={18} />
               </span>
             </div>
             <button
               type="submit"
-              className="btn-industrial bg-orange text-white text-sm px-6 py-3 border-[1.5px] border-asphalt hover:bg-orange-hover shrink-0 flex items-center justify-center gap-2 stamp-sm min-h-[48px]"
+              className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-7 py-3 rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 shrink-0"
             >
-              <IndustrialIcon name="search" size={16} />
-              <span>{t('track.btn')}</span>
+              <IndustrialIcon name="search" size={15} />
+              <span>{t('track.btn', 'Track Consignment')}</span>
             </button>
           </form>
 
           {/* Quick chips */}
-          <div className="mt-3 flex flex-wrap items-center gap-2 font-mono text-xs">
-            <span className="text-[11px] text-steel font-heading font-bold uppercase">
-              {lang === 'hi' ? 'चालू पार्सल चेक करें:' : 'CHECK ACTIVE PARCELS:'}
+          <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-slate-500 font-medium">
+              {lang === 'hi' ? 'चालू पार्सल चेक करें:' : 'Try active consignments:'}
             </span>
             {sampleShipmentIds.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => navigate(`/track?id=${item.id}`)}
-                className={`text-xs px-2.5 py-1 border transition-colors duration-150 flex items-center gap-1.5 ${
+                className={`text-xs px-2.5 py-1 rounded-lg border transition-colors flex items-center gap-1.5 font-mono ${
                   queryId === item.id
-                    ? 'bg-asphalt text-paper border-asphalt font-bold stamp-sm'
-                    : 'bg-paper text-asphalt border-steel hover:bg-asphalt hover:text-paper'
+                    ? 'bg-slate-900 text-white border-slate-900 font-semibold shadow-xs'
+                    : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
                 <span>{item.id}</span>
-                <span className="text-[10px] text-steel">({item.label})</span>
+                <span className="text-slate-400">({item.label})</span>
               </button>
             ))}
           </div>
@@ -128,21 +128,21 @@ export const TrackingPage: React.FC = () => {
 
         {/* If Shipment Not Found */}
         {notFound && (
-          <div className="bg-orange-soft border-[2px] border-orange p-8 text-center space-y-4 stamp">
-            <div className="w-12 h-12 bg-orange text-white flex items-center justify-center mx-auto rounded-[2px]">
+          <div className="bg-white border border-rose-200 rounded-2xl p-8 text-center space-y-4 shadow-sm mb-8">
+            <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
               <IndustrialIcon name="alert" size={24} />
             </div>
-            <h2 className="font-heading font-black text-2xl uppercase text-asphalt">
-              {t('track.notFoundTitle')}
+            <h2 className="text-xl font-bold text-slate-900">
+              {t('track.notFoundTitle', 'Consignment Not Found')}
             </h2>
-            <p className="font-body text-sm text-asphalt max-w-md mx-auto">
-              {t('track.notFoundDesc')}
+            <p className="text-xs text-slate-500 max-w-md mx-auto">
+              {t('track.notFoundDesc', 'We could not find an active shipment matching this ID. Please double check the ID from your receipt or click below.')}
             </p>
             <button
               onClick={() => navigate('/track?id=FLX-8829-JPR')}
-              className="btn-industrial bg-asphalt text-paper text-xs px-4 py-2.5 border border-asphalt hover:bg-orange min-h-[44px]"
+              className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors"
             >
-              {lang === 'hi' ? 'उदाहरण पार्सल लोड करें (FLX-8829-JPR)' : 'LOAD DEFAULT PARCEL (FLX-8829-JPR)'}
+              {lang === 'hi' ? 'उदाहरण पार्सल लोड करें (FLX-8829-JPR)' : 'Load Default Demo Consignment (FLX-8829-JPR)'}
             </button>
           </div>
         )}
@@ -151,63 +151,74 @@ export const TrackingPage: React.FC = () => {
         {shipment && (
           <div className="space-y-8">
             
-            {/* Top Consignment Overview Banner */}
-            <div className="bg-chalk border-[2px] border-asphalt p-4 sm:p-6 stamp-lg ticket-notch-y">
+            {/* Top Consignment Overview Banner Card */}
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 
                 {/* Left: ID & Route */}
-                <div>
-                  <div className="flex items-center gap-3 mb-2 flex-wrap">
-                    <span className="font-mono text-2xl sm:text-3xl font-extrabold text-asphalt">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="font-mono text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                       {shipment.id}
                     </span>
                     <StatusBadge status={shipment.status} size="md" />
-                    <span className="bg-[#EAECEE] text-asphalt border border-steel font-mono text-xs px-2 py-0.5 font-bold">
-                      {lang === 'hi' ? 'रसीद संख्या:' : 'RECEIPT NO:'} {shipment.billOfLading}
+                    <span className="bg-slate-100 text-slate-700 font-mono text-xs px-2.5 py-1 rounded-md font-semibold">
+                      LR: {shipment.billOfLading}
                     </span>
                   </div>
 
                   {/* Route corridor */}
-                  <div className="flex flex-wrap items-center gap-2 font-mono text-sm mt-1">
-                    <span className="bg-asphalt text-paper font-bold px-2 py-0.5">
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 pt-1">
+                    <span className="bg-slate-900 text-white font-semibold px-2.5 py-1 rounded-md">
                       {shipment.sender.city.toUpperCase()}
                     </span>
-                    <span className="text-orange font-bold text-base">➔</span>
-                    <span className="bg-asphalt text-paper font-bold px-2 py-0.5">
+                    <span className="text-orange-500 font-bold text-sm">➔</span>
+                    <span className="bg-slate-900 text-white font-semibold px-2.5 py-1 rounded-md">
                       {shipment.receiver.city.toUpperCase()}
                     </span>
-                    <span className="text-steel text-xs font-body ml-2">
+                    <span className="text-slate-400 font-medium ml-1">
                       ({shipment.originHub} ➔ {shipment.destinationHub})
                     </span>
                   </div>
 
-                  {/* WhatsApp confirmation badge */}
-                  {shipment.whatsappUpdates && (
-                    <div className="mt-2 flex items-center gap-1.5 text-xs font-mono text-teal font-bold">
-                      <IndustrialIcon name="check" size={14} className="text-teal" />
-                      <span>{lang === 'hi' ? 'व्हाट्सएप अपडेट सक्रिय है (अपडेट सीधे फोन पर आएंगे)' : 'WhatsApp updates active on mobile'}</span>
-                    </div>
-                  )}
+                  {/* Consignee Self-Service Link Pill */}
+                  <div className="pt-2 flex items-center gap-3">
+                    <Link
+                      to={`/r/${shipment.id}`}
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-orange-50 border border-orange-200/80 text-orange-700 text-xs font-semibold hover:bg-orange-100 transition-colors"
+                      title="Open Consignee Self-Service Portal"
+                    >
+                      <IndustrialIcon name="lock" size={13} className="text-orange-500" />
+                      <span>{lang === 'hi' ? 'प्राप्तकर्ता पोर्टल व ओटीपी' : 'Consignee Portal & Delivery OTP'} ➔</span>
+                    </Link>
+
+                    {shipment.whatsappUpdates && (
+                      <span className="inline-flex items-center gap-1.5 text-xs text-emerald-600 font-medium">
+                        <IndustrialIcon name="check" size={14} className="text-emerald-500" />
+                        <span>{lang === 'hi' ? 'व्हाट्सएप अलर्ट सक्रिय' : 'WhatsApp alerts enabled'}</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Right: Barcode & Actions */}
                 <div className="flex flex-wrap items-center gap-4">
-                  <Barcode value={shipment.id.replace(/-/g, '')} subtext="PARCEL BARCODE" height={40} />
+                  <Barcode value={shipment.id.replace(/-/g, '')} subtext="VERIFIED CONSIGNMENT" height={38} />
                   
                   <div className="flex flex-col gap-2">
                     <Link
                       to={`/shipment/${shipment.id}`}
-                      className="btn-industrial bg-asphalt text-paper text-xs px-4 py-2.5 border border-asphalt hover:bg-orange text-center stamp-sm min-h-[44px] flex items-center justify-center gap-1.5"
+                      className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5"
                     >
                       <IndustrialIcon name="file" size={14} />
-                      <span>{t('track.viewReceipt')} ➔</span>
+                      <span>{t('track.viewReceipt', 'View Official Bilty')}</span>
                     </Link>
                     <button
                       onClick={() => window.print()}
-                      className="btn-industrial bg-paper text-asphalt text-xs px-4 py-2 border border-asphalt hover:bg-chalk flex items-center justify-center gap-1.5 min-h-[44px]"
+                      className="bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold px-4 py-2 border border-slate-200 rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
                     >
                       <IndustrialIcon name="printer" size={14} />
-                      <span>{t('track.printReceipt')}</span>
+                      <span>{t('track.printReceipt', 'Print Receipt')}</span>
                     </button>
                   </div>
                 </div>
@@ -215,77 +226,82 @@ export const TrackingPage: React.FC = () => {
               </div>
 
               {/* Specification Grid */}
-              <div className="mt-6 pt-4 border-t border-asphalt grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 font-mono text-xs">
-                <div className="border border-steel-border p-2 bg-paper">
-                  <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                    {lang === 'hi' ? 'सामान का प्रकार' : 'PARCEL ITEM'}
+              <div className="mt-8 pt-6 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                    {lang === 'hi' ? 'सामान का प्रकार' : 'Consignment Item'}
                   </div>
-                  <div className="font-bold text-asphalt truncate mt-0.5">{shipment.cargo.type}</div>
+                  <div className="font-semibold text-slate-900 truncate mt-0.5">{shipment.cargo.type}</div>
                 </div>
-                <div className="border border-steel-border p-2 bg-paper">
-                  <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                    {lang === 'hi' ? 'कुल वजन' : 'TOTAL WEIGHT'}
+
+                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                    {lang === 'hi' ? 'कुल वजन' : 'Total Weight'}
                   </div>
-                  <div className="font-bold text-asphalt mt-0.5">{shipment.cargo.weightKg.toLocaleString()} KG</div>
+                  <div className="font-semibold text-slate-900 mt-0.5">{shipment.cargo.weightKg.toLocaleString()} KG</div>
                 </div>
-                <div className="border border-steel-border p-2 bg-paper">
-                  <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                    {lang === 'hi' ? 'घोषित मूल्य' : 'GOODS VALUE'}
+
+                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                    {lang === 'hi' ? 'घोषित मूल्य' : 'Declared Value'}
                   </div>
-                  <div className="font-bold text-asphalt mt-0.5">
+                  <div className="font-semibold text-slate-900 mt-0.5">
                     {shipment.cargo.declaredValueInr ? formatCurrency(shipment.cargo.declaredValueInr) : '₹4,85,000'}
                   </div>
                 </div>
-                <div className="border border-steel-border p-2 bg-paper">
-                  <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                    {lang === 'hi' ? 'गाड़ी / वाहन' : 'VEHICLE'}
+
+                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                    {lang === 'hi' ? 'गाड़ी / वाहन' : 'Fleet Carrier'}
                   </div>
-                  <div className="font-bold text-asphalt truncate mt-0.5">{shipment.vesselOrFlight || shipment.carrier}</div>
+                  <div className="font-semibold text-slate-900 truncate mt-0.5">{shipment.vesselOrFlight || shipment.carrier}</div>
                 </div>
-                <div className="border border-steel-border p-2 bg-paper col-span-2 sm:col-span-1">
-                  <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                    {lang === 'hi' ? 'पहुंचने की तारीख' : 'EXPECTED DATE'}
+
+                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                    {lang === 'hi' ? 'पहुंचने की तारीख' : 'Scheduled ETA'}
                   </div>
-                  <div className="font-bold text-orange truncate mt-0.5">{shipment.deliveryTimeEstimate || shipment.eta}</div>
+                  <div className="font-semibold text-orange-600 truncate mt-0.5">{shipment.deliveryTimeEstimate || shipment.eta}</div>
                   <div className="mt-1">
                     <ConfidenceMeter promise={shipment.deliveryPromise} />
                   </div>
                 </div>
-                <div className="border border-steel-border p-2 bg-paper">
-                  <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                    {lang === 'hi' ? 'भुगतान तरीका' : 'PAYMENT'}
+
+                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
+                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                    {lang === 'hi' ? 'भुगतान तरीका' : 'Payment Mode'}
                   </div>
-                  <div className="font-bold text-teal truncate mt-0.5 uppercase">
+                  <div className="font-semibold text-emerald-600 truncate mt-0.5 uppercase">
                     {shipment.paymentMethod === 'cod'
                       ? (lang === 'hi' ? 'कैश ऑन डिलीवरी (COD)' : 'Cash on Delivery')
-                      : (lang === 'hi' ? 'ऑनलाइन यूपीआई (UPI)' : 'Paid Online')}
+                      : (lang === 'hi' ? 'ऑनलाइन भुगतान (UPI)' : 'Prepaid Online')}
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Delay Reason Card (Phase 1 Requirement) */}
+            {/* Delay Reason Card (if delayed) */}
             {(shipment.status === 'delayed' || shipment.delayInfo) && (
               <DelayReasonCard
                 parcelNumber={shipment.id}
                 delayInfo={
                   shipment.delayInfo || {
-                    reason: 'Road blocked due to heavy rain and bridge inspection.',
-                    reasonHindi: 'भारी बारिश और पुल निरीक्षण के कारण मुख्य हाईवे पर जाम।',
+                    reason: 'Corridor slowdown due to highway inspection and localized rain.',
+                    reasonHindi: 'हाईवे पर भारी बारिश और पुल निरीक्षण के कारण गति धीमी हुई।',
                     reasonCode: 'heavy_rain',
                     durationHours: 18,
                     durationText: '18 Hours',
                     originalEta: shipment.eta,
                     revisedEta: 'Tomorrow evening (revised)',
                     location: `${shipment.sender.city} - ${shipment.receiver.city} Corridor`,
-                    historyText: `Expected ${shipment.eta} → Revised due to heavy rain`,
+                    historyText: `Expected ${shipment.eta} → Revised due to weather`,
                     actionOption: 'change_time',
                   }
                 }
               />
             )}
 
-            {/* OTP-Confirmed Delivery Modal / Code (Phase 1 Requirement) */}
+            {/* OTP-Confirmed Delivery Card */}
             <OtpVerificationModal
               deliveryOtp={shipment.deliveryOtp || '4829'}
               isDelivered={shipment.status === 'delivered'}
@@ -309,12 +325,12 @@ export const TrackingPage: React.FC = () => {
             {/* Live Route Radar Map */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <div className="font-heading font-black text-sm uppercase tracking-wider text-asphalt flex items-center gap-2">
-                  <IndustrialIcon name="compass" size={16} className="text-orange" />
-                  <span>{lang === 'hi' ? 'लाइव जीपीएस नक्शा और मार्ग' : 'LIVE GPS ROUTE & HIGHWAY MAP'}</span>
+                <div className="text-xs font-semibold uppercase tracking-wider text-slate-700 flex items-center gap-2">
+                  <IndustrialIcon name="compass" size={16} className="text-orange-500" />
+                  <span>{lang === 'hi' ? 'कॉरिडोर प्रोग्रेस व रूट रडार (सिम्युलेटेड)' : 'Corridor Progress & Route Radar (Simulated)'}</span>
                 </div>
-                <div className="font-mono text-xs text-steel">
-                  {lang === 'hi' ? 'रीयल-टाइम जीपीएस सिग्नल सक्रिय' : 'ACTIVE REAL-TIME GPS'}
+                <div className="text-xs text-slate-400 font-mono">
+                  {lang === 'hi' ? 'सिम्युलेटेड टेलीमैटिक्स डेटा' : 'Simulated Telematics Telemetry'}
                 </div>
               </div>
               <RouteMap shipment={shipment} />
@@ -325,37 +341,51 @@ export const TrackingPage: React.FC = () => {
               <TrackingTimeline shipment={shipment} />
             </div>
 
-            {/* Courier / Driver Telematics Drawer if assigned */}
+            {/* Assigned Driver & Line-Haul Vehicle Card */}
             {shipment.assignedDriver && (
-              <div className="bg-chalk border-[1.5px] border-asphalt p-4 sm:p-5 stamp flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-asphalt text-paper border border-asphalt flex items-center justify-center font-heading font-black text-base shrink-0 stamp-sm">
+                  <div className="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-xs">
                     {shipment.assignedDriver.name.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div>
-                    <div className="font-heading font-black text-base uppercase text-asphalt">
-                      {lang === 'hi' ? 'डिलीवरी ड्राइवर:' : 'DELIVERY DRIVER:'} {shipment.assignedDriver.name}
+                    <div className="text-sm font-bold text-slate-900">
+                      {lang === 'hi' ? 'डिलीवरी ड्राइवर:' : 'Assigned Line-Haul Driver:'} {shipment.assignedDriver.name}
                     </div>
-                    <div className="font-mono text-xs text-steel mt-0.5">
-                      {lang === 'hi' ? 'गाड़ी:' : 'VEHICLE:'} {shipment.assignedDriver.vehicleType} ({shipment.assignedDriver.vehiclePlate})
+                    <div className="text-xs text-slate-500 mt-0.5">
+                      {lang === 'hi' ? 'वाहन विवरण:' : 'Vehicle:'} {shipment.assignedDriver.vehicleType} ({shipment.assignedDriver.vehiclePlate})
                     </div>
-                    <div className="text-xs font-body text-asphalt mt-1 font-semibold">
-                      {lang === 'hi' ? 'वर्तमान स्थान:' : 'Current Location:'} {shipment.assignedDriver.currentLocation}
+                    <div className="text-xs text-slate-700 mt-1 font-medium flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span>{lang === 'hi' ? 'वर्तमान स्थान:' : 'Current Location:'} {shipment.assignedDriver.currentLocation}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <a
                     href={`tel:${shipment.assignedDriver.phone}`}
-                    className="btn-industrial bg-asphalt text-paper text-xs px-4 py-2.5 border border-asphalt hover:bg-orange flex items-center gap-2 min-h-[44px]"
+                    className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors flex items-center gap-2 shadow-xs"
                   >
-                    <IndustrialIcon name="phone" size={16} />
-                    <span>{t('track.callDriver')}: {shipment.assignedDriver.phone}</span>
+                    <IndustrialIcon name="phone" size={15} />
+                    <span>{t('track.callDriver', 'Call Driver')}: {shipment.assignedDriver.phone}</span>
                   </a>
                 </div>
               </div>
             )}
+
+            {/* Simulated Demonstration Notice Banner */}
+            <div className="bg-slate-100/80 border border-slate-200 rounded-2xl p-4 text-xs text-slate-500 flex items-start gap-3">
+              <IndustrialIcon name="alert" size={16} className="text-slate-400 shrink-0 mt-0.5" />
+              <div className="leading-relaxed">
+                <strong className="text-slate-700 font-semibold block mb-0.5">
+                  {lang === 'hi' ? 'डेमो सूचना:' : 'Simulation Demonstration Notice:'}
+                </strong>
+                {lang === 'hi'
+                  ? 'यह ट्रैकिंग पोर्टल फ्रेटलाइन एलएमएस के रीयल-टाइम जीपीएस और टेलीमैटिक्स सिस्टम का लाइव फ्रंटएंड प्रदर्शन है। सभी गतिविधियां, समय और चेकपॉइंट मॉक डेटा पर आधारित हैं।'
+                  : 'This tracking page demonstrates real-time consignment telematics, dynamic delay revisions, and OTP security workflows for FreightLine LMS using browser state.'}
+              </div>
+            </div>
 
           </div>
         )}

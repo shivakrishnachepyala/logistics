@@ -7,16 +7,39 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Modern Enterprise SaaS Palette
+        navy: {
+          950: '#0A0F1D',
+          900: '#0F172A', // Primary Navy
+          800: '#1E293B', // Secondary Navy
+          700: '#334155',
+          600: '#475569',
+          500: '#64748B',
+          400: '#94A3B8',
+          300: '#CBD5E1',
+          200: '#E2E8F0', // Enterprise Border
+          100: '#F1F5F9',
+          50: '#F8FAFC',  // Enterprise Main Background
+        },
+        orange: {
+          DEFAULT: '#F97316', // Accent Orange
+          hover: '#EA580C',   // Orange Hover
+          50: '#FFF7ED',
+          100: '#FFEDD5',
+          200: '#FED7AA',
+          300: '#FDBA74',
+          400: '#FB923C',
+          500: '#F97316',
+          600: '#EA580C',
+          700: '#C2410C',
+          soft: '#FFF7ED',
+        },
+        // Legacy tokens retained for backward compatibility with public pages
         paper: '#F1ECE2',
         asphalt: {
           DEFAULT: '#1A1C1E',
           soft: '#25292D',
           muted: '#363B40',
-        },
-        orange: {
-          DEFAULT: '#E4501D',
-          hover: '#C83E0F',
-          soft: '#FCECE6',
         },
         teal: {
           DEFAULT: '#1D5A52',
@@ -37,11 +60,17 @@ export default {
         chalk: '#FAF7F0',
       },
       fontFamily: {
-        heading: ['"Barlow Condensed"', '"Noto Sans Devanagari"', 'sans-serif'],
-        body: ['"Instrument Sans"', '"Noto Sans Devanagari"', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', '"Noto Sans Devanagari"', 'monospace'],
+        sans: ['"Inter"', '"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        heading: ['"Plus Jakarta Sans"', '"Inter"', 'sans-serif'],
+        body: ['"Inter"', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'monospace'],
       },
       boxShadow: {
+        'saas-sm': '0 1px 2px 0 rgba(15, 23, 42, 0.05)',
+        'saas': '0 1px 3px 0 rgba(15, 23, 42, 0.1), 0 1px 2px -1px rgba(15, 23, 42, 0.1)',
+        'saas-md': '0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06)',
+        'saas-lg': '0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04)',
+        // Retained legacy stamp shadows
         'stamp-sm': '2px 2px 0px #1A1C1E',
         'stamp': '3px 3px 0px #1A1C1E',
         'stamp-lg': '5px 5px 0px #1A1C1E',
@@ -51,13 +80,15 @@ export default {
         'stamp-white': '3px 3px 0px #FAF7F0',
       },
       borderRadius: {
-        DEFAULT: '2px',
-        sm: '2px',
-        md: '3px',
-        lg: '4px',
+        DEFAULT: '0.375rem',
+        sm: '0.25rem',
+        md: '0.375rem',
+        lg: '0.5rem',
+        xl: '0.75rem',
+        '2xl': '1rem',
       },
       borderWidth: {
-        DEFAULT: '1.5px',
+        DEFAULT: '1px',
         '1.5': '1.5px',
       }
     },

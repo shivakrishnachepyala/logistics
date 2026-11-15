@@ -42,21 +42,21 @@ export const Barcode: React.FC<BarcodeProps> = ({
   const bars = generateBars(value);
 
   return (
-    <div className={`inline-flex flex-col items-center bg-white p-2 border border-asphalt rounded-[2px] ${className}`}>
+    <div className={`inline-flex flex-col items-center bg-white p-2.5 border border-slate-200 rounded-xl shadow-xs ${className}`}>
       <div className="flex items-stretch overflow-hidden select-none" style={{ height: `${height}px` }}>
         {bars.map((bar, idx) => (
           <div
             key={idx}
-            className={bar.isBlack ? 'bg-asphalt' : 'bg-transparent'}
+            className={bar.isBlack ? 'bg-slate-900' : 'bg-transparent'}
             style={{ width: `${bar.width * 1.5}px` }}
           />
         ))}
       </div>
-      <div className="mt-1 font-mono text-[10px] tracking-[0.2em] uppercase text-asphalt font-semibold">
+      <div className="mt-1 font-mono text-[10px] tracking-[0.2em] uppercase text-slate-800 font-semibold">
         *{value}*
       </div>
       {subtext && (
-        <div className="text-[9px] font-heading uppercase text-steel tracking-wider">
+        <div className="text-[9px] font-sans uppercase text-slate-500 tracking-wider">
           {subtext}
         </div>
       )}

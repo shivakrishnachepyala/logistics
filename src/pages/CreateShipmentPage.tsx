@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { saveShipment } from '../data/mockShipments';
 import type { Shipment, ServiceMode } from '../types';
 import { IndustrialIcon } from '../components/common/IndustrialIcon';
@@ -11,6 +11,8 @@ import { formatCurrency, lookupPinCode, INDIAN_STATES } from '../utils/indiaHelp
 
 export const CreateShipmentPage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isManagerRoute = location.pathname.startsWith('/manager');
   const { lang, t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const [formError, setFormError] = useState('');
@@ -300,33 +302,33 @@ export const CreateShipmentPage: React.FC = () => {
     };
 
     saveShipment(newShipment);
-    navigate(`/shipment/${newId}`);
+    navigate(isManagerRoute ? `/manager/shipment/${newId}` : `/track?id=${newId}`);
   };
 
   return (
-    <div className="flex-1 py-8 sm:py-12 bg-paper">
+    <div className="flex-1 py-8 sm:py-12 bg-slate-50 text-slate-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         
         {/* Top Header */}
-        <div className="border-b border-asphalt pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="border-b border-slate-200 pb-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="font-heading font-black text-xs text-orange tracking-widest uppercase mb-1">
+            <div className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
               {t('create.sub')}
             </div>
-            <h1 className="font-heading font-black text-3xl sm:text-4xl uppercase text-asphalt leading-none">
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
               {t('create.title')}
             </h1>
           </div>
           <Link
-            to="/dashboard"
-            className="btn-industrial bg-chalk text-asphalt text-xs px-3.5 py-2.5 border-[1.5px] border-asphalt hover:bg-paper min-h-[44px] flex items-center gap-1.5"
+            to={isManagerRoute ? '/manager/shipments' : '/'}
+            className="bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-1.5 transition-colors"
           >
-            <span>← {lang === 'hi' ? 'रद्द करें / वापस' : 'CANCEL / BACK'}</span>
+            <span>← {lang === 'hi' ? 'रद्द करें / वापस' : 'Cancel & Back'}</span>
           </Link>
         </div>
 
         {/* Step Banner */}
-        <div className="bg-asphalt text-paper p-3 font-heading font-black text-base uppercase tracking-wide border-[2px] border-asphalt flex items-center justify-between mb-4">
+        <div className="bg-slate-900 text-white p-3.5 rounded-xl text-sm font-semibold flex items-center justify-between mb-4 shadow-xs">
           <span>
             {currentStep === 1 && t('create.step1')}
             {currentStep === 2 && t('create.step2')}
@@ -334,13 +336,13 @@ export const CreateShipmentPage: React.FC = () => {
             {currentStep === 4 && t('create.step4')}
             {currentStep === 5 && t('create.step5')}
           </span>
-          <span className="text-yellow text-xs font-mono font-bold">
+          <span className="text-orange-400 text-xs font-mono font-bold">
             STEP {currentStep} / 5
           </span>
         </div>
 
         {/* Multi-Step Indicator Bar */}
-        <div className="bg-chalk border-[1.5px] border-asphalt p-3 stamp mb-6 overflow-x-auto">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm mb-6 overflow-x-auto">
           <div className="flex items-center justify-between min-w-[500px]">
             {steps.map((st, idx) => {
               const isPast = st.num < currentStep;
@@ -350,26 +352,26 @@ export const CreateShipmentPage: React.FC = () => {
                 <React.Fragment key={st.num}>
                   <div className="flex items-center gap-2">
                     <div
-                      className={`w-7 h-7 flex items-center justify-center font-mono text-xs font-bold border ${
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold transition-colors ${
                         isCurrent
-                          ? 'bg-orange text-white border-asphalt stamp-sm'
+                          ? 'bg-orange-500 text-white shadow-xs'
                           : isPast
-                            ? 'bg-teal text-white border-asphalt'
-                            : 'bg-[#EAE5D9] text-steel border-steel-border'
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-slate-100 text-slate-400'
                       }`}
                     >
                       {isPast ? '✓' : `0${st.num}`}
                     </div>
                     <span
-                      className={`font-heading text-xs uppercase font-bold tracking-wide ${
-                        isCurrent ? 'text-asphalt' : isPast ? 'text-teal' : 'text-steel'
+                      className={`text-xs font-semibold ${
+                        isCurrent ? 'text-slate-900' : isPast ? 'text-emerald-700' : 'text-slate-400'
                       }`}
                     >
                       {st.title}
                     </span>
                   </div>
                   {idx < steps.length - 1 && (
-                    <div className="h-[2px] w-6 sm:w-10 bg-steel-border"></div>
+                    <div className="h-[2px] w-6 sm:w-10 bg-slate-200"></div>
                   )}
                 </React.Fragment>
               );
@@ -379,14 +381,14 @@ export const CreateShipmentPage: React.FC = () => {
 
         {/* Error notification banner if any */}
         {formError && (
-          <div className="bg-orange-soft border-[2px] border-orange p-3 mb-6 flex items-center gap-2 text-asphalt font-body text-xs font-bold stamp-sm">
-            <IndustrialIcon name="alert" size={18} className="text-orange" />
+          <div className="bg-rose-50 border border-rose-200 rounded-xl p-3.5 mb-6 flex items-center gap-2 text-rose-700 text-xs font-semibold">
+            <IndustrialIcon name="alert" size={18} className="text-rose-600 shrink-0" />
             <span>{formError}</span>
           </div>
         )}
 
         {/* Form Container */}
-        <div className="bg-chalk border-[2px] border-asphalt p-6 sm:p-8 stamp-lg">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
           <form onSubmit={handleNext}>
             
             {/* STEP 1: SENDER (JO PARCEL BHEJ RAHA HAI) */}

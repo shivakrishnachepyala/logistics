@@ -177,4 +177,74 @@ export interface Shipment {
   deliveryOtp?: string; // 4-digit code e.g. "4829"
   receiverPreferences?: ReceiverPreferences;
   priceBreakdown?: PriceBreakdown;
+  transportAssignment?: TransportAssignment;
+  customerId?: string; // Optional: Link to authenticated customer account (e.g. CUST-001)
+  bookingId?: string; // Optional: Customer self-service booking identifier (e.g. BKG-2026-8829)
 }
+
+export type TransportMode = 'road' | 'rail' | 'air' | 'sea';
+export type CarrierType = 'in_house' | 'third_party';
+export type AssignmentStatus = 'assigned' | 'dispatched' | 'in_transit' | 'completed' | 'cancelled';
+
+export interface RoadAssignmentDetails {
+  vehicleType: string;
+  vehiclePlate: string;
+  driverId?: string;
+  driverName: string;
+  driverPhone: string;
+  driverBadge?: string;
+  trailerNumber?: string;
+  tripManifestId: string; // e-Way bill / Trip manifest number
+  odometerStartKm?: number;
+}
+
+export interface RailAssignmentDetails {
+  railCarrier: string; // e.g., CONCOR, Indian Railways Freight
+  trainRakeNo: string; // Train or Rake number
+  wagonId: string; // Wagon / Container ID
+  rrNumber: string; // Railway Receipt (RR) number
+  originTerminal: string; // Rail siding or freight terminal
+  destinationTerminal: string;
+  fobPoint?: string;
+}
+
+export interface AirAssignmentDetails {
+  airline: string; // e.g., IndiGo CarGo, Air India Cargo, SpiceXpress, Blue Dart Aviation
+  flightNumber: string;
+  awbNumber: string; // 11-digit Air Waybill
+  originAirport: string; // IATA (e.g. DEL, BOM, BLR)
+  destinationAirport: string;
+  cargoHoldOrUld: string; // ULD / Palette container
+}
+
+export interface SeaAssignmentDetails {
+  shippingLine: string; // e.g., Maersk, MSC, CMA CGM, SCI
+  vesselName: string;
+  voyageNumber: string;
+  containerNumber: string; // ISO 6346 container number
+  sealNumber: string;
+  mblNumber: string; // Master Bill of Lading
+  portOfLoading: string; // POL (e.g. JNPT Nhava Sheva, Mundra)
+  portOfDischarge: string; // POD (e.g. Chennai Port)
+}
+
+export interface TransportAssignment {
+  id: string; // e.g. ASN-2026-9021
+  shipmentId: string;
+  mode: TransportMode;
+  carrierType: CarrierType;
+  carrierName: string;
+  status: AssignmentStatus;
+  assignedAt: string;
+  dispatchedAt?: string;
+  estimatedDelivery?: string;
+  notes?: string;
+  assignedBy: string;
+  roadDetails?: RoadAssignmentDetails;
+  railDetails?: RailAssignmentDetails;
+  airDetails?: AirAssignmentDetails;
+  seaDetails?: SeaAssignmentDetails;
+}
+
+export * from './assets';
+export * from './commercial';

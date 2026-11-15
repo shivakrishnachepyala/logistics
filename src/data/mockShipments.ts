@@ -1,4 +1,4 @@
-import type { Shipment, DriverInfo, ShipmentStatus, ProblemReport } from '../types';
+import type { Shipment, DriverInfo, ShipmentStatus, ProblemReport, TransportAssignment } from '../types';
 
 export const INITIAL_DRIVERS: DriverInfo[] = [
   {
@@ -69,6 +69,8 @@ export const INITIAL_DRIVERS: DriverInfo[] = [
 export const INITIAL_SHIPMENTS: Shipment[] = [
   {
     id: 'FLX-8829-JPR',
+    customerId: 'CUST-001',
+    bookingId: 'BKG-2026-8829',
     billOfLading: 'LR-2026-99124',
     bookingRef: 'BKG-DEL-JPR-88',
     originHub: 'Delhi Central Parcel Centre (Chandni Chowk / Okhla)',
@@ -250,6 +252,8 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
   },
   {
     id: 'FLX-4012-MUM',
+    customerId: 'CUST-002',
+    bookingId: 'BKG-2026-4012',
     billOfLading: 'LR-2026-38100',
     bookingRef: 'BKG-SUR-MUM-40',
     originHub: 'Surat Textile Market Centre (Ring Road)',
@@ -379,6 +383,8 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
   },
   {
     id: 'FLX-3109-BLR',
+    customerId: 'CUST-001',
+    bookingId: 'BKG-2026-3109',
     billOfLading: 'LR-2026-88410',
     bookingRef: 'BKG-CHE-BLR-AIR',
     originHub: 'Chennai Ambattur Industrial Centre',
@@ -878,21 +884,41 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
   }
 ];
 
-const STORAGE_KEY = 'freightline_shipments_data_v3';
+const STORAGE_KEY = 'freightline_shipments_data_v4';
 
 export const getStoredShipments = (): Shipment[] => {
   if (typeof window === 'undefined') return INITIAL_SHIPMENTS;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
+    const shipments: Shipment[] = raw ? JSON.parse(raw) : INITIAL_SHIPMENTS;
     if (!raw) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_SHIPMENTS));
-      return INITIAL_SHIPMENTS;
     }
-    return JSON.parse(raw);
+    // Attach matching assignment if present and backfill customerId for seeded records
+    const assignments = getTransportAssignments();
+    return shipments.map(s => {
+      const initialMatch = INITIAL_SHIPMENTS.find(init => init.id === s.id);
+      if (initialMatch && !s.customerId && initialMatch.customerId) {
+        s.customerId = initialMatch.customerId;
+        s.bookingId = initialMatch.bookingId;
+      }
+      if (!s.transportAssignment) {
+        const match = assignments.find(a => a.shipmentId === s.id);
+        if (match) {
+          return { ...s, transportAssignment: match };
+        }
+      }
+      return s;
+    });
   } catch (e) {
     console.error('Failed to read from localStorage', e);
     return INITIAL_SHIPMENTS;
   }
+};
+
+export const getShipmentsByCustomerId = (customerId: string): Shipment[] => {
+  const shipments = getStoredShipments();
+  return shipments.filter(s => s.customerId === customerId);
 };
 
 export const getShipmentById = (id: string): Shipment | undefined => {
@@ -1065,13 +1091,186 @@ export const addProblemReport = (report: ProblemReport): void => {
   }
 };
 
-export const getProblemReports = (): ProblemReport[] => {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = localStorage.getItem(PROBLEM_REPORTS_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    console.error('Failed to get problem reports', e);
-    return [];
+export const INITIAL_ASSIGNMENTS: TransportAssignment[] = [
+  {
+    id: 'ASN-2026-8829',
+    shipmentId: 'FLX-8829-JPR',
+    mode: 'road',
+    carrierType: 'in_house',
+    carrierName: 'FreightLine Express Road Fleet',
+    status: 'in_transit',
+    assignedAt: '19/10/2026, 06:15 AM',
+    dispatchedAt: '19/10/2026, 09:15 AM',
+    estimatedDelivery: '20/10/2026, 02:00 PM',
+    assignedBy: 'Rajesh Verma (Delhi Hub)',
+    roadDetails: {
+      vehicleType: 'Eicher Pro 2049 (14 Ft Closed Container)',
+      vehiclePlate: 'RJ-14-GA-8820',
+      driverId: 'DRV-104',
+      driverName: 'Mukesh Yadav',
+      driverPhone: '+91 98110 99420',
+      driverBadge: 'DL-COM-8812',
+      tripManifestId: 'MNF-DEL-JPR-2026-88',
+      odometerStartKm: 42180
+    }
+  },
+  {
+    id: 'ASN-2026-7741',
+    shipmentId: 'FLX-7741-KOL',
+    mode: 'rail',
+    carrierType: 'third_party',
+    carrierName: 'CONCOR / Indian Railways Freight',
+    status: 'in_transit',
+    assignedAt: '18/10/2026, 14:00',
+    dispatchedAt: '18/10/2026, 21:00',
+    estimatedDelivery: '21/10/2026, 17:00',
+    assignedBy: 'Kavita Iyer (HQ Intermodal Desk)',
+    railDetails: {
+      railCarrier: 'CONCOR (Container Corporation of India)',
+      trainRakeNo: 'Rake-CC-9412 (Train 12952)',
+      wagonId: 'CR-WGN-77142',
+      rrNumber: 'RR-NR-2026-904128',
+      originTerminal: 'ICD Tughlakabad (TKD), Delhi',
+      destinationTerminal: 'Shalimar Goods Siding (SHM), Kolkata',
+      fobPoint: 'Delhi Gateway Rail Yard'
+    }
+  },
+  {
+    id: 'ASN-2026-3109',
+    shipmentId: 'FLX-3109-BLR',
+    mode: 'air',
+    carrierType: 'third_party',
+    carrierName: 'IndiGo CarGo Express',
+    status: 'in_transit',
+    assignedAt: '19/10/2026, 05:00 AM',
+    dispatchedAt: '19/10/2026, 08:30 AM',
+    estimatedDelivery: '19/10/2026, 18:30',
+    assignedBy: 'Suresh Kumar (Chennai Air Cargo Hub)',
+    airDetails: {
+      airline: 'IndiGo CarGo',
+      flightNumber: '6E-8291',
+      awbNumber: '312-99418290',
+      originAirport: 'MAA (Chennai Meenambakkam)',
+      destinationAirport: 'BLR (Bengaluru Kempegowda Intl)',
+      cargoHoldOrUld: 'ULD-AKE-49120'
+    }
+  },
+  {
+    id: 'ASN-2026-5520',
+    shipmentId: 'FLX-5520-HYD',
+    mode: 'sea',
+    carrierType: 'third_party',
+    carrierName: 'Maersk Coastal Shipping',
+    status: 'completed',
+    assignedAt: '14/10/2026, 10:00 AM',
+    dispatchedAt: '14/10/2026, 18:00',
+    estimatedDelivery: '18/10/2026, 12:00',
+    assignedBy: 'Arun Nambiar (Nhava Sheva Port Ops)',
+    seaDetails: {
+      shippingLine: 'Maersk Line India',
+      vesselName: 'MV Maersk Chennai',
+      voyageNumber: 'VOY-2026-E12',
+      containerNumber: 'MSKU-882914-3',
+      sealNumber: 'SEAL-IN-49201',
+      mblNumber: 'MAEU-9921405',
+      portOfLoading: 'INBOM - JNPT Nhava Sheva, Mumbai',
+      portOfDischarge: 'INMAA - Chennai International Port'
+    }
   }
+];
+
+const ASSIGNMENTS_KEY = 'freightline_transport_assignments_v1';
+
+export const getTransportAssignments = (): TransportAssignment[] => {
+  if (typeof window === 'undefined') return INITIAL_ASSIGNMENTS;
+  try {
+    const raw = localStorage.getItem(ASSIGNMENTS_KEY);
+    if (!raw) {
+      localStorage.setItem(ASSIGNMENTS_KEY, JSON.stringify(INITIAL_ASSIGNMENTS));
+      return INITIAL_ASSIGNMENTS;
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    console.error('Failed to get transport assignments', e);
+    return INITIAL_ASSIGNMENTS;
+  }
+};
+
+export const saveTransportAssignment = (
+  assignment: TransportAssignment,
+  autoDispatch: boolean = true
+): Shipment | undefined => {
+  if (typeof window === 'undefined') return undefined;
+
+  // 1. Save assignment in assignments list
+  const currentAssignments = getTransportAssignments();
+  const existsIndex = currentAssignments.findIndex(a => a.id === assignment.id || (a.shipmentId === assignment.shipmentId && a.status !== 'completed' && a.status !== 'cancelled'));
+
+  let updatedAssignments: TransportAssignment[];
+  if (existsIndex >= 0) {
+    updatedAssignments = [...currentAssignments];
+    updatedAssignments[existsIndex] = assignment;
+  } else {
+    updatedAssignments = [assignment, ...currentAssignments];
+  }
+  localStorage.setItem(ASSIGNMENTS_KEY, JSON.stringify(updatedAssignments));
+
+  // 2. Link into target shipment and update status
+  const currentShipments = getStoredShipments();
+  const shipIndex = currentShipments.findIndex(s => s.id.toUpperCase() === assignment.shipmentId.toUpperCase());
+  if (shipIndex === -1) return undefined;
+
+  const target = currentShipments[shipIndex];
+  const nowStr = new Date().toLocaleString('en-IN');
+
+  let vesselOrFlightDesc = target.vesselOrFlight || '';
+  if (assignment.mode === 'road' && assignment.roadDetails) {
+    vesselOrFlightDesc = `${assignment.roadDetails.vehicleType} (${assignment.roadDetails.vehiclePlate})`;
+  } else if (assignment.mode === 'rail' && assignment.railDetails) {
+    vesselOrFlightDesc = `${assignment.railDetails.trainRakeNo} - Wagon ${assignment.railDetails.wagonId}`;
+  } else if (assignment.mode === 'air' && assignment.airDetails) {
+    vesselOrFlightDesc = `Flight ${assignment.airDetails.flightNumber} (AWB: ${assignment.airDetails.awbNumber})`;
+  } else if (assignment.mode === 'sea' && assignment.seaDetails) {
+    vesselOrFlightDesc = `${assignment.seaDetails.vesselName} (Voy: ${assignment.seaDetails.voyageNumber})`;
+  }
+
+  const newStatus: ShipmentStatus = autoDispatch ? 'in-transit' : (target.status === 'pending' ? 'pending' : target.status);
+
+  let dispatchSummary = '';
+  if (assignment.mode === 'road' && assignment.roadDetails) {
+    dispatchSummary = `Assigned road vehicle ${assignment.roadDetails.vehiclePlate} with driver ${assignment.roadDetails.driverName}. Manifest: ${assignment.roadDetails.tripManifestId}`;
+  } else if (assignment.mode === 'rail' && assignment.railDetails) {
+    dispatchSummary = `Booked on rail rake ${assignment.railDetails.trainRakeNo} via ${assignment.railDetails.railCarrier}. RR: ${assignment.railDetails.rrNumber}`;
+  } else if (assignment.mode === 'air' && assignment.airDetails) {
+    dispatchSummary = `Allocated to cargo flight ${assignment.airDetails.flightNumber} via ${assignment.airDetails.airline}. AWB: ${assignment.airDetails.awbNumber}`;
+  } else if (assignment.mode === 'sea' && assignment.seaDetails) {
+    dispatchSummary = `Allocated ocean slot on ${assignment.seaDetails.vesselName} (${assignment.seaDetails.shippingLine}). MBL: ${assignment.seaDetails.mblNumber}`;
+  }
+
+  const updatedShipment: Shipment = {
+    ...target,
+    status: newStatus,
+    carrier: assignment.carrierName,
+    vesselOrFlight: vesselOrFlightDesc,
+    transportAssignment: assignment,
+    progressPercent: autoDispatch && target.progressPercent < 25 ? 25 : target.progressPercent,
+    dispatchedAt: autoDispatch ? (target.dispatchedAt || nowStr) : target.dispatchedAt,
+    activities: [
+      {
+        id: `ACT-ASN-${Date.now()}`,
+        timestamp: nowStr,
+        actor: assignment.assignedBy || 'Fleet Dispatcher Desk',
+        role: 'Transport Operations Manager',
+        event: `${autoDispatch ? 'Dispatch order confirmed & vehicle flagged en-route.' : 'Transport assignment details recorded.'} ${dispatchSummary}`,
+        terminalCode: target.originHubCode || 'ORIGIN-HUB'
+      },
+      ...target.activities
+    ]
+  };
+
+  currentShipments[shipIndex] = updatedShipment;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(currentShipments));
+  window.dispatchEvent(new Event('freightline_storage_update'));
+
+  return updatedShipment;
 };

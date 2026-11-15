@@ -1,31 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IndustrialIcon } from './IndustrialIcon';
 import { useTranslation } from '../../context/LanguageContext';
-import { useEnterprise, ROLE_LABELS } from '../../context/EnterpriseContext';
-import type { UserRole, BranchId } from '../../types';
+import { useCustomerAuth } from '../../context/useCustomerAuth';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { lang, setLang, t } = useTranslation();
-  const { role, setRole, branch, setBranch } = useEnterprise();
+  const { customer, logout } = useCustomerAuth();
   const [quickTrackId, setQuickTrackId] = useState('');
-  const [currentTimeUtc, setCurrentTimeUtc] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      // Formatted in Indian standard 12h time
-      const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-      const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      setCurrentTimeUtc(`${dateStr}, ${timeStr} IST`);
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   const handleQuickTrack = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,84 +22,54 @@ export const Navbar: React.FC = () => {
   };
 
   const navLinks = [
+    { label: lang === 'hi' ? 'होम' : 'Home', path: '/', icon: 'box' as const },
     { label: t('nav.track'), path: '/track', icon: 'search' as const },
-    { label: t('nav.dashboard'), path: '/dashboard', icon: 'box' as const },
-    { label: t('nav.newShipment'), path: '/create', icon: 'plus' as const },
+    { label: lang === 'hi' ? 'पार्सल भेजें' : 'Send Parcel', path: '/create', icon: 'plus' as const },
+    { label: lang === 'hi' ? 'हमारे बारे में' : 'About Us', path: '/#about', icon: 'compass' as const },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-paper border-b-[2px] border-asphalt select-none">
-      {/* Top telemetry bar */}
-      <div className="bg-asphalt text-paper text-[11px] font-mono px-4 py-1.5 flex items-center justify-between overflow-x-auto border-b border-asphalt-muted gap-4">
-        <div className="flex items-center gap-4 shrink-0">
-          <span className="flex items-center gap-1.5 text-yellow font-bold">
-            <span className="inline-block w-2 h-2 bg-yellow rounded-full animate-pulse"></span>
-            {t('app.status')}
-          </span>
-          <span className="text-steel hidden lg:inline">|</span>
-          <span className="text-steel hidden lg:inline">
-            LIVE TIME: <span className="text-paper font-semibold">{currentTimeUtc || '19/10/2026, 11:40 AM IST'}</span>
-          </span>
-        </div>
-        <div className="flex items-center gap-3 shrink-0 text-steel text-[11px]">
-          {/* Enterprise Role Switcher */}
-          <div className="hidden sm:flex items-center gap-1.5 bg-asphalt-soft border border-paper/30 px-2 py-0.5 rounded-[2px]">
-            <span className="text-[10px] text-yellow font-bold uppercase tracking-wider">ROLE:</span>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value as UserRole)}
-              className="bg-transparent text-paper text-[10px] font-mono font-bold uppercase focus:outline-none cursor-pointer"
-              aria-label="Switch User Role"
-            >
-              <option value="admin" className="bg-asphalt text-paper">Admin</option>
-              <option value="dispatcher" className="bg-asphalt text-paper">Dispatcher</option>
-              <option value="driver" className="bg-asphalt text-paper">Driver</option>
-              <option value="customer" className="bg-asphalt text-paper">Customer</option>
-            </select>
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 select-none shadow-sm">
+      {/* Top verified announcement & support bar */}
+      <div className="bg-slate-900 text-slate-300 text-xs px-4 py-1.5 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 truncate">
+            <span className="inline-flex items-center gap-1.5 text-xs text-orange-400 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              {lang === 'hi' ? 'क्षेत्रीय स्टेशन नेटवर्क (दिल्ली, जयपुर, सूरत, मुंबई, बेंगलुरु, कोलकाता)' : 'FreightLine LMS • 6 Regional Corridors: Delhi • Jaipur • Surat • Mumbai • Bengaluru • Kolkata'}
+            </span>
           </div>
 
-          {/* Logistics Hub Switcher */}
-          <div className="hidden sm:flex items-center gap-1.5 bg-asphalt-soft border border-paper/30 px-2 py-0.5 rounded-[2px]">
-            <span className="text-[10px] text-yellow font-bold uppercase tracking-wider">HUB:</span>
-            <select
-              value={branch}
-              onChange={(e) => setBranch(e.target.value as BranchId)}
-              className="bg-transparent text-paper text-[10px] font-mono font-bold uppercase focus:outline-none cursor-pointer"
-              aria-label="Switch Logistics Hub"
-            >
-              <option value="all" className="bg-asphalt text-paper">ALL HUBS</option>
-              <option value="DEL-CENTRAL" className="bg-asphalt text-paper">DELHI HUB</option>
-              <option value="JPR-MAIN" className="bg-asphalt text-paper">JAIPUR HUB</option>
-              <option value="GJ-SURAT" className="bg-asphalt text-paper">SURAT HUB</option>
-              <option value="MH-MUMBAI" className="bg-asphalt text-paper">MUMBAI HUB</option>
-              <option value="TN-CHENNAI" className="bg-asphalt text-paper">CHENNAI HUB</option>
-            </select>
-          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="text-slate-400 text-[11px] hidden md:inline">
+              {lang === 'hi' ? 'डेमोंस्ट्रेशन पोर्टल' : 'Demonstration Platform'}
+            </span>
 
-          <span className="hidden xl:inline font-mono text-yellow">{t('app.supportLine')}</span>
-          
-          {/* Language Switcher Button (English / हिंदी) */}
-          <div className="flex items-center border border-paper/40 rounded-[2px] overflow-hidden bg-asphalt-soft">
-            <button
-              type="button"
-              onClick={() => setLang('en')}
-              className={`px-2 py-0.5 text-[11px] font-heading font-bold uppercase transition-colors ${
-                lang === 'en' ? 'bg-orange text-white' : 'text-paper hover:bg-asphalt-muted'
-              }`}
-              title="Switch to English"
-            >
-              ENGLISH
-            </button>
-            <button
-              type="button"
-              onClick={() => setLang('hi')}
-              className={`px-2 py-0.5 text-[11px] font-heading font-bold transition-colors ${
-                lang === 'hi' ? 'bg-orange text-white' : 'text-paper hover:bg-asphalt-muted'
-              }`}
-              title="हिंदी में बदलें"
-            >
-              हिंदी
-            </button>
+            <span className="text-slate-700 hidden md:inline">|</span>
+
+            {/* Language Switcher */}
+            <div className="flex items-center bg-slate-800 border border-slate-700/80 rounded-md p-0.5 text-[11px]">
+              <button
+                type="button"
+                onClick={() => setLang('en')}
+                className={`px-2 py-0.5 rounded transition-colors font-medium ${
+                  lang === 'en' ? 'bg-orange-500 text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'
+                }`}
+                title="Switch to English"
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLang('hi')}
+                className={`px-2 py-0.5 rounded transition-colors font-medium ${
+                  lang === 'hi' ? 'bg-orange-500 text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'
+                }`}
+                title="हिंदी में बदलें"
+              >
+                हिंदी
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -123,35 +79,39 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Brand Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="bg-asphalt text-orange p-2 border-[1.5px] border-asphalt group-hover:bg-orange group-hover:text-asphalt transition-colors duration-150 stamp-sm">
-              <IndustrialIcon name="box" size={24} />
+            <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-md shadow-orange-500/20 group-hover:bg-orange-600 transition-all">
+              <IndustrialIcon name="box" size={22} />
             </div>
             <div>
-              <div className="font-heading font-black text-2xl sm:text-3xl tracking-tight text-asphalt flex items-center gap-1 leading-none">
+              <div className="font-sans font-bold text-xl sm:text-2xl tracking-tight text-slate-900 flex items-center gap-1 leading-tight">
                 FREIGHTLINE
-                <span className="inline-block w-2 h-2 bg-orange"></span>
+                <span className="w-2 h-2 rounded-full bg-orange-500 inline-block"></span>
               </div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-steel font-bold mt-0.5">
-                {lang === 'hi' ? 'सरल पार्सल सेवा' : 'SIMPLE PARCEL SERVICE'}
+              <div className="text-[11px] font-medium tracking-wider text-slate-500 uppercase">
+                {lang === 'hi' ? 'एक्सप्रेस लॉजिस्टिक्स' : 'Express Logistics'}
               </div>
             </div>
           </Link>
 
           {/* Desktop Nav Items */}
-          <nav className="hidden md:flex items-center gap-2 lg:gap-3">
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`font-heading font-bold text-sm uppercase px-3 py-2 transition-all duration-150 border-[1.5px] flex items-center gap-1.5 min-h-[44px] ${
+                  className={`text-sm font-medium px-3.5 py-2 rounded-lg transition-all duration-150 flex items-center gap-1.5 ${
                     isActive
-                      ? 'bg-asphalt text-paper border-asphalt stamp-sm'
-                      : 'text-asphalt border-transparent hover:border-asphalt hover:bg-chalk'
+                      ? 'bg-slate-100 text-slate-900 font-semibold'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                   }`}
                 >
-                  <IndustrialIcon name={link.icon} size={14} className={isActive ? 'text-yellow' : 'text-steel'} />
+                  <IndustrialIcon
+                    name={link.icon}
+                    size={15}
+                    className={isActive ? 'text-orange-500' : 'text-slate-400'}
+                  />
                   <span>{link.label}</span>
                 </Link>
               );
@@ -164,156 +124,250 @@ export const Navbar: React.FC = () => {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder={t('nav.quickSearchPlaceholder')}
+                  placeholder={lang === 'hi' ? 'रसीद / पार्सल नंबर...' : 'Track parcel ID...'}
                   value={quickTrackId}
                   onChange={(e) => setQuickTrackId(e.target.value)}
-                  className="bg-chalk text-asphalt text-xs font-mono px-3 py-2 w-48 border-[1.5px] border-asphalt rounded-l-[2px] uppercase placeholder:text-steel focus:outline-none focus:bg-white min-h-[44px]"
+                  className="bg-slate-50 text-slate-900 text-xs font-mono px-3 py-2 w-44 border border-slate-200 rounded-l-lg uppercase placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white h-9"
                 />
-                <span className="absolute right-2.5 top-3 text-steel pointer-events-none">
+                <span className="absolute right-2.5 top-2.5 text-slate-400 pointer-events-none">
                   <IndustrialIcon name="barcode" size={14} />
                 </span>
               </div>
               <button
                 type="submit"
-                className="bg-orange text-white border-[1.5px] border-l-0 border-asphalt px-3 py-2 hover:bg-orange-hover text-xs font-heading font-bold uppercase transition-colors min-h-[44px] flex items-center gap-1"
+                className="bg-slate-900 text-white hover:bg-slate-800 border border-l-0 border-slate-900 px-3 py-2 text-xs font-medium rounded-r-lg transition-colors h-9 flex items-center gap-1"
                 title="Search Parcel Number"
               >
-                <IndustrialIcon name="search" size={14} />
-                <span>{t('nav.quickTrack')}</span>
+                <IndustrialIcon name="search" size={13} />
+                <span>{lang === 'hi' ? 'खोजें' : 'Track'}</span>
               </button>
             </form>
 
+            <div className="h-6 w-[1px] bg-slate-200"></div>
+
+            {/* Customer Authentication State / Buttons */}
+            {customer ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  className="flex items-center gap-2 border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-800 transition-all shadow-xs h-9"
+                >
+                  <div className="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-[10px]">
+                    {customer.fullName.slice(0, 2).toUpperCase()}
+                  </div>
+                  <span className="max-w-[110px] truncate">{customer.fullName}</span>
+                  <IndustrialIcon name="compass" size={12} className="text-slate-400" />
+                </button>
+
+                {userDropdownOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-lg py-2 z-50 text-xs"
+                    onMouseLeave={() => setUserDropdownOpen(false)}
+                  >
+                    <div className="px-3 py-2 border-b border-slate-100">
+                      <div className="font-bold text-slate-900 truncate">{customer.fullName}</div>
+                      <div className="text-[11px] text-slate-500 truncate">{customer.email}</div>
+                    </div>
+                    <Link
+                      to="/account"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-slate-700 hover:text-slate-900"
+                    >
+                      <IndustrialIcon name="gauge" size={13} className="text-orange-500" />
+                      <span>Customer Dashboard</span>
+                    </Link>
+                    <Link
+                      to="/account/shipments"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-slate-700 hover:text-slate-900"
+                    >
+                      <IndustrialIcon name="box" size={13} className="text-slate-400" />
+                      <span>My Shipments</span>
+                    </Link>
+                    <Link
+                      to="/account/book"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-slate-700 hover:text-slate-900"
+                    >
+                      <IndustrialIcon name="plus" size={13} className="text-slate-400" />
+                      <span>Book Consignment</span>
+                    </Link>
+                    <Link
+                      to="/account/addresses"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 text-slate-700 hover:text-slate-900"
+                    >
+                      <IndustrialIcon name="pin" size={13} className="text-slate-400" />
+                      <span>Saved Addresses</span>
+                    </Link>
+                    <div className="border-t border-slate-100 my-1"></div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        logout();
+                        setUserDropdownOpen(false);
+                      }}
+                      className="w-full text-left flex items-center gap-2 px-3 py-2 text-rose-600 hover:bg-rose-50"
+                    >
+                      <IndustrialIcon name="shield" size={13} />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/login"
+                  className="border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-semibold px-3 py-2 rounded-lg transition-all h-9 flex items-center gap-1.5 shadow-xs"
+                  title="Customer Sign In & Self-Service"
+                >
+                  <IndustrialIcon name="user" size={14} className="text-orange-500" />
+                  <span>{lang === 'hi' ? 'ग्राहक लॉगिन' : 'Customer Login'}</span>
+                </Link>
+              </div>
+            )}
+
+            {/* Outlined Manager Login Link */}
             <Link
-              to="/create"
-              className="btn-industrial bg-orange text-white text-xs px-4 py-2 border-[1.5px] border-asphalt stamp-sm hover:bg-orange-hover flex items-center gap-1.5 min-h-[44px]"
+              to="/manager/login"
+              className="border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-semibold px-3 py-2 rounded-lg transition-all h-9 flex items-center gap-1.5 shadow-xs"
+              title="Access internal FreightLine LMS console"
+            >
+              <IndustrialIcon name="shield" size={14} className="text-slate-500" />
+              <span>{lang === 'hi' ? 'मैनेजर' : 'Manager'}</span>
+            </Link>
+
+            {/* Book Now Primary Button */}
+            <Link
+              to={customer ? '/account/book' : '/create'}
+              className="bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-3.5 py-2 rounded-lg shadow-sm shadow-orange-500/20 hover:shadow transition-all h-9 flex items-center gap-1.5 shrink-0"
             >
               <IndustrialIcon name="plus" size={14} />
-              <span>{t('nav.bookNow')}</span>
+              <span>{lang === 'hi' ? 'पार्सल बुक करें' : 'Book Shipment'}</span>
             </Link>
           </div>
 
-          {/* Mobile buttons: Language toggle + Hamburger */}
+          {/* Mobile Buttons: Search & Hamburger */}
           <div className="flex md:hidden items-center gap-2">
-            <div className="flex items-center border border-asphalt rounded-[2px] overflow-hidden text-xs font-bold">
-              <button
-                onClick={() => setLang('en')}
-                className={`px-2 py-1 ${lang === 'en' ? 'bg-asphalt text-paper' : 'bg-chalk text-asphalt'}`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => setLang('hi')}
-                className={`px-2 py-1 ${lang === 'hi' ? 'bg-asphalt text-paper' : 'bg-chalk text-asphalt'}`}
-              >
-                हिंदी
-              </button>
-            </div>
             <Link
               to="/track"
-              className="bg-chalk p-2.5 border-[1.5px] border-asphalt text-asphalt min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg"
               aria-label="Track Parcel"
             >
-              <IndustrialIcon name="search" size={18} />
+              <IndustrialIcon name="search" size={20} />
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="bg-asphalt text-paper p-2.5 border-[1.5px] border-asphalt min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg"
               aria-label="Toggle menu"
             >
-              <IndustrialIcon name={mobileMenuOpen ? 'alert' : 'gauge'} size={18} />
+              <IndustrialIcon name={mobileMenuOpen ? 'alert' : 'gauge'} size={20} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile dropdown drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-chalk border-b-[2px] border-asphalt px-4 py-4 space-y-3">
-          {/* Mobile Enterprise Role & Hub Switcher */}
-          <div className="p-2.5 bg-paper border border-asphalt rounded-[2px] space-y-2">
-            <div className="text-[10px] font-mono font-bold text-steel uppercase flex items-center justify-between">
-              <span>ACTIVE ROLE & HUB</span>
-              <span className="text-orange">{ROLE_LABELS[role]}</span>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="block text-[10px] font-mono font-bold text-asphalt uppercase mb-0.5">Role</label>
-                <select
-                  value={role}
-                  onChange={(e) => setRole(e.target.value as UserRole)}
-                  className="w-full bg-chalk border border-asphalt px-2 py-1 text-xs font-mono font-bold uppercase text-asphalt rounded-[2px]"
-                >
-                  <option value="admin">Admin</option>
-                  <option value="dispatcher">Dispatcher</option>
-                  <option value="driver">Driver</option>
-                  <option value="customer">Customer</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-[10px] font-mono font-bold text-asphalt uppercase mb-0.5">Hub Branch</label>
-                <select
-                  value={branch}
-                  onChange={(e) => setBranch(e.target.value as BranchId)}
-                  className="w-full bg-chalk border border-asphalt px-2 py-1 text-xs font-mono font-bold uppercase text-asphalt rounded-[2px]"
-                >
-                  <option value="all">All Hubs</option>
-                  <option value="DEL-CENTRAL">Delhi Hub</option>
-                  <option value="JPR-MAIN">Jaipur Hub</option>
-                  <option value="GJ-SURAT">Surat Hub</option>
-                  <option value="MH-MUMBAI">Mumbai Hub</option>
-                  <option value="TN-CHENNAI">Chennai Hub</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
+        <div className="md:hidden bg-white border-t border-slate-200 px-4 py-5 space-y-4 shadow-lg animate-in slide-in-from-top duration-200">
           <form onSubmit={handleQuickTrack} className="flex items-center w-full">
             <input
               type="text"
-              placeholder={t('nav.quickSearchPlaceholder')}
+              placeholder={lang === 'hi' ? 'रसीद या पार्सल नंबर लिखें...' : 'Enter parcel tracking ID...'}
               value={quickTrackId}
               onChange={(e) => setQuickTrackId(e.target.value)}
-              className="bg-paper text-asphalt text-xs font-mono px-3 py-2.5 border-[1.5px] border-asphalt rounded-l-[2px] uppercase w-full min-h-[48px]"
+              className="bg-slate-50 text-slate-900 text-sm font-mono px-3.5 py-2.5 border border-slate-200 rounded-l-lg uppercase w-full focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
             />
             <button
               type="submit"
-              className="bg-orange text-white border-[1.5px] border-l-0 border-asphalt px-4 py-2.5 font-heading font-bold uppercase text-xs shrink-0 min-h-[48px] flex items-center gap-1"
+              className="bg-orange-500 text-white px-4 py-2.5 font-medium text-xs rounded-r-lg shrink-0 flex items-center gap-1 hover:bg-orange-600"
             >
               <IndustrialIcon name="search" size={14} />
-              <span>{t('nav.quickTrack')}</span>
+              <span>{lang === 'hi' ? 'खोजें' : 'Track'}</span>
             </button>
           </form>
 
-          <div className="flex flex-col gap-1.5 pt-2 border-t border-steel-border">
+          <div className="flex flex-col gap-1 pt-2 border-t border-slate-100">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`font-heading font-bold text-base px-3 py-2.5 border-[1.5px] flex items-center gap-2 min-h-[48px] ${
+                className={`text-sm font-medium px-3.5 py-2.5 rounded-lg flex items-center gap-2.5 transition-colors ${
                   location.pathname === link.path
-                    ? 'bg-asphalt text-paper border-asphalt'
-                    : 'text-asphalt border-transparent hover:bg-paper'
+                    ? 'bg-orange-50 text-orange-600 font-semibold'
+                    : 'text-slate-700 hover:bg-slate-50'
                 }`}
               >
                 <IndustrialIcon name={link.icon} size={16} />
                 <span>{link.label}</span>
               </Link>
             ))}
-            <Link
-              to="/create"
-              onClick={() => setMobileMenuOpen(false)}
-              className="btn-industrial bg-orange text-white text-sm px-4 py-3 border-[1.5px] border-asphalt text-center mt-2 flex items-center justify-center gap-1.5 min-h-[48px]"
-            >
-              <IndustrialIcon name="plus" size={16} />
-              <span>{t('nav.bookNow')}</span>
-            </Link>
+
+            <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+              {customer ? (
+                <>
+                  <Link
+                    to="/account"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="bg-orange-50 border border-orange-200 text-orange-900 text-sm font-semibold px-4 py-2.5 rounded-lg flex items-center justify-between"
+                  >
+                    <span>Customer Account: {customer.fullName}</span>
+                    <IndustrialIcon name="arrow-right" size={14} />
+                  </Link>
+                  <Link
+                    to="/account/book"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2.5 rounded-lg text-center flex items-center justify-center gap-2 shadow-xs"
+                  >
+                    <IndustrialIcon name="plus" size={15} />
+                    <span>{lang === 'hi' ? 'पार्सल बुक करें' : 'Book a Shipment'}</span>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      to="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 text-xs font-semibold px-3 py-2.5 rounded-lg text-center flex items-center justify-center gap-1.5"
+                    >
+                      <IndustrialIcon name="user" size={14} className="text-orange-500" />
+                      <span>Customer Login</span>
+                    </Link>
+                    <Link
+                      to="/register"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="border border-orange-200 bg-orange-50 text-orange-700 text-xs font-semibold px-3 py-2.5 rounded-lg text-center"
+                    >
+                      Register Account
+                    </Link>
+                  </div>
+                  <Link
+                    to="/create"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2.5 rounded-lg text-center flex items-center justify-center gap-2 shadow-xs"
+                  >
+                    <IndustrialIcon name="plus" size={15} />
+                    <span>{lang === 'hi' ? 'नया पार्सल बुक करें' : 'Book a Shipment'}</span>
+                  </Link>
+                </>
+              )}
+
+              <Link
+                to="/manager/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-4 py-2.5 rounded-lg text-center flex items-center justify-center gap-2 shadow-xs"
+              >
+                <IndustrialIcon name="shield" size={15} className="text-orange-400" />
+                <span>{lang === 'hi' ? 'मैनेजर व स्टाफ लॉगिन' : 'Manager & Staff Portal'}</span>
+              </Link>
+            </div>
           </div>
         </div>
       )}
-
-      {/* Hazard stripe accent bottom line */}
-      <div className="h-1.5 w-full hazard-stripes"></div>
     </header>
   );
 };

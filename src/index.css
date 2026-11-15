@@ -3,9 +3,17 @@
 @tailwind utilities;
 
 :root {
+  --color-navy-900: #0F172A;
+  --color-navy-800: #1E293B;
+  --color-orange: #F97316;
+  --color-orange-hover: #EA580C;
+  --color-bg: #F8FAFC;
+  --color-card: #FFFFFF;
+  --color-border: #E2E8F0;
+
+  /* Legacy tokens retained for backward compatibility */
   --color-paper: #F1ECE2;
   --color-asphalt: #1A1C1E;
-  --color-orange: #E4501D;
   --color-teal: #1D5A52;
   --color-yellow: #E5A823;
   --color-steel: #6E7A82;
@@ -13,18 +21,33 @@
 }
 
 html, body {
-  background-color: var(--color-paper);
-  color: var(--color-asphalt);
-  font-family: 'Instrument Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #F8FAFC;
+  color: #0F172A;
+  font-family: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* Modern Enterprise SaaS Utilities */
+.card-enterprise {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05);
+  transition: all 150ms ease-in-out;
+}
+
+.card-enterprise-hover:hover {
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.08);
+  border-color: #CBD5E1;
 }
 
 /* Hard Stamp Shadows */
