@@ -167,7 +167,7 @@ export const WarehouseManagementPage: React.FC = () => {
       address: whForm.address || `${whForm.city} Logistics Park`,
       managerName: whForm.managerName || 'Operations Officer',
       managerPhone: whForm.managerPhone || '+91 98000 00000',
-      managerEmail: whForm.managerEmail || `mgr.${id.toLowerCase()}@freightline.in`,
+      managerEmail: whForm.managerEmail || `mgr.${id.toLowerCase()}@veltrax.in`,
       totalCapacitySqFt: Number(whForm.totalCapacitySqFt) || 50000,
       totalCapacityCbm: Number(whForm.totalCapacityCbm) || 10000,
       occupiedCapacityCbm: Number(whForm.occupiedCapacityCbm) || 0,
@@ -180,7 +180,7 @@ export const WarehouseManagementPage: React.FC = () => {
         {
           id: `ACT-${Date.now()}`,
           timestamp: new Date().toISOString().replace('T', ' ').slice(0, 16),
-          event: 'Warehouse registered in FreightLine network',
+          event: 'Warehouse registered in VELTRAX network',
           user: whForm.managerName || 'Admin',
         },
       ],

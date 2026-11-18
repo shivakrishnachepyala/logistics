@@ -18,29 +18,44 @@ export const ConfidenceMeter: React.FC<ConfidenceMeterProps> = ({ promise }) => 
     : 'Historical on-time probability calculated from corridor telemetry.';
 
   return (
-    <div className="flex flex-col gap-1 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs w-full">
-      <div className="flex items-center justify-between text-[11px] gap-2">
-        <span className="font-semibold text-slate-800 flex items-center">
-          <span>
-            {lang === 'hi'
-              ? `${percent}% संभावना: ${day}`
-              : `${percent}% by ${day}`}
+    <div className="flex flex-col gap-1.5 p-2 bg-slate-50/80 border border-slate-200 rounded-lg text-xs w-full min-w-0 box-border">
+      {/* Top Header Row: Day & Tooltip on left, SLA % on right */}
+      <div className="flex items-center justify-between gap-1 text-[11px] min-w-0">
+        <span className="font-semibold text-slate-800 flex items-center min-w-0 truncate">
+          <span className="truncate">
+            {lang === 'hi' ? `${day} तक` : `By ${day}`}
           </span>
-          {date && <span className="text-slate-400 ml-1 text-[10px]">({date})</span>}
           <InfoTooltip text={tooltipText} />
         </span>
-        <span className="text-[10px] text-emerald-600 font-bold">{percent}%</span>
+        <span className="text-[11px] text-emerald-600 font-bold font-mono shrink-0 ml-1">
+          {percent}%
+        </span>
       </div>
 
+      {/* Date row when available */}
+      {date && (
+        <div className="text-[10px] text-slate-500 font-mono leading-none -mt-0.5 truncate">
+          {date}
+        </div>
+      )}
+
       {/* Meter Bar */}
-      <div className="w-full bg-slate-200 h-1.5 rounded-full relative overflow-hidden" role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100} aria-label="On-time delivery chance">
+      <div
+        className="w-full bg-slate-200 h-1.5 rounded-full relative overflow-hidden"
+        role="progressbar"
+        aria-valuenow={percent}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="On-time delivery chance"
+      >
         <div
           className="h-full bg-emerald-500 rounded-full transition-all duration-300"
           style={{ width: `${percent}%` }}
         />
       </div>
-      
-      <div className="text-[9px] text-slate-400 uppercase font-semibold">
+
+      {/* Label */}
+      <div className="text-[9px] text-slate-400 uppercase font-semibold tracking-wider leading-tight truncate">
         {lang === 'hi' ? 'समय पर पहुंचने का भरोसा' : 'On-Time SLA Promise'}
       </div>
     </div>

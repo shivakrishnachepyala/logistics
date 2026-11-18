@@ -72,9 +72,14 @@ export const Footer: React.FC = () => {
               <div className="w-9 h-9 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-md shadow-orange-500/20">
                 <IndustrialIcon name="box" size={20} />
               </div>
-              <span className="font-sans font-bold text-xl text-white tracking-tight">
-                FREIGHTLINE
-              </span>
+              <div className="flex flex-col">
+                <span className="font-sans font-bold text-xl text-white tracking-tight">
+                  VELTRAX
+                </span>
+                <span className="text-[10px] font-semibold text-orange-400 tracking-wider uppercase font-mono">
+                  MOVING BEYOND MILES.
+                </span>
+              </div>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
               {lang === 'hi'
@@ -88,7 +93,19 @@ export const Footer: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-orange-400 font-medium">Inquiry:</span>
-                <a href="mailto:support@freightline.in" className="hover:text-white transition-colors">support@freightline.in</a>
+                <a href="mailto:support@veltrax.in" className="hover:text-white transition-colors">support@veltrax.in</a>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[#25D366] font-medium">WhatsApp:</span>
+                <a
+                  href="https://wa.me/916303766064"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#25D366] text-white transition-colors font-mono font-semibold"
+                  title="Chat on WhatsApp (+91 6303766064)"
+                >
+                  +91 6303766064
+                </a>
               </div>
               <div className="text-slate-400 text-[11px]">
                 Regional Hubs: Delhi • Jaipur • Surat • Mumbai • Bengaluru • Kolkata
@@ -142,7 +159,12 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-white transition-colors flex items-center gap-1">
+                <Link to="/about" className="hover:text-white transition-colors flex items-center gap-1">
+                  <span>›</span> {lang === 'hi' ? 'हमारे बारे में' : 'About VELTRAX'}
+                </Link>
+              </li>
+              <li>
+                <a href="/#services" className="hover:text-white transition-colors flex items-center gap-1">
                   <span>›</span> {lang === 'hi' ? 'लॉजिस्टिक्स सेवाएं' : 'Our Logistics Services'}
                 </a>
               </li>
@@ -199,7 +221,7 @@ export const Footer: React.FC = () => {
               : 'All shipments are carried under the Goods Transport Agency regulations. Transparent e-way bills and compliant logistics operations.'}
           </div>
           <div className="shrink-0 text-slate-400 font-medium">
-            © 2026 FREIGHTLINE LOGISTICS INDIA
+            © 2026 VELTRAX LOGISTICS INDIA • MOVING BEYOND MILES.
           </div>
         </div>
       </div>

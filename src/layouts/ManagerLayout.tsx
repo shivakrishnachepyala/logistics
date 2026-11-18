@@ -26,19 +26,18 @@ export const ManagerLayout: React.FC = () => {
   // Ensure default demo session is initialized if missing
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const auth = localStorage.getItem('freightline_manager_auth');
+      const auth = localStorage.getItem('veltrax_manager_auth') || localStorage.getItem('freightline_manager_auth');
       if (!auth) {
-        localStorage.setItem(
-          'freightline_manager_auth',
-          JSON.stringify({
-            isAuthenticated: true,
-            email: 'admin@freightline.in',
-            role: 'Operations Manager',
-            branch: 'DEL-CENTRAL',
-            loginTime: new Date().toISOString(),
-            isSimulated: true,
-          })
-        );
+        const defaultSession = JSON.stringify({
+          isAuthenticated: true,
+          email: 'admin@veltrax.in',
+          role: 'Operations Manager',
+          branch: 'DEL-CENTRAL',
+          loginTime: new Date().toISOString(),
+          isSimulated: true,
+        });
+        localStorage.setItem('veltrax_manager_auth', defaultSession);
+        localStorage.setItem('freightline_manager_auth', defaultSession);
       }
     }
   }, []);
@@ -48,7 +47,7 @@ export const ManagerLayout: React.FC = () => {
   const closeMobile = () => setMobileOpen(false);
 
   return (
-    <div className="min-h-screen flex bg-slate-50 text-slate-900 font-sans antialiased overflow-hidden">
+    <div className="min-h-screen flex bg-slate-50 dark:bg-[#0B1220] text-slate-900 dark:text-slate-100 font-sans antialiased overflow-hidden transition-colors">
       {/* Enterprise Manager Sidebar */}
       <Sidebar
         isCollapsed={isCollapsed}
@@ -67,7 +66,7 @@ export const ManagerLayout: React.FC = () => {
         />
 
         {/* Scrollable Operations Workspace */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6">
+        <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 bg-slate-50 dark:bg-[#0B1220] transition-colors">
           <div className="max-w-7xl mx-auto space-y-4">
             <Breadcrumbs />
             <Outlet />

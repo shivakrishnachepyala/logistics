@@ -329,7 +329,7 @@ export const FleetManagementPage: React.FC = () => {
       serviceDate: maintForm.serviceDate || new Date().toISOString().split('T')[0],
       maintenanceType: maintForm.maintenanceType || 'Routine Oil & Inspection',
       costInr: Number(maintForm.costInr) || 8000,
-      serviceCenter: maintForm.serviceCenter || 'FreightLine Authorized Fleet Depot',
+      serviceCenter: maintForm.serviceCenter || 'VELTRAX Authorized Fleet Depot',
       nextServiceDate: maintForm.nextServiceDate || '2026-12-31',
       status: (maintForm.status as MaintenanceRecord['status']) || 'completed',
       technicianNotes: maintForm.technicianNotes,

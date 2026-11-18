@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -9,6 +10,7 @@ export default {
       colors: {
         // Modern Enterprise SaaS Palette
         navy: {
+          DEFAULT: '#0F172A', // Primary Navy Default
           950: '#0A0F1D',
           900: '#0F172A', // Primary Navy
           800: '#1E293B', // Secondary Navy
@@ -20,6 +22,17 @@ export default {
           200: '#E2E8F0', // Enterprise Border
           100: '#F1F5F9',
           50: '#F8FAFC',  // Enterprise Main Background
+        },
+        card: {
+          DEFAULT: '#FFFFFF',
+          foreground: '#0F172A',
+        },
+        border: {
+          DEFAULT: '#E2E8F0',
+        },
+        secondary: {
+          DEFAULT: '#64748B',
+          foreground: '#0F172A',
         },
         orange: {
           DEFAULT: '#F97316', // Accent Orange

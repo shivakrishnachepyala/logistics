@@ -88,7 +88,7 @@ export const CustomerRegisterPage: React.FC = () => {
               <IndustrialIcon name="box" size={18} />
             </div>
             <div className="font-heading font-bold text-lg text-slate-900 tracking-tight">
-              FREIGHTLINE
+              VELTRAX
             </div>
           </Link>
           <Link
@@ -113,7 +113,7 @@ export const CustomerRegisterPage: React.FC = () => {
               Create Customer Account
             </h1>
             <p className="text-xs text-slate-500 mt-1">
-              Join FreightLine for express booking, live status notifications and saved addresses
+              Join VELTRAX for express booking, live status notifications and saved addresses
             </p>
           </div>
 
@@ -289,7 +289,7 @@ export const CustomerRegisterPage: React.FC = () => {
       </main>
 
       <footer className="py-4 text-center text-xs text-slate-400 border-t border-slate-200/80 bg-white">
-        FreightLine Logistics • Customer Self-Service Portal
+        VELTRAX Logistics • Customer Self-Service Portal • MOVING BEYOND MILES.
       </footer>
     </div>
   );

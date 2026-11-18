@@ -227,7 +227,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
         progressPercent: 5,
         eta: generateEtaTwoDays(),
         dispatchedAt: nowStr,
-        carrier: 'FreightLine Express Dedicated Network',
+        carrier: 'VELTRAX Express Dedicated Network',
         priorityLevel: formData.deliverySpeed === 'same_day' ? 'critical_overnight' : 'standard',
         customsStatus: 'pre_approved',
         paymentMethod: formData.paymentMethod,
@@ -305,7 +305,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
             timestamp: nowDisplay,
             actor: customer?.fullName || 'Customer User',
             role: 'Verified Customer',
-            event: 'Self-service shipment consignment booked online via FreightLine Customer Portal.',
+            event: 'Self-service shipment consignment booked online via VELTRAX Customer Portal.',
             terminalCode: `${originCode}-HUB`,
           },
         ],
@@ -373,7 +373,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
             Consignment Registered!
           </h1>
           <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
-            Your shipment has been assigned to FreightLine's domestic express corridor and linked to your customer account.
+            Your shipment has been assigned to VELTRAX's domestic express corridor and linked to your customer account.
           </p>
 
           {/* Barcode & Key Identifiers */}

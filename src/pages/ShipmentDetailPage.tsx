@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getShipmentById } from '../data/mockShipments';
 import type { Shipment, DocumentItem } from '../types';
@@ -8,8 +8,9 @@ import { IndustrialIcon } from '../components/common/IndustrialIcon';
 import { RouteMap } from '../components/tracking/RouteMap';
 import { TrackingTimeline } from '../components/tracking/TrackingTimeline';
 import { DelayReasonCard } from '../components/tracking/DelayReasonCard';
-import { ConfidenceMeter } from '../components/tracking/ConfidenceMeter';
+import { UpdateDelayModal } from '../components/tracking/UpdateDelayModal';
 import { PhotoProofCard } from '../components/tracking/PhotoProofCard';
+import { ShipmentCardDetailModal, type ShipmentCardModalType } from '../components/tracking/ShipmentCardDetailModal';
 import { PriceBreakdown } from '../components/common/PriceBreakdown';
 import { calculatePriceBreakdown } from '../services/pricingService';
 import { useTranslation } from '../context/LanguageContext';
@@ -23,11 +24,24 @@ export const ShipmentDetailPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'manifest' | 'route' | 'documents' | 'activity' | 'photoproof' | 'pricing'>('manifest');
   const [selectedDoc, setSelectedDoc] = useState<DocumentItem | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [isDelayModalOpen, setIsDelayModalOpen] = useState(false);
+  const [cardModalType, setCardModalType] = useState<ShipmentCardModalType | null>(null);
 
   if (id !== prevId) {
     setPrevId(id);
     setShipment(id ? getShipmentById(id) : undefined);
   }
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      if (id) {
+        const fresh = getShipmentById(id);
+        if (fresh) setShipment(fresh);
+      }
+    };
+    window.addEventListener('freightline_storage_update', handleUpdate);
+    return () => window.removeEventListener('freightline_storage_update', handleUpdate);
+  }, [id]);
 
   if (!shipment) {
     return (
@@ -112,6 +126,15 @@ export const ShipmentDetailPage: React.FC = () => {
               </div>
 
               <button
+                onClick={() => setIsDelayModalOpen(true)}
+                className="btn-industrial bg-amber-500 hover:bg-amber-600 text-white text-xs px-3.5 py-2.5 border-[1.5px] border-asphalt flex items-center gap-1.5 min-h-[48px] font-bold uppercase tracking-wider shadow-xs"
+                title="Record or update customer-facing delay advisory and staff operational notes"
+              >
+                <IndustrialIcon name="alert" size={14} />
+                <span>{shipment.delayInfo ? (lang === 'hi' ? 'देरी अपडेट करें' : 'UPDATE DELAY') : (lang === 'hi' ? 'देरी दर्ज करें' : 'RECORD DELAY')}</span>
+              </button>
+
+              <button
                 onClick={() => window.print()}
                 className="btn-industrial bg-paper text-asphalt text-xs px-3.5 py-2.5 border-[1.5px] border-asphalt hover:bg-chalk flex items-center gap-1.5 min-h-[48px]"
               >
@@ -128,46 +151,155 @@ export const ShipmentDetailPage: React.FC = () => {
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono text-xs">
-            <div className="p-2 border border-steel-border bg-paper">
-              <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                {lang === 'hi' ? 'कहाँ से ➔ कहाँ तक' : 'ROUTE'}
+          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3 font-mono text-xs">
+            {/* 1. Consignment Item */}
+            <div className="p-3 border border-steel-border bg-paper min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+              <div className="space-y-1 min-w-0">
+                <div className="text-[10px] text-steel font-heading font-bold uppercase truncate">
+                  {lang === 'hi' ? 'सामान का प्रकार' : 'CONSIGNMENT ITEM'}
+                </div>
+                <div className="font-bold text-asphalt line-clamp-2 leading-snug break-words" title={shipment.cargo.type}>
+                  {shipment.cargo.type}
+                </div>
+                <div className="text-[10px] text-steel truncate">
+                  {shipment.cargo.quantity} Units • {shipment.cargo.weightKg.toLocaleString('en-IN')} KG
+                </div>
               </div>
-              <div className="font-bold text-asphalt mt-0.5">{shipment.sender.city} ➔ {shipment.receiver.city}</div>
+              <button
+                type="button"
+                onClick={() => setCardModalType('consignment')}
+                className="text-[11px] font-bold text-orange hover:text-orange/80 flex items-center gap-1 mt-2.5 pt-1.5 border-t border-steel-border/60 transition-colors group cursor-pointer"
+              >
+                <span>{lang === 'hi' ? 'विवरण देखें' : 'View Details'}</span>
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
+              </button>
             </div>
-            <div className="p-2 border border-steel-border bg-paper">
-              <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                {lang === 'hi' ? 'स्थिति' : 'STATUS'}
+
+            {/* 2. Total Weight */}
+            <div className="p-3 border border-steel-border bg-paper min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+              <div className="space-y-1 min-w-0">
+                <div className="text-[10px] text-steel font-heading font-bold uppercase truncate">
+                  {lang === 'hi' ? 'कुल वजन' : 'TOTAL WEIGHT'}
+                </div>
+                <div className="font-bold text-asphalt text-sm mt-0.5 truncate">
+                  {shipment.cargo.weightKg.toLocaleString('en-IN')} KG
+                </div>
+                <div className="text-[10px] text-teal truncate">
+                  Seal: {shipment.cargo.sealNumber}
+                </div>
               </div>
-              <div className="mt-0.5"><StatusBadge status={shipment.status} size="sm" /></div>
-            </div>
-            <div className="p-2 border border-steel-border bg-paper">
-              <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                {lang === 'hi' ? 'कुल वजन' : 'WEIGHT'}
-              </div>
-              <div className="font-bold text-asphalt mt-0.5">{shipment.cargo.weightKg.toLocaleString('en-IN')} KG</div>
-            </div>
-            <div className="p-2 border border-steel-border bg-paper">
-              <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                {lang === 'hi' ? 'सुरक्षा सील' : 'SAFETY SEAL'}
-              </div>
-              <div className="font-bold text-asphalt mt-0.5 truncate">{shipment.cargo.sealNumber}</div>
-            </div>
-            <div className="p-2 border border-steel-border bg-paper col-span-2 sm:col-span-1">
-              <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                {lang === 'hi' ? 'पहुंचने की तारीख' : 'EXPECTED ARRIVAL'}
-              </div>
-              <div className="font-bold text-orange mt-0.5 truncate">{shipment.deliveryTimeEstimate || shipment.eta}</div>
-              <div className="mt-1">
-                <ConfidenceMeter promise={shipment.deliveryPromise} />
+              <div className="text-[10px] text-steel mt-2.5 pt-1.5 border-t border-steel-border/60 truncate">
+                {shipment.cargo.volumeCbm ? `${shipment.cargo.volumeCbm} CBM` : 'Electronic Weighbridge'}
               </div>
             </div>
-            <div className="p-2 border border-steel-border bg-paper">
-              <div className="text-[10px] text-steel font-heading font-bold uppercase">
-                {lang === 'hi' ? 'भुगतान तरीका' : 'PAYMENT'}
+
+            {/* 3. Route & Status */}
+            <div className="p-3 border border-steel-border bg-paper min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+              <div className="space-y-1 min-w-0">
+                <div className="text-[10px] text-steel font-heading font-bold uppercase truncate">
+                  {lang === 'hi' ? 'कहाँ से ➔ कहाँ तक' : 'ROUTE & STATUS'}
+                </div>
+                <div className="font-bold text-asphalt mt-0.5 truncate" title={`${shipment.sender.city} ➔ ${shipment.receiver.city}`}>
+                  {shipment.sender.city} ➔ {shipment.receiver.city}
+                </div>
+                <div className="mt-1">
+                  <StatusBadge status={shipment.status} size="sm" />
+                </div>
               </div>
-              <div className="font-bold text-teal mt-0.5 uppercase">
-                {shipment.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Paid (UPI)'}
+              <div className="text-[10px] text-steel mt-2.5 pt-1.5 border-t border-steel-border/60 truncate font-mono">
+                {shipment.originHubCode} ➔ {shipment.destinationHubCode}
+              </div>
+            </div>
+
+            {/* 4. Fleet Carrier */}
+            <div className="p-3 border border-steel-border bg-paper min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+              <div className="space-y-1 min-w-0">
+                <div className="text-[10px] text-steel font-heading font-bold uppercase truncate">
+                  {lang === 'hi' ? 'गाड़ी / वाहन' : 'FLEET CARRIER'}
+                </div>
+                <div className="font-bold text-asphalt truncate leading-snug mt-0.5" title={shipment.vesselOrFlight || shipment.carrier}>
+                  {shipment.vesselOrFlight || shipment.carrier}
+                </div>
+                <div className="text-[10px] text-steel truncate">
+                  {shipment.assignedDriver?.vehiclePlate || shipment.carrier || 'Express Road Carrier'}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCardModalType('carrier')}
+                className="text-[11px] font-bold text-orange hover:text-orange/80 flex items-center gap-1 mt-2.5 pt-1.5 border-t border-steel-border/60 transition-colors group cursor-pointer"
+              >
+                <span>{lang === 'hi' ? 'विवरण देखें' : 'View Details'}</span>
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
+              </button>
+            </div>
+
+            {/* 5. Scheduled ETA and SLA */}
+            <div className="p-3 border border-steel-border bg-paper min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+              <div className="space-y-1 min-w-0">
+                <div className="flex items-center justify-between gap-1 text-[10px] text-steel font-heading font-bold uppercase">
+                  <span className="truncate">{lang === 'hi' ? 'पहुंचने की तारीख' : 'SCHEDULED ETA'}</span>
+                  {shipment.status === 'delayed' ? (
+                    <span className="text-[9px] font-bold text-rose-600 bg-rose-50 px-1 py-0.2 rounded border border-rose-200">DELAY</span>
+                  ) : shipment.status === 'delivered' ? (
+                    <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200">DONE</span>
+                  ) : (
+                    <span className="text-[9px] font-bold text-blue-700 bg-blue-50 px-1 py-0.2 rounded border border-blue-200">TRANSIT</span>
+                  )}
+                </div>
+                <div className={`font-bold truncate mt-0.5 ${shipment.status === 'delayed' ? 'text-rose-600' : shipment.status === 'delivered' ? 'text-emerald-700' : 'text-orange'}`}>
+                  {shipment.status === 'delayed'
+                    ? shipment.delayInfo?.revisedEta || shipment.deliveryTimeEstimate || shipment.eta
+                    : shipment.deliveryTimeEstimate || shipment.eta}
+                </div>
+                {/* Compact SLA Progress Bar (Single % display, strictly contained) */}
+                <div className="pt-0.5">
+                  <div className="flex items-center justify-between text-[10px] text-steel mb-0.5">
+                    <span className="truncate">{shipment.deliveryPromise?.promisedDay || 'By Thu'}</span>
+                    <span className="font-bold font-mono text-emerald-600 shrink-0 ml-1">
+                      {shipment.deliveryPromise?.confidencePercent ?? 90}% SLA
+                    </span>
+                  </div>
+                  <div
+                    className="w-full bg-slate-200/80 h-1.5 rounded-full overflow-hidden"
+                    role="progressbar"
+                    aria-valuenow={shipment.deliveryPromise?.confidencePercent ?? 90}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label="SLA On-time chance"
+                  >
+                    <div
+                      className="h-full bg-emerald-500 rounded-full transition-all duration-300"
+                      style={{ width: `${shipment.deliveryPromise?.confidencePercent ?? 90}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCardModalType('eta_sla')}
+                className="text-[11px] font-bold text-orange hover:text-orange/80 flex items-center gap-1 mt-2.5 pt-1.5 border-t border-steel-border/60 transition-colors group cursor-pointer"
+              >
+                <span>{lang === 'hi' ? 'विवरण देखें' : 'View Details'}</span>
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
+              </button>
+            </div>
+
+            {/* 6. Payment & Value */}
+            <div className="p-3 border border-steel-border bg-paper min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+              <div className="space-y-1 min-w-0">
+                <div className="text-[10px] text-steel font-heading font-bold uppercase truncate">
+                  {lang === 'hi' ? 'भुगतान तरीका' : 'PAYMENT & VALUE'}
+                </div>
+                <div className="font-bold text-teal mt-0.5 uppercase truncate">
+                  {shipment.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Paid (UPI)'}
+                </div>
+                <div className="text-[10px] text-steel truncate">
+                  Val: {shipment.cargo.declaredValueInr ? formatCurrency(shipment.cargo.declaredValueInr) : '₹4,85,000'}
+                </div>
+              </div>
+              <div className="text-[10px] text-steel mt-2.5 pt-1.5 border-t border-steel-border/60 truncate font-mono">
+                LR #{shipment.billOfLading.slice(-6)}
               </div>
             </div>
           </div>
@@ -175,23 +307,34 @@ export const ShipmentDetailPage: React.FC = () => {
 
         {/* Delay Reason Card (Phase 1 Requirement) */}
         {(shipment.status === 'delayed' || shipment.delayInfo) && (
-          <DelayReasonCard
-            parcelNumber={shipment.id}
-            delayInfo={
-              shipment.delayInfo || {
-                reason: 'Heavy rain and waterlogging near transit corridor.',
-                reasonHindi: 'ट्रांजिट कॉरिडोर पर भारी बारिश और पानी भरने से वाहन गति धीमी हुई।',
-                reasonCode: 'heavy_rain',
-                durationHours: 24,
-                durationText: '24 Hours',
-                originalEta: shipment.eta,
-                revisedEta: 'Tomorrow (revised)',
-                location: `${shipment.sender.city} - ${shipment.receiver.city}`,
-                historyText: `Expected ${shipment.eta} → Revised due to heavy rain`,
-                actionOption: 'change_time',
-              }
-            }
-          />
+          <div className="space-y-3 mb-6">
+            <DelayReasonCard
+              parcelNumber={shipment.id}
+              status={shipment.status}
+              delayInfo={shipment.delayInfo}
+              onManagerEdit={() => setIsDelayModalOpen(true)}
+            />
+
+            {/* Manager Operational Staff Notes (Never exposed to customers) */}
+            {shipment.delayInfo?.internalNotes && (
+              <div className="bg-slate-900 text-white rounded-2xl p-4 sm:p-5 border border-slate-700 shadow-md">
+                <div className="flex items-center justify-between border-b border-slate-700/80 pb-2 mb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-rose-400">
+                      🔒 Confidential Staff Notes (Manager Portal Only)
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    NEVER EXPOSED TO CUSTOMER
+                  </span>
+                </div>
+                <div className="text-xs font-mono text-slate-200 leading-relaxed bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                  {shipment.delayInfo.internalNotes}
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
         {/* Navigation Tabs */}
@@ -228,7 +371,7 @@ export const ShipmentDetailPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-start justify-between border-b-2 border-asphalt pb-4 mb-6 gap-4">
               <div>
                 <div className="font-heading font-black text-2xl uppercase tracking-tight text-asphalt">
-                  FREIGHTLINE PARCEL RECEIPT & BILTY
+                  VELTRAX PARCEL RECEIPT & BILTY
                 </div>
                 <div className="text-[11px] text-steel mt-0.5">
                   GOODS TRANSPORT AGENCY CONSIGNMENT NOTE // 100% VERIFIED RECEIPT
@@ -343,7 +486,7 @@ export const ShipmentDetailPage: React.FC = () => {
               </div>
               <div className="border-[1.5px] border-asphalt p-3 bg-paper text-center shrink-0 stamp-sm">
                 <div className="font-heading font-black text-xs uppercase text-asphalt">
-                  FREIGHTLINE CENTRAL DESK
+                  VELTRAX CENTRAL DESK
                 </div>
                 <div className="text-[9px] text-teal font-bold mt-1">
                   DIGITALLY STAMPED & VERIFIED
@@ -447,7 +590,7 @@ export const ShipmentDetailPage: React.FC = () => {
                     <div>SEAL NUMBER: {shipment.cargo.sealNumber}</div>
                     <div>PAYMENT: {shipment.paymentMethod === 'cod' ? 'Cash on Delivery (COD)' : 'Paid Online (UPI)'}</div>
                     <div className="text-steel text-[10px] pt-2 border-t border-steel-border">
-                      Digitally verified copy on FreightLine Central Transport Network.
+                      Digitally verified copy on VELTRAX Central Transport Network.
                     </div>
                   </div>
 
@@ -538,6 +681,22 @@ export const ShipmentDetailPage: React.FC = () => {
             />
           </div>
         )}
+
+        {/* Modal: Update Delay Advisory */}
+        <UpdateDelayModal
+          isOpen={isDelayModalOpen}
+          onClose={() => setIsDelayModalOpen(false)}
+          shipment={shipment}
+          onSuccess={(updated) => setShipment(updated)}
+        />
+
+        {/* Modal: Shipment Card Details */}
+        <ShipmentCardDetailModal
+          type={cardModalType}
+          isOpen={Boolean(cardModalType)}
+          onClose={() => setCardModalType(null)}
+          shipment={shipment}
+        />
 
       </div>
     </div>

@@ -33,7 +33,7 @@ export const TransportationAssignmentPage: React.FC = () => {
 
   const [activeMode, setActiveMode] = useState<TransportMode>('road');
   const [carrierType, setCarrierType] = useState<CarrierType>('in_house');
-  const [carrierName, setCarrierName] = useState<string>('FreightLine Express Road Fleet');
+  const [carrierName, setCarrierName] = useState<string>('VELTRAX Express Road Fleet');
   const [notes, setNotes] = useState<string>('');
   const [assignedBy, setAssignedBy] = useState<string>('Fleet Operations Desk');
   const [autoDispatch, setAutoDispatch] = useState<boolean>(true);
@@ -113,7 +113,7 @@ export const TransportationAssignmentPage: React.FC = () => {
     } else {
       setActiveMode('road');
       setCarrierType('in_house');
-      setCarrierName('FreightLine Express Road Fleet');
+      setCarrierName('VELTRAX Express Road Fleet');
     }
   };
 
@@ -380,7 +380,7 @@ export const TransportationAssignmentPage: React.FC = () => {
                       onClick={() => {
                         setActiveMode(item.mode);
                         if (item.mode === 'road') {
-                          setCarrierName('FreightLine Express Road Fleet');
+                          setCarrierName('VELTRAX Express Road Fleet');
                           setCarrierType('in_house');
                         } else if (item.mode === 'rail') {
                           setCarrierName('CONCOR (Container Corporation of India)');
@@ -421,7 +421,7 @@ export const TransportationAssignmentPage: React.FC = () => {
                     type="button"
                     onClick={() => {
                       setCarrierType('in_house');
-                      setCarrierName(activeMode === 'road' ? 'FreightLine Express Road Fleet' : 'FreightLine Intermodal Division');
+                      setCarrierName(activeMode === 'road' ? 'VELTRAX Express Road Fleet' : 'VELTRAX Intermodal Division');
                     }}
                     className={`py-1.5 rounded-md font-semibold transition-colors ${
                       carrierType === 'in_house'
@@ -460,7 +460,7 @@ export const TransportationAssignmentPage: React.FC = () => {
                   value={carrierName}
                   onChange={(e) => setCarrierName(e.target.value)}
                   required
-                  placeholder="e.g. FreightLine Road Express / CONCOR / IndiGo"
+                  placeholder="e.g. VELTRAX Road Express / CONCOR / IndiGo"
                   className="w-full text-xs font-medium bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
               </div>
@@ -1022,7 +1022,7 @@ export const TransportationAssignmentPage: React.FC = () => {
                       {asn.id}
                     </td>
                     <td className="py-3 px-4 font-mono font-semibold text-orange-600">
-                      <Link to={`/shipment/${asn.shipmentId}`} className="hover:underline">
+                      <Link to={`/manager/shipment/${asn.shipmentId}`} className="hover:underline">
                         {asn.shipmentId}
                       </Link>
                     </td>
@@ -1064,7 +1064,7 @@ export const TransportationAssignmentPage: React.FC = () => {
                         </Link>
                         <span>•</span>
                         <Link
-                          to={`/shipment/${asn.shipmentId}`}
+                          to={`/manager/shipment/${asn.shipmentId}`}
                           className="text-xs font-semibold text-slate-600 hover:text-slate-900"
                         >
                           Manifest

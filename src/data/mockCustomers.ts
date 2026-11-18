@@ -44,7 +44,7 @@ export const INITIAL_CUSTOMERS: CustomerAccount[] = [
   {
     id: 'CUST-001',
     fullName: 'Ramesh Sharma',
-    email: 'customer@freightline.in',
+    email: 'customer@veltrax.in',
     mobile: '9811044291',
     passwordHash: DEMO_PASSWORD_HASH,
     company: 'Sharma Textiles & Garments',
@@ -55,7 +55,7 @@ export const INITIAL_CUSTOMERS: CustomerAccount[] = [
   {
     id: 'CUST-002',
     fullName: 'Priya Patel',
-    email: 'priya@freightline.in',
+    email: 'priya@veltrax.in',
     mobile: '9825011942',
     passwordHash: DEMO_PASSWORD_HASH,
     company: 'Patel Silk & Jacquard Mills',
@@ -134,7 +134,7 @@ export const INITIAL_ADDRESSES: SavedAddress[] = [
     name: 'Priya Patel',
     company: 'Patel Silk & Jacquard Mills',
     mobile: '9825011942',
-    email: 'priya@freightline.in',
+    email: 'priya@veltrax.in',
     houseNo: 'Plot 104',
     area: 'Ring Road Textile Market',
     landmark: 'Near Millennium Market',
@@ -222,6 +222,24 @@ export const INITIAL_BOOKINGS: BookingRecord[] = [
     status: 'delivered',
     notes: 'Delivered successfully at Crawford Market',
   },
+  {
+    bookingId: 'BKG-2026-6218',
+    trackingId: 'FLX-6218-DEL',
+    customerId: 'CUST-001',
+    bookingDate: '2026-11-15T08:00:00Z',
+    originCity: 'Jaipur',
+    destinationCity: 'Delhi',
+    originState: 'Rajasthan',
+    destinationState: 'Delhi',
+    cargoDescription: 'Ceramic Blue Pottery Urns & Vases',
+    cargoCategory: 'Fragile Ceramics & Crafts',
+    weightKg: 680,
+    quantity: 15,
+    paymentMethod: 'cod',
+    totalAmount: 2696,
+    status: 'delayed',
+    notes: 'Unexpected transportation disruption along the delivery route.',
+  },
 ];
 
 // ----------------------------------------------------
@@ -259,7 +277,15 @@ export function saveCustomer(customer: CustomerAccount): void {
 export function findCustomerByEmail(email: string): CustomerAccount | undefined {
   const customers = getStoredCustomers();
   const cleanEmail = email.trim().toLowerCase();
-  return customers.find(c => c.email.toLowerCase() === cleanEmail);
+  const altCleanEmail = cleanEmail.includes('@veltrax.in')
+    ? cleanEmail.replace('@veltrax.in', '@freightline.in')
+    : cleanEmail.includes('@freightline.in')
+    ? cleanEmail.replace('@freightline.in', '@veltrax.in')
+    : cleanEmail;
+  return customers.find(c => {
+    const cEmail = c.email.toLowerCase();
+    return cEmail === cleanEmail || cEmail === altCleanEmail;
+  });
 }
 
 export function findCustomerById(id: string): CustomerAccount | undefined {
@@ -485,7 +511,20 @@ export function getStoredBookings(): BookingRecord[] {
       localStorage.setItem(BOOKINGS_KEY, JSON.stringify(INITIAL_BOOKINGS));
       return INITIAL_BOOKINGS;
     }
-    return JSON.parse(raw);
+    const bookings: BookingRecord[] = JSON.parse(raw);
+    const existingIds = new Set(bookings.map(b => b.bookingId));
+    let modified = false;
+    for (const init of INITIAL_BOOKINGS) {
+      if (!existingIds.has(init.bookingId)) {
+        bookings.push(init);
+        existingIds.add(init.bookingId);
+        modified = true;
+      }
+    }
+    if (modified) {
+      localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
+    }
+    return bookings;
   } catch (e) {
     console.error('Failed to load bookings from localStorage', e);
     return INITIAL_BOOKINGS;

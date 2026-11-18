@@ -1,4 +1,4 @@
-// FreightLine Customer Portal Type Definitions
+// VELTRAX Customer Portal Type Definitions
 
 export interface CustomerAccount {
   id: string; // e.g. "CUST-001"
@@ -34,7 +34,7 @@ export interface SavedAddress {
   createdAt: string;
 }
 
-export type BookingStatus = 'confirmed' | 'dispatched' | 'delivered' | 'cancelled';
+export type BookingStatus = 'confirmed' | 'dispatched' | 'delivered' | 'delayed' | 'cancelled';
 
 export interface BookingRecord {
   bookingId: string; // e.g. "BKG-2026-8829"

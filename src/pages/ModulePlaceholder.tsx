@@ -216,7 +216,7 @@ export const ModulePlaceholder: React.FC<ModulePlaceholderProps> = ({ moduleKey 
           Planned Enterprise Capabilities
         </h2>
         <p className="text-xs text-slate-500">
-          This module is part of the approved FreightLine Enterprise LMS Roadmap and will be fully implemented in the upcoming phase:
+          This module is part of the approved VELTRAX Enterprise LMS Roadmap and will be fully implemented in the upcoming phase:
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">

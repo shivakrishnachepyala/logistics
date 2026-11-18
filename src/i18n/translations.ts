@@ -3,17 +3,18 @@ export type Language = 'en' | 'hi';
 export const translations: Record<Language, Record<string, string>> = {
   en: {
     // Brand & Header
-    'app.name': 'FREIGHTLINE',
-    'app.tagline': 'SIMPLE & TRUSTED PARCEL DELIVERY ACROSS INDIA',
+    'app.name': 'VELTRAX',
+    'app.tagline': 'MOVING BEYOND MILES.',
     'app.status': 'SERVICE STATUS: ALL DELIVERY CENTRES OPEN & OPERATIONAL',
     'app.corridors': 'MAIN ROUTES: DELHI ⇄ JAIPUR • SURAT ⇄ MUMBAI • CHENNAI ⇄ BENGALURU',
-    'app.supportLine': 'HELP LINE: +91 98765 43210 (8 AM - 9 PM) • WHATSAPP HELP AVAILABLE',
+    'app.supportLine': 'HELP LINE: +91 98765 43210 (8 AM - 9 PM) • WHATSAPP: +91 6303766064',
 
     // Nav Links
     'nav.track': 'TRACK PARCEL',
     'nav.dashboard': 'MY PARCELS',
     'nav.newShipment': 'SEND A PARCEL',
     'nav.pricing': 'PRICES',
+    'nav.about': 'ABOUT US',
     'nav.help': 'HELP & CALL',
     'nav.quickSearchPlaceholder': 'ENTER PARCEL NUMBER...',
     'nav.quickTrack': 'TRACK',
@@ -123,7 +124,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'contact.sub': 'Call or WhatsApp our team directly. We speak Hindi, English, Punjabi, and Gujarati.',
     'contact.callUs': 'CALL CENTRAL DISPATCH',
     'contact.phone': '+91 98765 43210 / +91 11 4820 9900',
-    'contact.whatsappButton': 'Chat on WhatsApp',
+    'contact.whatsappButton': 'Chat on WhatsApp (+91 6303766064)',
     'contact.formTitle': 'QUICK PRICE ESTIMATE & BOOKING INQUIRY',
     'contact.formSub': 'Takes less than 1 minute. We will call you back with the best rate.',
     'contact.formName': 'Your Full Name *',
@@ -180,17 +181,18 @@ export const translations: Record<Language, Record<string, string>> = {
   },
   hi: {
     // Brand & Header
-    'app.name': 'FREIGHTLINE',
-    'app.tagline': 'पूरे भारत में सरल और भरोसेमंद पार्सल सेवा',
+    'app.name': 'VELTRAX',
+    'app.tagline': 'मीलों से आगे — MOVING BEYOND MILES.',
     'app.status': 'सेवा स्थिति: हमारे सभी पार्सल सेंटर खुले और चालू हैं',
     'app.corridors': 'मुख्य मार्ग: दिल्ली ⇄ जयपुर • सूरत ⇄ मुंबई • चेन्नई ⇄ बेंगलुरु',
-    'app.supportLine': 'मदद के लिए फोन: +91 98765 43210 (सुबह 8 - रात 9) • व्हाट्सएप सेवा उपलब्ध',
+    'app.supportLine': 'मदद के लिए फोन: +91 98765 43210 (सुबह 8 - रात 9) • व्हाट्सएप: +91 6303766064',
 
     // Nav Links
     'nav.track': 'पार्सल ट्रैक करें',
     'nav.dashboard': 'मेरे पार्सल',
     'nav.newShipment': 'पार्सल भेजें',
     'nav.pricing': 'किराया सूची',
+    'nav.about': 'हमारे बारे में',
     'nav.help': 'मदद और फोन',
     'nav.quickSearchPlaceholder': 'पार्सल नंबर डालें...',
     'nav.quickTrack': 'ट्रैक करें',
@@ -300,7 +302,7 @@ export const translations: Record<Language, Record<string, string>> = {
     'contact.sub': 'हमारी टीम को फोन या व्हाट्सएप करें। हम हिंदी, अंग्रेजी, पंजाबी और गुजराती बोलते हैं।',
     'contact.callUs': 'कंट्रोल रूम फोन',
     'contact.phone': '+91 98765 43210 / +91 11 4820 9900',
-    'contact.whatsappButton': 'व्हाट्सएप पर बात करें',
+    'contact.whatsappButton': 'व्हाट्सएप (+91 6303766064)',
     'contact.formTitle': 'किराया पता करें और पार्सल बुक करें',
     'contact.formSub': '1 मिनट से भी कम समय लगेगा। हमारे अधिकारी तुरंत आपको फोन करेंगे।',
     'contact.formName': 'आपका पूरा नाम *',

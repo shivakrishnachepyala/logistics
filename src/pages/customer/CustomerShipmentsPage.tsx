@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCustomerAuth } from '../../context/useCustomerAuth';
 import { getShipmentsByCustomerId } from '../../data/mockShipments';
@@ -6,6 +6,7 @@ import type { Shipment, ShipmentStatus } from '../../types';
 import { IndustrialIcon } from '../../components/common/IndustrialIcon';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { formatCurrency } from '../../utils/indiaHelpers';
+import { DelayReasonCard } from '../../components/tracking/DelayReasonCard';
 
 export const CustomerShipmentsPage: React.FC = () => {
   const { customer } = useCustomerAuth();
@@ -16,10 +17,19 @@ export const CustomerShipmentsPage: React.FC = () => {
   const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest');
   const [selectedShipment, setSelectedShipment] = useState<Shipment | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [rawShipments, setRawShipments] = useState<Shipment[]>(() => customerId ? getShipmentsByCustomerId(customerId) : []);
 
-  const rawShipments = useMemo(() => {
-    if (!customerId) return [];
-    return getShipmentsByCustomerId(customerId);
+  useEffect(() => {
+    const handleUpdate = () => {
+      if (customerId) setRawShipments(getShipmentsByCustomerId(customerId));
+    };
+    handleUpdate();
+    window.addEventListener('freightline_storage_update', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('freightline_storage_update', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
   }, [customerId]);
 
   const filteredShipments = useMemo(() => {
@@ -261,6 +271,15 @@ export const CustomerShipmentsPage: React.FC = () => {
 
                 {/* Right: Actions */}
                 <div className="flex sm:flex-col lg:flex-row items-center gap-2 shrink-0">
+                  <Link
+                    to={`/account/receipt/${s.id}`}
+                    className="flex-1 sm:flex-initial text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 px-3.5 py-2 rounded-xl transition-colors flex items-center justify-center gap-1.5 shadow-2xs"
+                    title="View official electronic lorry receipt"
+                  >
+                    <IndustrialIcon name="file" size={13} className="text-orange-500" />
+                    <span>e-LR Receipt</span>
+                  </Link>
+
                   <button
                     onClick={() => setSelectedShipment(s)}
                     className="flex-1 sm:flex-initial text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-xl transition-colors flex items-center justify-center gap-1.5"
@@ -278,6 +297,39 @@ export const CustomerShipmentsPage: React.FC = () => {
                   </Link>
                 </div>
               </div>
+
+              {/* Delayed Shipment Notice Banner if delayed */}
+              {(s.status === 'delayed' || s.delayInfo) && (
+                <div className="mt-3 p-3 bg-amber-50/90 border border-amber-200 rounded-xl flex flex-wrap items-start justify-between gap-2 text-xs">
+                  <div className="flex items-start gap-2 max-w-xl">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-200 text-amber-900 shrink-0 font-mono mt-0.5">
+                      {s.status.toUpperCase()}
+                    </span>
+                    <div>
+                      <div className="font-semibold text-slate-900">
+                        {s.delayInfo?.customerExplanation || s.delayInfo?.reason || "We're investigating the delay and will update you shortly."}
+                      </div>
+                      <div className="text-[11px] text-slate-500 mt-0.5 flex flex-wrap items-center gap-2">
+                        <span><strong>Location:</strong> {s.delayInfo?.location || `${s.originHub} → ${s.destinationHub}`}</span>
+                        <span>•</span>
+                        <span><strong>Revised Delivery:</strong> <span className="text-amber-800 font-bold">{s.delayInfo?.revisedEta || 'Under recalculation'}</span></span>
+                        {s.delayInfo?.updatedAt && (
+                          <>
+                            <span>•</span>
+                            <span><strong>Updated:</strong> {s.delayInfo.updatedAt}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSelectedShipment(s)}
+                    className="text-xs font-semibold text-amber-800 hover:text-amber-900 underline underline-offset-2 shrink-0 self-center"
+                  >
+                    Why is my parcel delayed? →
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -303,6 +355,17 @@ export const CustomerShipmentsPage: React.FC = () => {
                 ✕
               </button>
             </div>
+
+            {/* Delay Explanation Advisory (Only when actively delayed) */}
+            {selectedShipment.status === 'delayed' && (
+              <div className="mb-4">
+                <DelayReasonCard
+                  parcelNumber={selectedShipment.id}
+                  status={selectedShipment.status}
+                  delayInfo={selectedShipment.delayInfo}
+                />
+              </div>
+            )}
 
             <div className="space-y-4 text-xs">
               <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
@@ -356,20 +419,31 @@ export const CustomerShipmentsPage: React.FC = () => {
               )}
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-200 flex justify-end gap-3">
-              <button
-                onClick={() => setSelectedShipment(null)}
-                className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50"
-              >
-                Close
-              </button>
+            <div className="mt-6 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
               <Link
-                to={`/track?id=${selectedShipment.id}`}
-                className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5"
+                to={`/account/receipt/${selectedShipment.id}`}
+                className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors"
+                title="Open dedicated customer parcel receipt page"
               >
-                <IndustrialIcon name="search" size={13} />
-                <span>Open Full Tracking</span>
+                <IndustrialIcon name="file" size={13} className="text-orange-400" />
+                <span>View Full Parcel Receipt</span>
               </Link>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setSelectedShipment(null)}
+                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                >
+                  Close
+                </button>
+                <Link
+                  to={`/track?id=${selectedShipment.id}`}
+                  className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5"
+                >
+                  <IndustrialIcon name="search" size={13} />
+                  <span>Open Full Tracking</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -856,8 +856,8 @@ export const PaymentsBillingPage: React.FC = () => {
 
       {/* MODAL: CREATE INVOICE */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-3xl my-8 overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-slate-50">
               <h2 className="text-lg font-bold text-navy">Issue Commercial Freight Invoice</h2>
               <button onClick={() => setShowCreateModal(false)} className="text-secondary hover:text-navy p-1">
@@ -1064,8 +1064,8 @@ export const PaymentsBillingPage: React.FC = () => {
 
       {/* MODAL: VIEW & PRINT INVOICE */}
       {viewingInvoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm overflow-y-auto print:p-0 print:bg-white">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-3xl my-8 overflow-hidden print:border-none print:shadow-none print:m-0 print:max-w-full">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto print:p-0 print:bg-white">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden print:border-none print:shadow-none print:m-0 print:max-w-full">
             {/* Header actions (hidden when printing) */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-slate-50 print:hidden">
               <div className="flex items-center gap-2">
@@ -1229,10 +1229,10 @@ export const PaymentsBillingPage: React.FC = () => {
               <div className="border-t border-border pt-4 text-[11px] text-secondary grid grid-cols-2 gap-4">
                 <div>
                   <span className="font-semibold text-navy block mb-0.5">Bank Settlement Details:</span>
-                  <div>Beneficiary: FreightLine Logistics Private Limited</div>
+                  <div>Beneficiary: VELTRAX Logistics Private Limited</div>
                   <div>Bank: State Bank of India • Branch: Connaught Place</div>
                   <div className="font-mono">A/C: 40918820019 • IFSC: SBIN0000691</div>
-                  <div className="font-mono">UPI VPA: freightline.corp@sbi</div>
+                  <div className="font-mono">UPI VPA: veltrax.corp@sbi</div>
                 </div>
                 <div className="text-right">
                   <span className="font-semibold text-navy block mb-0.5">Authorized Signatory:</span>
@@ -1246,8 +1246,8 @@ export const PaymentsBillingPage: React.FC = () => {
 
       {/* MODAL: RECORD SIMULATED PAYMENT */}
       {payingInvoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-lg p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-lg p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-border pb-3">
               <div>
                 <h3 className="text-base font-bold text-navy">Record Commercial Settlement</h3>
@@ -1345,8 +1345,8 @@ export const PaymentsBillingPage: React.FC = () => {
 
       {/* MODAL: DELETE CONFIRMATION (INVOICE) */}
       {deletingInvoiceId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
             <div className="flex items-center gap-3 text-rose-600">
               <div className="p-2.5 rounded-full bg-rose-50 border border-rose-200">
                 <AppIcon name="alert" size={20} />

@@ -2,15 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E4501D'><rect x='2' y='4' width='20' height='16' rx='1' stroke='%231A1C1E' stroke-width='2' fill='%23E4501D'/><line x1='7' y1='4' x2='7' y2='20' stroke='%231A1C1E' stroke-width='2'/><line x1='12' y1='4' x2='12' y2='20' stroke='%231A1C1E' stroke-width='2'/><line x1='17' y1='4' x2='17' y2='20' stroke='%231A1C1E' stroke-width='2'/></svg>" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23F97316'/><path d='M7 9 L16 23 L25 9 L20.5 9 L16 16.5 L11.5 9 Z' fill='%23FFFFFF'/><circle cx='16' cy='19.5' r='1.5' fill='%230F172A'/><line x1='9' y1='9' x2='23' y2='9' stroke='%230F172A' stroke-width='1.5' stroke-linecap='round'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FreightLine – Enterprise Logistics Management System</title>
-    <meta name="description" content="Next-generation Enterprise Logistics & Fleet Management System. Multimodal dispatch, live tracking, warehouse inventory, and automated billing." />
+    <title>VELTRAX – MOVING BEYOND MILES | Enterprise Logistics Management Platform</title>
+    <meta name="description" content="VELTRAX — MOVING BEYOND MILES. Technology-driven logistics management platform connecting businesses, customers, and transportation networks through reliable, fast, and efficient delivery operations." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var stored = localStorage.getItem('veltrax_theme') || localStorage.getItem('freightline_theme');
+          var theme = stored || 'system';
+          var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-orange-500 selection:text-white">
+  <body class="bg-slate-50 dark:bg-[#0B1220] text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-orange-500 selection:text-white transition-colors duration-200">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

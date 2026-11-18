@@ -1,4 +1,13 @@
-import type { Shipment, DriverInfo, ShipmentStatus, ProblemReport, TransportAssignment } from '../types';
+import type {
+  Shipment,
+  DriverInfo,
+  ShipmentStatus,
+  ProblemReport,
+  TransportAssignment,
+  DelayInfo,
+  DelayHistoryEntry,
+  DelayReasonCode
+} from '../types';
 
 export const INITIAL_DRIVERS: DriverInfo[] = [
   {
@@ -82,7 +91,7 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
     progressPercent: 72,
     eta: '2026-10-20 14:00',
     dispatchedAt: '2026-10-19 06:00',
-    carrier: 'FreightLine Express Road Cargo',
+    carrier: 'VELTRAX Express Road Cargo',
     vesselOrFlight: 'Eicher Pro 2049 (RJ-14-GA-8820)',
     priorityLevel: 'standard',
     customsStatus: 'pre_approved',
@@ -266,7 +275,7 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
     eta: '2026-10-18 16:30',
     dispatchedAt: '2026-10-17 08:00',
     deliveredAt: '2026-10-18 16:30',
-    carrier: 'FreightLine Coastal Highway Service',
+    carrier: 'VELTRAX Coastal Highway Service',
     vesselOrFlight: 'Tata 407 (MH-04-AZ-4109)',
     priorityLevel: 'standard',
     customsStatus: 'cleared',
@@ -396,7 +405,7 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
     progressPercent: 84,
     eta: '2026-10-19 19:30',
     dispatchedAt: '2026-10-19 05:00',
-    carrier: 'FreightLine South Express Corridor',
+    carrier: 'VELTRAX South Express Corridor',
     vesselOrFlight: 'BharatBenz 1617R (TN-09-BK-7701)',
     priorityLevel: 'expedited',
     customsStatus: 'cleared',
@@ -515,7 +524,7 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
     progressPercent: 65,
     eta: '2026-10-22 10:00 (Delayed by 1 day)',
     dispatchedAt: '2026-10-17 12:00',
-    carrier: 'FreightLine Rail & Highway Combined Cargo',
+    carrier: 'VELTRAX Rail & Highway Combined Cargo',
     vesselOrFlight: 'Goods Train Parcel Van / Tata 1918 (PB-10-CZ-9912)',
     priorityLevel: 'standard',
     customsStatus: 'pre_approved',
@@ -532,7 +541,25 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
       revisedEta: '22/10/2026, 10:00 AM',
       location: 'Kanpur - Mughal Sarai Railway Corridor',
       historyText: 'Expected 21/10 → Now 22/10, because of heavy morning fog near Mughal Sarai',
-      actionOption: 'change_time'
+      actionOption: 'change_time',
+      customerExplanation: 'Railway freight corridor experiencing speed restrictions due to seasonal morning fog and scheduled line maintenance.',
+      actionTaken: 'Consignment rake priority prioritized by Indian Railways freight control; speed restrictions lifted during daylight hours.',
+      updatedAt: '21/10/2026, 09:00 AM',
+      internalNotes: 'CONCOR train rake #2209 delayed at Pt. Deen Dayal Upadhyaya junction. Track maintenance block ended 08:30 AM.',
+      history: [
+        {
+          id: 'DLY-HIST-4910-1',
+          timestamp: '21/10/2026, 09:00 AM',
+          updatedBy: 'Sanjay Ghosh (Rail Freight Coordinator)',
+          reasonCode: 'heavy_rain',
+          customerExplanation: 'Railway freight corridor experiencing speed restrictions due to seasonal morning fog and scheduled line maintenance.',
+          internalNotes: 'CONCOR train rake #2209 delayed at Pt. Deen Dayal Upadhyaya junction. Track maintenance block ended 08:30 AM.',
+          actionTaken: 'Consignment rake priority prioritized by Indian Railways freight control; speed restrictions lifted during daylight hours.',
+          revisedEta: '22/10/2026, 10:00 AM',
+          location: 'Kanpur - Mughal Sarai Railway Corridor',
+          status: 'delayed'
+        }
+      ]
     },
     deliveryPromise: {
       confidencePercent: 78,
@@ -670,7 +697,7 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
     progressPercent: 55,
     eta: '2026-10-21 15:00',
     dispatchedAt: '2026-10-18 10:00',
-    carrier: 'FreightLine Inter-State Express',
+    carrier: 'VELTRAX Inter-State Express',
     vesselOrFlight: 'Eicher 16-Wheeler (GJ-01-AX-4412)',
     priorityLevel: 'standard',
     customsStatus: 'pre_approved',
@@ -788,7 +815,7 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
     progressPercent: 10,
     eta: '2026-10-22 18:00',
     dispatchedAt: '2026-10-19 10:00',
-    carrier: 'FreightLine Central India Cargo',
+    carrier: 'VELTRAX Central India Cargo',
     vesselOrFlight: 'Tata 407 (MH-12-PQ-9914)',
     priorityLevel: 'standard',
     customsStatus: 'pre_approved',
@@ -881,6 +908,330 @@ export const INITIAL_SHIPMENTS: Shipment[] = [
         terminalCode: 'PUN-CHK-01'
       }
     ]
+  },
+  {
+    id: 'FLX-9482-BOM',
+    billOfLading: 'LR-2026-94820',
+    bookingRef: 'BKG-SUR-MUM-94',
+    originHub: 'Surat Textile Cargo Hub',
+    originHubCode: 'GJ-SURAT',
+    destinationHub: 'Mumbai Central Godown',
+    destinationHubCode: 'MH-MUMBAI',
+    serviceMode: 'heavy_haul',
+    status: 'delayed',
+    progressPercent: 48,
+    eta: '2026-10-19 14:00 (Delayed by 14 hrs)',
+    dispatchedAt: '2026-10-18 08:00',
+    carrier: 'VELTRAX Inter-State Corridor',
+    vesselOrFlight: 'Eicher Pro 3019 (MH-04-AZ-4109)',
+    priorityLevel: 'expedited',
+    customsStatus: 'pre_approved',
+    paymentMethod: 'upi',
+    whatsappUpdates: true,
+    deliveryTimeEstimate: 'Delayed: Revised delivery by 19/10/2026 02:00 PM',
+    delayInfo: {
+      reason: 'Vehicle transmission failure near Vapi toll plaza; replacement tractor deployed.',
+      reasonHindi: 'वापी टोल प्लाजा के पास वाहन में तकनीकी खराबी; राहत वाहन भेजा गया।',
+      reasonCode: 'vehicle_breakdown',
+      durationHours: 14,
+      durationText: '14 Hours',
+      originalEta: '18/10/2026, 11:30 PM',
+      revisedEta: '19/10/2026, 02:00 PM',
+      location: 'NH-48 Vapi Industrial Bypass Mile 142',
+      historyText: 'Expected 18/10 11:30 PM → Now 19/10 02:00 PM due to mechanical relay.',
+      actionOption: 'confirm_address',
+      customerExplanation: 'Transit vehicle experienced a mechanical issue near Vapi bypass; backup prime mover deployed to continue carriage.',
+      actionTaken: 'Backup prime mover unit arrived from Vapi logistics depot. Cargo transfer completed under supervisor seal; en-route to Bhiwandi hub.',
+      updatedAt: '19/10/2026, 08:15 AM',
+      internalNotes: 'Transmission oil seal leak on tractor MH-04-AZ-4109. Relief tractor deployed by Workshop Supervisor Gokhale. No cargo damage.',
+      history: [
+        {
+          id: 'DLY-HIST-7102-1',
+          timestamp: '19/10/2026, 08:15 AM',
+          updatedBy: 'Gokhale (Fleet Maintenance Desk)',
+          reasonCode: 'vehicle_breakdown',
+          customerExplanation: 'Transit vehicle experienced a mechanical issue near Vapi bypass; backup prime mover deployed to continue carriage.',
+          internalNotes: 'Transmission oil seal leak on tractor MH-04-AZ-4109. Relief tractor deployed by Workshop Supervisor Gokhale. No cargo damage.',
+          actionTaken: 'Backup prime mover unit arrived from Vapi logistics depot. Cargo transfer completed under supervisor seal; en-route to Bhiwandi hub.',
+          revisedEta: '19/10/2026, 02:00 PM',
+          location: 'NH-48 Vapi Industrial Bypass Mile 142',
+          status: 'delayed'
+        }
+      ]
+    },
+    deliveryPromise: {
+      confidencePercent: 82,
+      promisedDay: 'Monday',
+      promisedDate: '19/10/2026',
+      description: 'Revised promise factoring mechanical relay and cargo transfer.'
+    },
+    deliveryOtp: '6319',
+    photoProof: {
+      pickupTimestamp: '18/10/2026, 09:00 AM',
+      pickupHandedBy: 'Kishore Jariwala (Surat Weaving Mills)',
+      deliveryTimestamp: 'Expected: 19/10/2026, 02:00 PM',
+      deliveredTo: 'Anand Mehta (Bhiwandi Garment Logistics)',
+      otpVerified: false
+    },
+    priceBreakdown: {
+      baseCharge: 3400,
+      fuelCharge: 340,
+      packingCharge: 150,
+      pickupCharge: 100,
+      codFee: 0,
+      gstAmount: 718,
+      total: 4708
+    },
+    sender: {
+      name: 'Kishore Jariwala',
+      company: 'Surat Jacquard & Silk Mills',
+      houseNo: 'Plot 45',
+      area: 'Ring Road Textile Market',
+      landmark: 'Near Millennium Market Gate 3',
+      address: 'Plot 45, Ring Road Textile Market',
+      city: 'Surat',
+      state: 'Gujarat',
+      country: 'India',
+      postalCode: '395002',
+      contactEmail: 'kishore@suratjacquard.in',
+      contactPhone: '+91 98251 44109',
+      taxIdOrEori: '24AAACJ9940M1Z3'
+    },
+    receiver: {
+      name: 'Anand Mehta',
+      company: 'Mehta Global Apparel Exports',
+      houseNo: 'Warehouse 12',
+      area: 'Bhiwandi Logistics Park',
+      landmark: 'Near NH-3 Pipeline Road',
+      address: 'Warehouse 12, Bhiwandi Logistics Park',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      country: 'India',
+      postalCode: '421302',
+      contactEmail: 'anand@mehtaglobal.com',
+      contactPhone: '+91 98201 55301',
+      taxIdOrEori: '27AAACM4410P1Z6'
+    },
+    cargo: {
+      type: 'Industrial Jacquard Silk Bales (40 Rolls)',
+      quantity: 40,
+      weightKg: 2850,
+      volumeCbm: 12.0,
+      declaredValueInr: 850000,
+      hazardous: false,
+      sealNumber: 'SEAL-FLX-94820',
+      temperatureControlled: false
+    },
+    checkpoints: [
+      {
+        id: 'CP-61',
+        location: 'Surat Cargo Hub',
+        city: 'Surat',
+        country: 'India',
+        timestamp: '18/10/2026, 09:30 AM',
+        status: 'delivered',
+        facilityCode: 'GJ-SUR-01',
+        description: 'Bales loaded and sealed onto trailer MH-04-AZ-4109.',
+        completed: true,
+        isCurrent: false
+      },
+      {
+        id: 'CP-62',
+        location: 'NH-48 Vapi Bypass',
+        city: 'Vapi',
+        country: 'India',
+        timestamp: '18/10/2026, 06:15 PM',
+        status: 'delayed',
+        facilityCode: 'VAP-CORR-01',
+        description: 'Transmission alert logged by telematics. Relief prime mover arrived at 08:30 PM.',
+        completed: false,
+        isCurrent: true
+      }
+    ],
+    documents: [
+      {
+        id: 'DOC-61',
+        title: 'Electronic Lorry Receipt (e-LR / Bilty)',
+        type: 'Bill of Lading',
+        docNumber: 'LR-2026-94820',
+        issuedDate: '18/10/2026',
+        fileSize: '420 KB',
+        status: 'verified'
+      }
+    ],
+    activities: [
+      {
+        id: 'ACT-61',
+        timestamp: '18/10/2026, 08:30 PM',
+        actor: 'Surat Fleet Operations',
+        role: 'Dispatch Supervisor',
+        event: 'Breakdown response unit deployed from Vapi workshop. Cargo transfer confirmed secure.',
+        terminalCode: 'GJ-SUR-01'
+      }
+    ]
+  },
+  {
+    id: 'FLX-6218-DEL',
+    customerId: 'CUST-001',
+    bookingId: 'BKG-2026-6218',
+    billOfLading: 'LR-2026-62180',
+    bookingRef: 'BKG-JPR-DEL-62',
+    originHub: 'Jaipur Delivery Centre',
+    originHubCode: 'JPR-MAIN',
+    destinationHub: 'Delhi Sorting Hub',
+    destinationHubCode: 'DEL-CENTRAL',
+    serviceMode: 'heavy_haul',
+    status: 'delayed',
+    progressPercent: 62,
+    eta: '2026-11-19 18:00 (Delayed)',
+    dispatchedAt: '2026-11-16 06:00',
+    carrier: 'VELTRAX Northern Express Fleet',
+    vesselOrFlight: 'Tata 407 (DL-01-AB-2041)',
+    priorityLevel: 'standard',
+    customsStatus: 'pre_approved',
+    paymentMethod: 'cod',
+    whatsappUpdates: true,
+    deliveryTimeEstimate: 'Delayed: Revised arrival by 19/11/2026 06:00 PM',
+    delayInfo: {
+      reason: 'Unexpected transportation disruption along the delivery route.',
+      reasonHindi: 'वितरण मार्ग पर अप्रत्याशित परिवहन व्यवधान।',
+      reasonCode: 'road_blocked',
+      durationHours: 28,
+      durationText: '28 Hours',
+      originalEta: '17/11/2026, 02:00 PM',
+      revisedEta: '19/11/2026, 06:00 PM',
+      location: 'NH-48 Jaipur-Delhi Highway Km 142 near Kotputli',
+      historyText: 'Expected 17/11 02:00 PM → Now 19/11 06:00 PM due to unexpected transportation disruption along delivery route.',
+      actionOption: 'change_time',
+      customerExplanation: 'Unexpected transportation disruption along the delivery route.',
+      actionTaken: 'Our operations team has deployed route priority clearance and an alternate transport corridor to expedite delivery.',
+      updatedAt: '18/11/2026, 04:30 PM',
+      internalNotes: 'Driver Balwinder reported transit corridor bottleneck near Kotputli bypass. Escort vehicle dispatched; alternate highway diversion cleared.',
+      history: [
+        {
+          id: 'DLY-HIST-6218-1',
+          timestamp: '18/11/2026, 04:30 PM',
+          updatedBy: 'Rohit Verma (Operations Manager)',
+          reasonCode: 'road_blocked',
+          customerExplanation: 'Unexpected transportation disruption along the delivery route.',
+          internalNotes: 'Driver Balwinder reported transit corridor bottleneck near Kotputli bypass. Escort vehicle dispatched; alternate highway diversion cleared.',
+          actionTaken: 'Our operations team has deployed route priority clearance and an alternate transport corridor to expedite delivery.',
+          revisedEta: '19/11/2026, 06:00 PM',
+          location: 'NH-48 Jaipur-Delhi Highway Km 142 near Kotputli',
+          status: 'delayed'
+        }
+      ]
+    },
+    deliveryPromise: {
+      confidencePercent: 88,
+      promisedDay: 'Tuesday',
+      promisedDate: '17/11/2026',
+      description: 'Revised schedule under active corridor coordination.'
+    },
+    deliveryOtp: '8192',
+    photoProof: {
+      pickupTimestamp: '16/11/2026, 06:30 AM',
+      pickupHandedBy: 'Mahesh Sharma (Pink City Blue Pottery)',
+      deliveryTimestamp: 'Expected: 19/11/2026, 06:00 PM',
+      deliveredTo: 'Ramesh Sharma (Sharma Textiles & Garments)',
+      otpVerified: false
+    },
+    priceBreakdown: {
+      baseCharge: 1850,
+      fuelCharge: 185,
+      packingCharge: 120,
+      pickupCharge: 80,
+      codFee: 50,
+      gstAmount: 411,
+      total: 2696
+    },
+    sender: {
+      name: 'Mahesh Sharma',
+      company: 'Pink City Blue Pottery & Crafts',
+      houseNo: 'Shop 18',
+      area: 'Bapu Bazaar Main Corridor',
+      landmark: 'Near Sanganeri Gate',
+      address: 'Shop 18, Bapu Bazaar Main Corridor',
+      city: 'Jaipur',
+      state: 'Rajasthan',
+      country: 'India',
+      postalCode: '302003',
+      contactEmail: 'mahesh@pinkcitycrafts.in',
+      contactPhone: '+91 94140 33810',
+      taxIdOrEori: '08AAACM8819Q1ZY'
+    },
+    receiver: {
+      name: 'Ramesh Sharma',
+      company: 'Sharma Textiles & Garments',
+      houseNo: 'Shop No. 44',
+      area: 'Katra Neel, Chandni Chowk',
+      landmark: 'Near Town Hall',
+      address: 'Shop No. 44, Katra Neel, Chandni Chowk',
+      city: 'Delhi',
+      state: 'Delhi',
+      country: 'India',
+      postalCode: '110006',
+      contactEmail: 'customer@veltrax.in',
+      contactPhone: '+91 98110 44291',
+      taxIdOrEori: '07AAACS1102K1Z5'
+    },
+    cargo: {
+      type: 'Ceramic Blue Pottery Urns & Vases (15 Crates)',
+      quantity: 15,
+      weightKg: 680,
+      volumeCbm: 3.2,
+      declaredValueInr: 175000,
+      hazardous: false,
+      sealNumber: 'SEAL-FLX-62180',
+      temperatureControlled: false
+    },
+    checkpoints: [
+      {
+        id: 'CP-71',
+        location: 'Jaipur Delivery Centre',
+        city: 'Jaipur',
+        country: 'India',
+        timestamp: '16/11/2026, 06:45 AM',
+        status: 'delivered',
+        facilityCode: 'JPR-MAIN-01',
+        description: 'Fragile consignment palletized and dispatched on DL-01-AB-2041.',
+        completed: true,
+        isCurrent: false
+      },
+      {
+        id: 'CP-72',
+        location: 'NH-48 Kotputli Highway Corridor',
+        city: 'Kotputli',
+        country: 'India',
+        timestamp: '18/11/2026, 04:30 PM',
+        status: 'delayed',
+        facilityCode: 'DEL-CORR-01',
+        description: 'Transit Delay Advisory: Unexpected transportation disruption along the delivery route.',
+        completed: false,
+        isCurrent: true
+      }
+    ],
+    documents: [
+      {
+        id: 'DOC-71',
+        title: 'Electronic Lorry Receipt (e-LR / Bilty)',
+        type: 'Bill of Lading',
+        docNumber: 'LR-2026-62180',
+        issuedDate: '16/11/2026',
+        fileSize: '380 KB',
+        status: 'verified'
+      }
+    ],
+    activities: [
+      {
+        id: 'ACT-71',
+        timestamp: '18/11/2026, 04:30 PM',
+        actor: 'Delhi Corridor Telematics',
+        role: 'Automated Exception Engine',
+        event: 'Speed dropped below corridor SLA threshold. Exception recorded: Unexpected transportation disruption along the delivery route.',
+        terminalCode: 'DEL-CENTRAL-01'
+      }
+    ]
   }
 ];
 
@@ -890,26 +1241,61 @@ export const getStoredShipments = (): Shipment[] => {
   if (typeof window === 'undefined') return INITIAL_SHIPMENTS;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    const shipments: Shipment[] = raw ? JSON.parse(raw) : INITIAL_SHIPMENTS;
+    const shipments: Shipment[] = raw ? JSON.parse(raw) : [...INITIAL_SHIPMENTS];
+    let modified = false;
+
     if (!raw) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_SHIPMENTS));
+    } else {
+      // Defensive merge: append any seed shipments not present in cached storage
+      const existingIds = new Set(shipments.map(s => s.id));
+      for (const init of INITIAL_SHIPMENTS) {
+        if (!existingIds.has(init.id)) {
+          shipments.push(init);
+          existingIds.add(init.id);
+          modified = true;
+        }
+      }
     }
-    // Attach matching assignment if present and backfill customerId for seeded records
+
+    // Attach matching assignment if present and backfill customerId / seed delay status for seeded records
     const assignments = getTransportAssignments();
-    return shipments.map(s => {
+    for (let i = 0; i < shipments.length; i++) {
+      const s = shipments[i];
       const initialMatch = INITIAL_SHIPMENTS.find(init => init.id === s.id);
-      if (initialMatch && !s.customerId && initialMatch.customerId) {
-        s.customerId = initialMatch.customerId;
-        s.bookingId = initialMatch.bookingId;
+      if (initialMatch) {
+        if (!s.customerId && initialMatch.customerId) {
+          s.customerId = initialMatch.customerId;
+          s.bookingId = initialMatch.bookingId;
+          modified = true;
+        }
+        if (s.id === 'FLX-6218-DEL') {
+          if (s.status !== 'delayed') {
+            s.status = 'delayed';
+            modified = true;
+          }
+          if (initialMatch.delayInfo) {
+            const isLegacySeed = s.delayInfo?.reason?.includes('Bilaspur');
+            if (isLegacySeed || !s.delayInfo) {
+              s.delayInfo = { ...initialMatch.delayInfo };
+              modified = true;
+            }
+          }
+        }
       }
       if (!s.transportAssignment) {
         const match = assignments.find(a => a.shipmentId === s.id);
         if (match) {
-          return { ...s, transportAssignment: match };
+          shipments[i] = { ...s, transportAssignment: match };
         }
       }
-      return s;
-    });
+    }
+
+    if (modified) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(shipments));
+    }
+
+    return shipments;
   } catch (e) {
     console.error('Failed to read from localStorage', e);
     return INITIAL_SHIPMENTS;
@@ -998,7 +1384,7 @@ export const updateShipmentStatus = (
       {
         id: `ACT-${Date.now()}`,
         timestamp: nowStr,
-        actor: 'FreightLine Security System',
+        actor: 'VELTRAX Security System',
         role: 'Automated Status Engine',
         event: newStatus === 'delivered'
           ? 'Consignment delivered successfully with secure customer OTP verification.'
@@ -1097,7 +1483,7 @@ export const INITIAL_ASSIGNMENTS: TransportAssignment[] = [
     shipmentId: 'FLX-8829-JPR',
     mode: 'road',
     carrierType: 'in_house',
-    carrierName: 'FreightLine Express Road Fleet',
+    carrierName: 'VELTRAX Express Road Fleet',
     status: 'in_transit',
     assignedAt: '19/10/2026, 06:15 AM',
     dispatchedAt: '19/10/2026, 09:15 AM',
@@ -1271,6 +1657,125 @@ export const saveTransportAssignment = (
   currentShipments[shipIndex] = updatedShipment;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(currentShipments));
   window.dispatchEvent(new Event('freightline_storage_update'));
+
+  return updatedShipment;
+};
+
+export interface UpdateDelayPayload {
+  shipmentId: string;
+  status?: ShipmentStatus;
+  reasonCode: DelayReasonCode;
+  customerExplanation: string;
+  actionTaken?: string;
+  location?: string;
+  originalEta?: string;
+  revisedEta?: string;
+  durationHours?: number;
+  durationText?: string;
+  internalNotes?: string;
+  updatedBy?: string;
+}
+
+export const updateShipmentDelayAdvisory = (
+  payload: UpdateDelayPayload
+): Shipment | undefined => {
+  const current = getStoredShipments();
+  const index = current.findIndex(s => s.id.toUpperCase() === payload.shipmentId.trim().toUpperCase());
+  if (index === -1) return undefined;
+
+  const target = current[index];
+  const nowStr = new Date().toLocaleString('en-IN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  const existingDelay = target.delayInfo;
+  const historyList: DelayHistoryEntry[] = existingDelay?.history ? [...existingDelay.history] : [];
+
+  // Customer-friendly reason rule:
+  // Never invent a delay reason.
+  // If the reason is unknown/empty, display strictly: "We're investigating the delay and will update you shortly."
+  const cleanExplanation = payload.customerExplanation?.trim()
+    || existingDelay?.customerExplanation?.trim()
+    || existingDelay?.reason?.trim()
+    || "We're investigating the delay and will update you shortly.";
+
+  const historyEntry: DelayHistoryEntry = {
+    id: `DLY-HIST-${Date.now()}`,
+    timestamp: nowStr,
+    updatedBy: payload.updatedBy || 'Operations Desk',
+    reasonCode: payload.reasonCode,
+    customerExplanation: cleanExplanation,
+    internalNotes: payload.internalNotes?.trim() || undefined,
+    actionTaken: payload.actionTaken?.trim() || undefined,
+    revisedEta: payload.revisedEta || existingDelay?.revisedEta,
+    location: payload.location || existingDelay?.location || `${target.originHub} → ${target.destinationHub}`,
+    status: payload.status || target.status
+  };
+
+  historyList.unshift(historyEntry);
+
+  const updatedDelayInfo: DelayInfo = {
+    reason: cleanExplanation,
+    reasonHindi: existingDelay?.reasonHindi,
+    reasonCode: payload.reasonCode,
+    durationHours: payload.durationHours ?? (existingDelay?.durationHours || 8),
+    durationText: payload.durationText || (payload.durationHours ? `${payload.durationHours} Hours` : existingDelay?.durationText || '8 Hours'),
+    originalEta: payload.originalEta || existingDelay?.originalEta || target.eta,
+    revisedEta: payload.revisedEta?.trim() || existingDelay?.revisedEta || 'New delivery estimate pending',
+    location: payload.location || existingDelay?.location || `${target.originHub} - ${target.destinationHub} Transit Corridor`,
+    historyText: `Delay advisory updated on ${nowStr}`,
+    actionOption: existingDelay?.actionOption || 'change_time',
+    customerExplanation: cleanExplanation,
+    internalNotes: payload.internalNotes?.trim() || undefined,
+    actionTaken: payload.actionTaken?.trim() || undefined,
+    updatedAt: nowStr,
+    history: historyList
+  };
+
+  const newStatus: ShipmentStatus = payload.status || (target.status === 'delivered' ? 'delayed' : 'delayed');
+
+  const updatedCheckpoints = target.checkpoints ? target.checkpoints.map(cp => {
+    if (cp.isCurrent) {
+      return {
+        ...cp,
+        status: (newStatus === 'delivered' ? 'delivered' : 'delayed') as ShipmentStatus,
+        location: payload.location || cp.location,
+        timestamp: nowStr,
+        description: `Transit Delay Advisory: ${cleanExplanation}`
+      };
+    }
+    return cp;
+  }) : undefined;
+
+  const updatedShipment: Shipment = {
+    ...target,
+    status: newStatus,
+    checkpoints: updatedCheckpoints || target.checkpoints,
+    delayInfo: updatedDelayInfo,
+    deliveryTimeEstimate: `Delayed: Revised arrival ${updatedDelayInfo.revisedEta}`,
+    activities: [
+      {
+        id: `ACT-DLY-${Date.now()}`,
+        timestamp: nowStr,
+        actor: payload.updatedBy || 'Operations Desk',
+        role: 'Operations Desk',
+        event: `Delay advisory updated. Customer advisory: "${cleanExplanation}".`,
+        terminalCode: target.destinationHubCode || 'OPS-DESK'
+      },
+      ...target.activities
+    ]
+  };
+
+  current[index] = updatedShipment;
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
+    window.dispatchEvent(new Event('freightline_storage_update'));
+  }
 
   return updatedShipment;
 };

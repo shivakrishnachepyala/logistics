@@ -190,7 +190,7 @@ export const CreateShipmentPage: React.FC = () => {
       progressPercent: 5,
       eta: '2026-10-21 16:00',
       dispatchedAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
-      carrier: 'FreightLine Express Cargo India',
+      carrier: 'VELTRAX Express Cargo India',
       vesselOrFlight: 'Tata 407 (Doorstep Collection Vehicle)',
       priorityLevel: formData.priorityLevel,
       customsStatus: 'pre_approved',
@@ -208,7 +208,7 @@ export const CreateShipmentPage: React.FC = () => {
         state: formData.senderState,
         country: 'India',
         postalCode: formData.senderPin,
-        contactEmail: formData.senderEmail || 'support@freightline.in',
+        contactEmail: formData.senderEmail || 'support@veltrax.in',
         contactPhone: `+91 ${formData.senderMobile}`,
         taxIdOrEori: formData.senderGst,
       },
@@ -223,7 +223,7 @@ export const CreateShipmentPage: React.FC = () => {
         state: formData.receiverState,
         country: 'India',
         postalCode: formData.receiverPin,
-        contactEmail: formData.receiverEmail || 'support@freightline.in',
+        contactEmail: formData.receiverEmail || 'support@veltrax.in',
         contactPhone: `+91 ${formData.receiverMobile}`,
         taxIdOrEori: formData.receiverGst,
       },
@@ -1010,7 +1010,7 @@ export const CreateShipmentPage: React.FC = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b-2 border-asphalt pb-4 mb-4 gap-4">
                     <div>
                       <div className="font-heading font-black text-2xl uppercase tracking-tight text-asphalt">
-                        FREIGHTLINE PARCEL RECEIPT // पक्की बिल्टी
+                        VELTRAX PARCEL RECEIPT // पक्की बिल्टी
                       </div>
                       <div className="text-[11px] text-steel">
                         SAFE PARCEL CARRIAGE UNDER GOODS TRANSPORT RULES

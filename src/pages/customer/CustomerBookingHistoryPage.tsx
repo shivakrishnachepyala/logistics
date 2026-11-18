@@ -10,7 +10,7 @@ export const CustomerBookingHistoryPage: React.FC = () => {
   const customerId = customer?.id || '';
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'confirmed' | 'dispatched' | 'delivered' | 'cancelled'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'confirmed' | 'dispatched' | 'delivered' | 'delayed' | 'cancelled'>('all');
 
   const rawBookings = useMemo(() => {
     if (!customerId) return [];
@@ -206,13 +206,24 @@ export const CustomerBookingHistoryPage: React.FC = () => {
                     </td>
 
                     <td className="py-3.5 px-4 text-right">
-                      <Link
-                        to={`/track?id=${b.trackingId}`}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 bg-orange-50 hover:bg-orange-100 px-2.5 py-1 rounded-md transition-colors"
-                      >
-                        <IndustrialIcon name="search" size={12} />
-                        <span>Track</span>
-                      </Link>
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          to={`/account/receipt/${b.trackingId}`}
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 px-2.5 py-1 rounded-md transition-colors shadow-2xs"
+                          title="View official electronic lorry receipt (e-LR / Bilty)"
+                        >
+                          <IndustrialIcon name="file" size={12} className="text-orange-500" />
+                          <span>e-LR Bilty</span>
+                        </Link>
+
+                        <Link
+                          to={`/track?id=${b.trackingId}`}
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 bg-orange-50 hover:bg-orange-100 px-2.5 py-1 rounded-md transition-colors"
+                        >
+                          <IndustrialIcon name="search" size={12} />
+                          <span>Track</span>
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 ))}

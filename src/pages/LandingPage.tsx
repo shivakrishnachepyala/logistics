@@ -53,25 +53,27 @@ export const LandingPage: React.FC = () => {
             
             {/* Left Column (Headline & CTAs) - 7 cols */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              {/* Trust Badge */}
+              {/* Slogan & Trust Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200/80 text-orange-600 text-xs font-semibold shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>{lang === 'hi' ? 'आधुनिक एंटरप्राइज लॉजिस्टिक्स' : 'Enterprise Logistics Management Platform'}</span>
-                <span className="text-orange-300">•</span>
-                <span className="text-slate-600 font-medium">{lang === 'hi' ? '6 प्रमुख क्षेत्रीय हब कॉरिडोर' : '6 Regional Hub Corridors'}</span>
+                <span className="font-bold text-slate-900 tracking-wide">VELTRAX</span>
+                <span className="text-orange-400 font-bold">—</span>
+                <span className="font-mono font-bold tracking-wider text-orange-600 uppercase">MOVING BEYOND MILES.</span>
+                <span className="text-orange-300 hidden sm:inline">•</span>
+                <span className="text-slate-600 font-medium hidden sm:inline">{lang === 'hi' ? '6 प्रमुख क्षेत्रीय हब कॉरिडोर' : '6 Regional Hub Corridors'}</span>
               </div>
 
               {/* Main Headline */}
               <h1 className="font-sans font-bold text-4xl sm:text-5xl lg:text-6xl text-slate-900 tracking-tight leading-[1.08]">
                 {lang === 'hi' ? (
                   <>
-                    तेज, व्यवस्थित और पारदर्शी <br />
-                    <span className="text-orange-500">एक्सप्रेस पार्सल व माल ढुलाई।</span>
+                    वेलट्रैक्स — मीलों से आगे। <br />
+                    <span className="text-orange-500">तेज, व्यवस्थित और पारदर्शी माल ढुलाई।</span>
                   </>
                 ) : (
                   <>
-                    Deliver More. Move Smarter. <br />
-                    <span className="text-orange-500">With FreightLine.</span>
+                    VELTRAX — MOVING BEYOND MILES. <br />
+                    <span className="text-orange-500">Fast, Reliable & Connected Logistics.</span>
                   </>
                 )}
               </h1>
@@ -79,8 +81,8 @@ export const LandingPage: React.FC = () => {
               {/* Supporting Copy */}
               <p className="text-slate-600 text-base sm:text-lg leading-relaxed max-w-2xl font-normal">
                 {lang === 'hi'
-                  ? 'व्यापारियों, निर्माताओं और आधुनिक व्यवसायों के लिए डोरस्टेप पार्सल कलेक्शन, शेड्यूल्ड हाईवे कॉरिडोर और व्यवस्थित माल परिवहन।'
-                  : 'Enterprise-grade parcel delivery, scheduled highway corridors, and verified tracking across regional terminals for merchants, manufacturers, and growing businesses.'}
+                  ? 'वेलट्रैक्स एक तकनीक-संचालित लॉजिस्टिक्स प्रबंधन प्लेटफॉर्म है, जो व्यापारियों, निर्माताओं और आधुनिक व्यवसायों को डोरस्टेप पार्सल कलेक्शन, शेड्यूल्ड हाईवे कॉरिडोर और पारदर्शी डिलीवरी ऑपरेशंस से जोड़ता है।'
+                  : 'A technology-driven logistics management platform connecting businesses, customers, and transportation networks through reliable, fast, and efficient delivery operations.'}
               </p>
 
               {/* Dual Action CTAs */}
@@ -121,7 +123,7 @@ export const LandingPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: FreightLine Logistics Journey & Multimodal Illustration */}
+            {/* Right Column: VELTRAX Logistics Journey & Multimodal Illustration */}
             <div className="lg:col-span-5 relative mt-4 lg:mt-0">
               <div className="bg-white border border-slate-200/90 shadow-xl rounded-3xl p-6 sm:p-7 relative overflow-hidden transition-all hover:shadow-2xl">
 
@@ -207,27 +209,29 @@ export const LandingPage: React.FC = () => {
                     />
 
                     {/* Commercial Freight Truck on Highway */}
-                    <g transform="translate(205, 78)">
+                    <g transform="translate(182, 78)">
                       {/* Truck Shadow */}
-                      <ellipse cx="38" cy="29" rx="44" ry="7" fill="#0F172A" opacity="0.15" />
+                      <ellipse cx="58" cy="29" rx="62" ry="7" fill="#0F172A" opacity="0.15" />
                       {/* Truck Cargo Box */}
-                      <rect x="0" y="0" width="56" height="25" rx="3" fill="url(#truckBody)" />
-                      {/* FreightLine Branding on Cargo Box */}
-                      <rect x="5" y="5" width="15" height="15" rx="2" fill="#FFFFFF" opacity="0.9" />
-                      <text x="12.5" y="16" fill="#F97316" fontSize="10" fontWeight="bold" fontFamily="sans-serif" textAnchor="middle">F</text>
-                      <text x="24" y="16" fill="#FFFFFF" fontSize="8" fontWeight="bold" fontFamily="sans-serif">FREIGHTLINE</text>
+                      <rect x="0" y="0" width="94" height="25" rx="3" fill="url(#truckBody)" />
+                      {/* VELTRAX Branding on Cargo Box */}
+                      <rect x="9" y="5" width="15" height="15" rx="2.5" fill="#FFFFFF" opacity="0.95" />
+                      <text x="16.5" y="15.8" fill="#F97316" fontSize="9.5" fontWeight="bold" fontFamily="sans-serif" textAnchor="middle">V</text>
+                      <text x="30" y="15.8" fill="#FFFFFF" fontSize="8" fontWeight="bold" fontFamily="sans-serif" letterSpacing="0.8">VELTRAX</text>
                       {/* Truck Cabin */}
-                      <path d="M 56 8 L 70 8 L 78 17 L 78 25 L 56 25 Z" fill="#0F172A" />
-                      <path d="M 58 10 L 68 10 L 73 17 L 58 17 Z" fill="#94A3B8" />
+                      <path d="M 94 8 L 108 8 L 116 17 L 116 25 L 94 25 Z" fill="#0F172A" />
+                      <path d="M 96 10 L 106 10 L 111 17 L 96 17 Z" fill="#94A3B8" />
                       {/* Headlight beam */}
-                      <polygon points="78,19 98,16 98,25 78,23" fill="#FDE047" opacity="0.4" />
+                      <polygon points="116,19 136,16 136,25 116,23" fill="#FDE047" opacity="0.4" />
                       {/* Wheels */}
                       <circle cx="14" cy="25" r="5" fill="#0F172A" />
                       <circle cx="14" cy="25" r="2" fill="#CBD5E1" />
-                      <circle cx="46" cy="25" r="5" fill="#0F172A" />
-                      <circle cx="46" cy="25" r="2" fill="#CBD5E1" />
-                      <circle cx="68" cy="25" r="5" fill="#0F172A" />
-                      <circle cx="68" cy="25" r="2" fill="#CBD5E1" />
+                      <circle cx="28" cy="25" r="5" fill="#0F172A" />
+                      <circle cx="28" cy="25" r="2" fill="#CBD5E1" />
+                      <circle cx="78" cy="25" r="5" fill="#0F172A" />
+                      <circle cx="78" cy="25" r="2" fill="#CBD5E1" />
+                      <circle cx="106" cy="25" r="5" fill="#0F172A" />
+                      <circle cx="106" cy="25" r="2" fill="#CBD5E1" />
                     </g>
 
                     {/* Origin Warehouse / Distribution Hub (Left) */}
@@ -332,8 +336,8 @@ export const LandingPage: React.FC = () => {
             </h2>
             <p className="text-sm text-slate-500 max-w-lg mx-auto">
               {lang === 'hi'
-                ? 'अपनी बिलती रसीद या कंसाइनमेंट नंबर दर्ज करें और चेकपॉइंट प्रगति देखें।'
-                : 'Enter your FreightLine Consignment ID or Bilty number to view transit checkpoints, route status, and expected delivery.'}
+                ? 'अपनी वेलट्रैक्स बिलती रसीद या कंसाइनमेंट नंबर दर्ज करें और चेकपॉइंट प्रगति देखें।'
+                : 'Enter your VELTRAX Consignment ID or Bilty number to view transit checkpoints, route status, and expected delivery.'}
             </p>
           </div>
 
@@ -501,7 +505,7 @@ export const LandingPage: React.FC = () => {
               {lang === 'hi' ? 'सरल प्रक्रिया' : 'Simple 4-Step Journey'}
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
-              {lang === 'hi' ? 'पार्सल भेजना अब बेहद आसान' : 'How FreightLine Works for You'}
+              {lang === 'hi' ? 'पार्सल भेजना अब बेहद आसान' : 'How VELTRAX Works for You'}
             </h2>
             <p className="text-sm text-slate-500 mt-2">
               {lang === 'hi'
@@ -574,7 +578,7 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. WHY FREIGHTLINE SECTION */}
+      {/* 5. WHY VELTRAX SECTION */}
       <section id="about" className="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -582,7 +586,7 @@ export const LandingPage: React.FC = () => {
             {/* Left 6 cols */}
             <div className="lg:col-span-6 space-y-6">
               <div className="text-xs font-semibold uppercase tracking-wider text-orange-600">
-                {lang === 'hi' ? 'हमारा संकल्प' : 'Why Businesses Choose FreightLine'}
+                {lang === 'hi' ? 'हमारा संकल्प' : 'Why Businesses Choose VELTRAX'}
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
                 {lang === 'hi'
@@ -660,7 +664,7 @@ export const LandingPage: React.FC = () => {
                 <div className="absolute top-0 right-0 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
 
                 <div className="text-xs font-semibold text-orange-400 uppercase tracking-wider mb-2">
-                  FreightLine Architecture
+                  VELTRAX Architecture
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 leading-snug">
                   {lang === 'hi' ? 'पारदर्शी माल परिवहन व्यवस्था' : 'Transparent Logistics Built for Growth'}
@@ -874,10 +878,39 @@ export const LandingPage: React.FC = () => {
                   </div>
                   <div className="text-sm font-bold text-slate-900 mt-0.5 flex items-center gap-2">
                     <IndustrialIcon name="file" size={16} className="text-orange-500" />
-                    <span>support@freightline.in</span>
+                    <span>support@veltrax.in</span>
                   </div>
                   <div className="text-xs text-slate-500 mt-1">
                     {lang === 'hi' ? 'ऑनलाइन दर व रूट संबंधी जानकारी' : 'Online inquiry desk for freight rates and scheduling'}
+                  </div>
+                </div>
+
+                <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs">
+                  <div className="text-xs text-slate-400 font-medium uppercase tracking-wide">
+                    {lang === 'hi' ? 'व्हाट्सएप सहायता' : 'WhatsApp Desk'}
+                  </div>
+                  <div className="text-sm font-bold text-slate-900 mt-1 flex flex-wrap items-center justify-between gap-2">
+                    <a
+                      href="https://wa.me/916303766064"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#25D366] hover:text-[#20bd5a] font-mono text-base font-bold flex items-center gap-2 transition-colors"
+                      title="Chat on WhatsApp (+91 6303766064)"
+                    >
+                      <IndustrialIcon name="phone" size={16} />
+                      <span>+91 6303766064</span>
+                    </a>
+                    <a
+                      href="https://wa.me/916303766064"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-semibold px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1.5 shadow-2xs"
+                    >
+                      <span>{lang === 'hi' ? 'व्हाट्सएप चैट' : 'Chat on WhatsApp'}</span>
+                    </a>
+                  </div>
+                  <div className="text-xs text-slate-500 mt-1">
+                    {lang === 'hi' ? 'बुकिंग व लाइव पार्सल पूछताछ के लिए 24/7 संपर्क' : 'Direct WhatsApp chat for booking, rates & tracking assistance'}
                   </div>
                 </div>
               </div>

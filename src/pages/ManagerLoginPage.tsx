@@ -10,8 +10,8 @@ export const ManagerLoginPage: React.FC = () => {
   const [branches] = useState(() => getBranches());
 
   // Form State
-  const [email, setEmail] = useState<string>('admin@freightline.in');
-  const [password, setPassword] = useState<string>('freightline2026');
+  const [email, setEmail] = useState<string>('admin@veltrax.in');
+  const [password, setPassword] = useState<string>('veltrax2026');
   const [selectedBranch, setSelectedBranch] = useState<string>('DEL-CENTRAL');
   const [rememberMe, setRememberMe] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -32,6 +32,7 @@ export const ManagerLoginPage: React.FC = () => {
       };
 
       if (typeof window !== 'undefined') {
+        localStorage.setItem('veltrax_manager_auth', JSON.stringify(authSession));
         localStorage.setItem('freightline_manager_auth', JSON.stringify(authSession));
       }
 
@@ -44,7 +45,7 @@ export const ManagerLoginPage: React.FC = () => {
 
   const applyDemoPreset = (presetEmail: string, presetBranch: string, presetRole: 'admin' | 'dispatcher') => {
     setEmail(presetEmail);
-    setPassword('freightline2026');
+    setPassword('veltrax2026');
     setSelectedBranch(presetBranch);
 
     const authSession = {
@@ -57,6 +58,7 @@ export const ManagerLoginPage: React.FC = () => {
     };
 
     if (typeof window !== 'undefined') {
+      localStorage.setItem('veltrax_manager_auth', JSON.stringify(authSession));
       localStorage.setItem('freightline_manager_auth', JSON.stringify(authSession));
     }
 
@@ -90,10 +92,10 @@ export const ManagerLoginPage: React.FC = () => {
         {/* Brand Header */}
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-orange-500 text-white font-black text-2xl shadow-lg mb-3">
-            F
+            V
           </div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center justify-center gap-2">
-            FREIGHTLINE
+            VELTRAX
             <span className="w-2 h-2 rounded-full bg-orange-500 inline-block"></span>
           </h1>
           <p className="mt-1 text-xs font-medium uppercase tracking-widest text-slate-400">
@@ -126,7 +128,7 @@ export const ManagerLoginPage: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@freightline.in"
+                  placeholder="name@veltrax.in"
                   className="w-full pl-9 pr-3 py-2.5 bg-slate-900/90 border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent font-medium"
                 />
                 <span className="absolute left-3 top-3 text-slate-500 pointer-events-none">
@@ -211,28 +213,28 @@ export const ManagerLoginPage: React.FC = () => {
             <div className="space-y-2">
               <button
                 type="button"
-                onClick={() => applyDemoPreset('admin@freightline.in', 'DEL-CENTRAL', 'admin')}
+                onClick={() => applyDemoPreset('admin@veltrax.in', 'DEL-CENTRAL', 'admin')}
                 className="w-full flex items-center justify-between px-3 py-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-700/60 hover:border-slate-600 rounded-lg text-left transition-colors text-xs text-slate-300 group"
               >
                 <div>
                   <div className="font-semibold text-white group-hover:text-orange-400 transition-colors">
                     Operations Administrator
                   </div>
-                  <div className="text-[10px] text-slate-500 font-mono">admin@freightline.in • National Scope</div>
+                  <div className="text-[10px] text-slate-500 font-mono">admin@veltrax.in • National Scope</div>
                 </div>
                 <span className="text-xs text-orange-400 font-medium">1-Click Launch →</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => applyDemoPreset('dispatcher@freightline.in', 'MH-MUMBAI', 'dispatcher')}
+                onClick={() => applyDemoPreset('dispatcher@veltrax.in', 'MH-MUMBAI', 'dispatcher')}
                 className="w-full flex items-center justify-between px-3 py-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-700/60 hover:border-slate-600 rounded-lg text-left transition-colors text-xs text-slate-300 group"
               >
                 <div>
                   <div className="font-semibold text-white group-hover:text-orange-400 transition-colors">
                     Regional Dispatch Controller
                   </div>
-                  <div className="text-[10px] text-slate-500 font-mono">dispatcher@freightline.in • Mumbai Hub</div>
+                  <div className="text-[10px] text-slate-500 font-mono">dispatcher@veltrax.in • Mumbai Hub</div>
                 </div>
                 <span className="text-xs text-orange-400 font-medium">1-Click Launch →</span>
               </button>
@@ -242,7 +244,7 @@ export const ManagerLoginPage: React.FC = () => {
 
         {/* Footer info */}
         <div className="mt-6 text-center text-xs text-slate-500">
-          FreightLine Enterprise LMS • Academic Showcase • Safe Local Simulation
+          VELTRAX Enterprise LMS • Academic Showcase • Safe Local Simulation
         </div>
       </div>
     </div>

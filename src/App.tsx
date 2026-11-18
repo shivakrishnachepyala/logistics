@@ -1,5 +1,6 @@
 import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, Navigate, useParams } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { EnterpriseProvider } from './context/EnterpriseContext';
 import { CustomerAuthProvider } from './context/CustomerAuthContext';
@@ -9,6 +10,7 @@ import { CustomerLayout } from './layouts/CustomerLayout';
 
 // Public Lazy Routes
 const LandingPage = lazy(() => import('./pages/LandingPage').then(m => ({ default: m.LandingPage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 const TrackingPage = lazy(() => import('./pages/TrackingPage').then(m => ({ default: m.TrackingPage })));
 const ReceiverPortalPage = lazy(() => import('./pages/ReceiverPortalPage').then(m => ({ default: m.ReceiverPortalPage })));
 const CreateShipmentPage = lazy(() => import('./pages/CreateShipmentPage').then(m => ({ default: m.CreateShipmentPage })));
@@ -22,6 +24,7 @@ const CustomerBookShipmentPage = lazy(() => import('./pages/customer/CustomerBoo
 const CustomerAddressesPage = lazy(() => import('./pages/customer/CustomerAddressesPage').then(m => ({ default: m.CustomerAddressesPage })));
 const CustomerBookingHistoryPage = lazy(() => import('./pages/customer/CustomerBookingHistoryPage').then(m => ({ default: m.CustomerBookingHistoryPage })));
 const CustomerProfilePage = lazy(() => import('./pages/customer/CustomerProfilePage').then(m => ({ default: m.CustomerProfilePage })));
+const ParcelReceiptPage = lazy(() => import('./pages/customer/ParcelReceiptPage').then(m => ({ default: m.ParcelReceiptPage })));
 
 // Manager Login Screen
 const ManagerLoginPage = lazy(() => import('./pages/ManagerLoginPage').then(m => ({ default: m.ManagerLoginPage })));
@@ -60,7 +63,7 @@ function RouteLoadingFallback() {
         </div>
         <div>
           <div className="font-heading font-bold text-sm tracking-tight text-slate-900">
-            FREIGHTLINE ENTERPRISE LMS
+            VELTRAX ENTERPRISE LMS
           </div>
           <div className="text-slate-500 text-xs mt-0.5">
             Loading operational manifest & logistics telemetry...
@@ -74,24 +77,39 @@ function RouteLoadingFallback() {
 // Dynamic Backward Compatibility Redirect for Shipments
 function LegacyShipmentRedirect() {
   const { id } = useParams();
-  return <Navigate to={`/manager/shipment/${id}`} replace />;
+  const isManager = typeof window !== 'undefined' && (() => {
+    try {
+      const stored = localStorage.getItem('veltrax_manager_auth') || localStorage.getItem('freightline_manager_auth');
+      return stored ? JSON.parse(stored)?.isAuthenticated : false;
+    } catch {
+      return false;
+    }
+  })();
+
+  if (isManager) {
+    return <Navigate to={`/manager/shipment/${id}`} replace />;
+  }
+  return <Navigate to={`/receipt/${id}`} replace />;
 }
 
 function App() {
   return (
-    <LanguageProvider>
-      <EnterpriseProvider>
-        <CustomerAuthProvider>
-          <BrowserRouter>
+    <ThemeProvider>
+      <LanguageProvider>
+        <EnterpriseProvider>
+          <CustomerAuthProvider>
+            <BrowserRouter>
             <ScrollToTop />
             <Suspense fallback={<RouteLoadingFallback />}>
               <Routes>
                 {/* 1. Public Portal Experience (Customer-Friendly, No Management Sidebar) */}
                 <Route element={<PublicLayout />}>
                   <Route path="/" element={<LandingPage />} />
+                  <Route path="/about" element={<AboutPage />} />
                   <Route path="/track" element={<TrackingPage />} />
                   <Route path="/r/:id" element={<ReceiverPortalPage />} />
                   <Route path="/create" element={<CreateShipmentPage />} />
+                  <Route path="/receipt/:id" element={<ParcelReceiptPage />} />
                 </Route>
 
                 {/* 2. Customer Portal Auth Routes */}
@@ -106,6 +124,7 @@ function App() {
                   <Route path="addresses" element={<CustomerAddressesPage />} />
                   <Route path="history" element={<CustomerBookingHistoryPage />} />
                   <Route path="profile" element={<CustomerProfilePage />} />
+                  <Route path="receipt/:id" element={<ParcelReceiptPage />} />
                 </Route>
 
                 {/* 4. Manager Portal Simulated Login */}
@@ -126,6 +145,7 @@ function App() {
                   <Route path="customers" element={<CustomersStaffPage />} />
                   <Route path="billing" element={<PaymentsBillingPage />} />
                   <Route path="analytics" element={<ReportsAnalyticsPage />} />
+                  <Route path="reports" element={<Navigate to="/manager/analytics" replace />} />
                   <Route path="branches" element={<BranchManagementPage />} />
                   <Route path="settings" element={<SettingsPage />} />
                 </Route>
@@ -153,6 +173,7 @@ function App() {
         </CustomerAuthProvider>
       </EnterpriseProvider>
     </LanguageProvider>
+  </ThemeProvider>
   );
 }
 

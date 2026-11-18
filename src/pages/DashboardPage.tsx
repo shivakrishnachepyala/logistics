@@ -4,13 +4,13 @@ import { getStoredShipments, getDrivers } from '../data/mockShipments';
 import type { Shipment, DriverInfo, ServiceMode } from '../types';
 import { AppIcon } from '../components/common/AppIcon';
 import { useEnterprise, BRANCH_NAMES } from '../context/EnterpriseContext';
+import { FreightVolumeVelocityChart } from '../components/dashboard/FreightVolumeVelocityChart';
 
 export const DashboardPage: React.FC = () => {
   const { branch, branchLabel, role } = useEnterprise();
   const [shipments, setShipments] = useState<Shipment[]>(() => getStoredShipments());
   const [drivers, setDrivers] = useState<DriverInfo[]>(() => getDrivers());
   const [lastSynced, setLastSynced] = useState<string>(() => new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-  const [selectedTimeframe, setSelectedTimeframe] = useState<'7d' | '30d' | '90d'>('7d');
 
   useEffect(() => {
     const handleUpdate = () => {
@@ -101,17 +101,6 @@ export const DashboardPage: React.FC = () => {
       { mode: 'ocean_freight' as ServiceMode, label: 'Ocean Container', count: counts.ocean_freight, pct: Math.round((counts.ocean_freight / total) * 100), color: '#3B82F6', icon: 'ship' as const }
     ];
   }, [hubFilteredShipments]);
-
-  // 7-day velocity chart data
-  const weeklyTrends = useMemo(() => [
-    { day: 'Mon', dispatched: 14, delivered: 12 },
-    { day: 'Tue', dispatched: 19, delivered: 15 },
-    { day: 'Wed', dispatched: 22, delivered: 18 },
-    { day: 'Thu', dispatched: 18, delivered: 17 },
-    { day: 'Fri', dispatched: 24, delivered: 21 },
-    { day: 'Sat', dispatched: 16, delivered: 19 },
-    { day: 'Sun', dispatched: 11, delivered: 14 },
-  ], []);
 
   // Extract recent activities from shipments
   const recentActivities = useMemo(() => {
@@ -260,7 +249,7 @@ export const DashboardPage: React.FC = () => {
 
             <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
               <Link
-                to={`/shipment/${delayedShipments[0].id}`}
+                to={`/manager/shipment/${delayedShipments[0].id}`}
                 className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors"
               >
                 Inspect Manifest
@@ -444,111 +433,9 @@ export const DashboardPage: React.FC = () => {
 
       {/* 4. Visual Analytics: Velocity Trends & Multimodal Distribution */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left: Dispatch Velocity & Trend (SVG Chart) */}
-        <div className="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-saas-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="font-heading font-bold text-sm sm:text-base text-slate-900">
-                Weekly Freight Volume & Velocity
-              </h2>
-              <p className="text-xs text-slate-500">
-                Daily consignments dispatched vs delivered across all transit hubs
-              </p>
-            </div>
-
-            <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-xs font-medium text-slate-600">
-              {(['7d', '30d', '90d'] as const).map((tf) => (
-                <button
-                  key={tf}
-                  onClick={() => setSelectedTimeframe(tf)}
-                  className={`px-2.5 py-1 rounded-md transition-colors ${
-                    selectedTimeframe === tf ? 'bg-white text-slate-900 shadow-xs font-semibold' : 'hover:text-slate-900'
-                  }`}
-                >
-                  {tf.toUpperCase()}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Clean SVG Area & Bar Chart */}
-          <div className="h-56 sm:h-64 w-full pt-4">
-            <svg viewBox="0 0 500 200" className="w-full h-full overflow-visible">
-              <defs>
-                <linearGradient id="velocityGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#F97316" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#F97316" stopOpacity="0.0" />
-                </linearGradient>
-                <linearGradient id="deliveredGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#10B981" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#10B981" stopOpacity="0.0" />
-                </linearGradient>
-              </defs>
-
-              {/* Grid Lines */}
-              <line x1="30" y1="20" x2="480" y2="20" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="3 3" />
-              <line x1="30" y1="65" x2="480" y2="65" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="3 3" />
-              <line x1="30" y1="110" x2="480" y2="110" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="3 3" />
-              <line x1="30" y1="155" x2="480" y2="155" stroke="#E2E8F0" strokeWidth="1" />
-
-              {/* Y Axis Labels */}
-              <text x="20" y="24" fontSize="9" fill="#94A3B8" textAnchor="end">25</text>
-              <text x="20" y="69" fontSize="9" fill="#94A3B8" textAnchor="end">20</text>
-              <text x="20" y="114" fontSize="9" fill="#94A3B8" textAnchor="end">15</text>
-              <text x="20" y="159" fontSize="9" fill="#94A3B8" textAnchor="end">10</text>
-
-              {/* Smooth Dispatched Area Path */}
-              <path
-                d="M 60 100 Q 125 60 190 35 T 320 70 T 385 25 T 450 120 L 450 155 L 60 155 Z"
-                fill="url(#velocityGrad)"
-              />
-              <path
-                d="M 60 100 Q 125 60 190 35 T 320 70 T 385 25 T 450 120"
-                fill="none"
-                stroke="#F97316"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-
-              {/* Delivered Trend Line */}
-              <path
-                d="M 60 115 Q 125 85 190 65 T 320 80 T 385 45 T 450 100"
-                fill="none"
-                stroke="#10B981"
-                strokeWidth="2"
-                strokeDasharray="4 2"
-                strokeLinecap="round"
-              />
-
-              {/* Data points & X Labels */}
-              {weeklyTrends.map((d, i) => {
-                const x = 60 + i * 65;
-                return (
-                  <g key={d.day}>
-                    <line x1={x} y1="155" x2={x} y2="160" stroke="#94A3B8" strokeWidth="1" />
-                    <text x={x} y="174" fontSize="10" fill="#64748B" textAnchor="middle" fontWeight="500">
-                      {d.day}
-                    </text>
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
-
-          {/* Chart Legend */}
-          <div className="flex items-center justify-between border-t border-slate-100 pt-3 text-xs text-slate-500">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-1 rounded-full bg-orange-500 inline-block"></span>
-                <span className="text-slate-700 font-medium">Dispatches Outbound</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-1 rounded-full bg-emerald-500 inline-block border-b border-dashed border-emerald-600"></span>
-                <span className="text-slate-700 font-medium">Delivered Inbound</span>
-              </div>
-            </div>
-            <span className="text-[11px] text-slate-400">Peak Volume: Friday (24 units)</span>
-          </div>
+        {/* Left: Dispatch Velocity & Trend (Interactive Dynamic Chart) */}
+        <div className="lg:col-span-2">
+          <FreightVolumeVelocityChart />
         </div>
 
         {/* Right: Modal Split Distribution */}
@@ -762,7 +649,7 @@ export const DashboardPage: React.FC = () => {
                     <span className="font-mono text-slate-500">{act.terminalCode}</span>
                     <span>•</span>
                     <Link
-                      to={`/shipment/${act.shipmentId}`}
+                      to={`/manager/shipment/${act.shipmentId}`}
                       className="text-orange-600 hover:underline font-mono"
                     >
                       {act.shipmentId}

@@ -55,25 +55,25 @@ export const Breadcrumbs: React.FC = () => {
   }
 
   return (
-    <nav className="flex items-center text-xs font-medium text-slate-500 mb-2 gap-1.5" aria-label="Breadcrumb">
+    <nav className="flex items-center text-xs font-medium text-slate-500 dark:text-slate-400 mb-2 gap-1.5" aria-label="Breadcrumb">
       <Link
         to="/manager/dashboard"
-        className="hover:text-slate-900 transition-colors flex items-center gap-1 text-slate-500"
+        className="hover:text-slate-900 dark:hover:text-white transition-colors flex items-center gap-1 text-slate-500 dark:text-slate-400"
       >
-        <AppIcon name="dashboard" size={14} className="text-slate-400" />
+        <AppIcon name="dashboard" size={14} className="text-slate-400 dark:text-slate-500" />
         <span>Operations</span>
       </Link>
 
-      <span className="text-slate-300">/</span>
+      <span className="text-slate-300 dark:text-slate-600">/</span>
 
       {current.group !== 'Operations' && (
         <>
-          <span className="text-slate-500">{current.group}</span>
-          <span className="text-slate-300">/</span>
+          <span className="text-slate-500 dark:text-slate-400">{current.group}</span>
+          <span className="text-slate-300 dark:text-slate-600">/</span>
         </>
       )}
 
-      <span className="text-slate-900 font-semibold">{current.label}</span>
+      <span className="text-slate-900 dark:text-slate-100 font-semibold">{current.label}</span>
     </nav>
   );
 };

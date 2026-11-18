@@ -172,11 +172,11 @@ export const PhotoProofCard: React.FC<PhotoProofCardProps> = ({ photoProof, ship
 
       {/* Report a Problem Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-asphalt/80 flex items-center justify-center p-4 select-none">
-          <div className="bg-chalk border-[2px] border-asphalt max-w-lg w-full p-6 stamp-lg font-body relative">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 select-none">
+          <div className="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 shadow-2xl font-body relative">
             <button
               onClick={() => setModalOpen(false)}
-              className="absolute top-4 right-4 text-steel hover:text-asphalt font-mono text-xl font-bold w-8 h-8 flex items-center justify-center border border-asphalt bg-paper"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 font-mono text-xl font-bold w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors"
               aria-label="Close"
             >
               ×

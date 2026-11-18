@@ -1025,8 +1025,8 @@ export const CustomersStaffPage: React.FC = () => {
 
       {/* MODAL: ADD / EDIT CUSTOMER */}
       {showAddCustomerModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-2xl my-8 overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-2xl my-8 overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-slate-50">
               <h2 className="text-lg font-bold text-navy">
                 {editingCustomer ? `Edit Customer: ${editingCustomer.name}` : 'Register New Customer Account'}
@@ -1201,8 +1201,8 @@ export const CustomersStaffPage: React.FC = () => {
 
       {/* MODAL: VIEW CUSTOMER PROFILE & HISTORY */}
       {viewingCustomer && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-3xl my-8 overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-slate-50">
               <div>
                 <h2 className="text-lg font-bold text-navy">{viewingCustomer.name}</h2>
@@ -1369,8 +1369,8 @@ export const CustomersStaffPage: React.FC = () => {
 
       {/* MODAL: DELETE CONFIRMATION (CUSTOMER) */}
       {deletingCustomerId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
             <div className="flex items-center gap-3 text-rose-600">
               <div className="p-2.5 rounded-full bg-rose-50 border border-rose-200">
                 <AppIcon name="alert" size={20} />
@@ -1401,8 +1401,8 @@ export const CustomersStaffPage: React.FC = () => {
 
       {/* MODAL: ADD / EDIT STAFF */}
       {showAddStaffModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-2xl my-8 overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-2xl my-8 overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-slate-50">
               <h2 className="text-lg font-bold text-navy">
                 {editingStaff ? `Edit Personnel: ${editingStaff.fullName}` : 'Onboard New Staff Member'}
@@ -1479,7 +1479,7 @@ export const CustomersStaffPage: React.FC = () => {
                     value={stfForm.email || ''}
                     onChange={(e) => setStfForm({ ...stfForm, email: e.target.value })}
                     className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
-                    placeholder="name@freightline.in"
+                    placeholder="name@veltrax.in"
                   />
                 </div>
 
@@ -1554,8 +1554,8 @@ export const CustomersStaffPage: React.FC = () => {
 
       {/* MODAL: VIEW STAFF PROFILE */}
       {viewingStaff && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-lg p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-lg p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-border pb-3">
               <div>
                 <h3 className="text-base font-bold text-navy">{viewingStaff.fullName}</h3>
@@ -1618,8 +1618,8 @@ export const CustomersStaffPage: React.FC = () => {
 
       {/* MODAL: DELETE CONFIRMATION (STAFF) */}
       {deletingStaffId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
             <div className="flex items-center gap-3 text-rose-600">
               <div className="p-2.5 rounded-full bg-rose-50 border border-rose-200">
                 <AppIcon name="alert" size={20} />

@@ -1,3 +1,5 @@
+export * from './analytics';
+
 export type UserRole = 'admin' | 'dispatcher' | 'driver' | 'customer';
 export type BranchId = 'all' | 'DEL-CENTRAL' | 'JPR-MAIN' | 'GJ-SURAT' | 'MH-MUMBAI' | 'TN-CHENNAI';
 
@@ -93,10 +95,32 @@ export interface DriverInfo {
   rating: number;
 }
 
+export type DelayReasonCode =
+  | 'heavy_rain'
+  | 'road_blocked'
+  | 'festival_rush'
+  | 'vehicle_breakdown'
+  | 'receiver_unavailable'
+  | 'wrong_address'
+  | 'other';
+
+export interface DelayHistoryEntry {
+  id: string;
+  timestamp: string;
+  updatedBy: string; // e.g. "Rameshwar Dayal (Operations Desk)"
+  reasonCode: DelayReasonCode;
+  customerExplanation: string;
+  internalNotes?: string; // Private staff-only operational notes, NEVER exposed to customer
+  actionTaken?: string;
+  revisedEta?: string;
+  location?: string;
+  status: ShipmentStatus;
+}
+
 export interface DelayInfo {
   reason: string;
   reasonHindi?: string;
-  reasonCode: 'heavy_rain' | 'road_blocked' | 'festival_rush' | 'vehicle_breakdown' | 'receiver_unavailable' | 'wrong_address';
+  reasonCode: DelayReasonCode;
   durationHours: number;
   durationText: string;
   originalEta: string;
@@ -104,6 +128,11 @@ export interface DelayInfo {
   location: string;
   historyText: string;
   actionOption?: 'change_time' | 'call_us' | 'confirm_address';
+  customerExplanation?: string;
+  internalNotes?: string; // Internal operational notes (Staff only)
+  actionTaken?: string;   // Short explanation of the action being taken
+  updatedAt?: string;     // Last update timestamp
+  history?: DelayHistoryEntry[];
 }
 
 export interface PhotoProof {

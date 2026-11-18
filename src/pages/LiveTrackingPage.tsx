@@ -460,7 +460,7 @@ export const LiveTrackingPage: React.FC = () => {
 
             {/* Radar Canvas Watermark */}
             <div className="absolute bottom-2 left-3 text-[10px] text-slate-400 font-mono pointer-events-none">
-              FreightLine GIS Corridor Engine v2.4 • Dynamic Vector Projection
+              VELTRAX GIS Corridor Engine v2.4 • Dynamic Vector Projection
             </div>
           </div>
         </div>
@@ -609,7 +609,7 @@ export const LiveTrackingPage: React.FC = () => {
               {/* Quick Actions */}
               <div className="pt-2 flex items-center gap-2">
                 <Link
-                  to={`/shipment/${selectedShipment.id}`}
+                  to={`/manager/shipment/${selectedShipment.id}`}
                   className="flex-1 py-2 px-3 text-center bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition-colors"
                 >
                   Inspect Electronic Bilty

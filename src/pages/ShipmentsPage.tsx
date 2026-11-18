@@ -4,6 +4,7 @@ import { getStoredShipments } from '../data/mockShipments';
 import type { Shipment, ShipmentStatus, ServiceMode } from '../types';
 import { AppIcon } from '../components/common/AppIcon';
 import { useEnterprise } from '../context/EnterpriseContext';
+import { UpdateDelayModal } from '../components/tracking/UpdateDelayModal';
 
 type SortField = 'date' | 'id' | 'weight' | 'status' | 'progress';
 type SortOrder = 'asc' | 'desc';
@@ -18,6 +19,7 @@ export const ShipmentsPage: React.FC = () => {
   const [sortField, setSortField] = useState<SortField>('date');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [delayModalShipment, setDelayModalShipment] = useState<Shipment | null>(null);
   const pageSize = 8;
 
   useEffect(() => {
@@ -437,7 +439,7 @@ export const ShipmentsPage: React.FC = () => {
                       {/* Consignment ID & Bilty */}
                       <td className="py-3 px-4">
                         <Link
-                          to={`/shipment/${s.id}`}
+                          to={`/manager/shipment/${s.id}`}
                           className="font-mono font-bold text-slate-900 hover:text-orange-600 transition-colors block"
                         >
                           {s.id}
@@ -558,8 +560,21 @@ export const ShipmentsPage: React.FC = () => {
                             </Link>
                           )}
 
+                          <button
+                            type="button"
+                            onClick={() => setDelayModalShipment(s)}
+                            className="p-1.5 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded transition-colors"
+                            title="Record or update delay advisory"
+                          >
+                            <AppIcon
+                              name="alert"
+                              size={14}
+                              className={s.status === 'delayed' || s.delayInfo ? "text-amber-600" : ""}
+                            />
+                          </button>
+
                           <Link
-                            to={`/shipment/${s.id}`}
+                            to={`/manager/shipment/${s.id}`}
                             className="p-1.5 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded transition-colors"
                             title="Inspect details & Bilty"
                           >
@@ -607,6 +622,19 @@ export const ShipmentsPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Manager Delay Update Modal */}
+      {delayModalShipment && (
+        <UpdateDelayModal
+          isOpen={!!delayModalShipment}
+          onClose={() => setDelayModalShipment(null)}
+          shipment={delayModalShipment}
+          onSuccess={() => {
+            setShipments(getStoredShipments());
+            setDelayModalShipment(null);
+          }}
+        />
+      )}
     </div>
   );
 };

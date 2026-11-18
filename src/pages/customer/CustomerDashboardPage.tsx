@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCustomerAuth } from '../../context/useCustomerAuth';
 import { getShipmentsByCustomerId } from '../../data/mockShipments';
@@ -6,17 +6,26 @@ import { getBookingsByCustomerId, getAddressesByCustomerId } from '../../data/mo
 import { IndustrialIcon } from '../../components/common/IndustrialIcon';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { formatCurrency } from '../../utils/indiaHelpers';
+import type { Shipment } from '../../types';
 
 export const CustomerDashboardPage: React.FC = () => {
   const { customer } = useCustomerAuth();
   const navigate = useNavigate();
   const [quickTrackId, setQuickTrackId] = useState('');
-
   const customerId = customer?.id || '';
+  const [shipments, setShipments] = useState<Shipment[]>(() => customerId ? getShipmentsByCustomerId(customerId) : []);
 
-  const shipments = useMemo(() => {
-    if (!customerId) return [];
-    return getShipmentsByCustomerId(customerId);
+  useEffect(() => {
+    const handleUpdate = () => {
+      if (customerId) setShipments(getShipmentsByCustomerId(customerId));
+    };
+    handleUpdate();
+    window.addEventListener('freightline_storage_update', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('freightline_storage_update', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
   }, [customerId]);
 
   const bookings = useMemo(() => {
@@ -187,6 +196,52 @@ export const CustomerDashboardPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Active Delay Advisory Banner if customer has a delayed shipment */}
+      {shipments.filter(s => s.status === 'delayed').map(delayedShipment => (
+        <div
+          key={delayedShipment.id}
+          className="bg-amber-50 border-2 border-amber-400/90 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+        >
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <IndustrialIcon name="alert" size={20} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500 text-white font-mono">
+                  DELIVERY DELAYED
+                </span>
+                <span className="font-mono text-xs font-bold text-slate-800">
+                  {delayedShipment.id}
+                </span>
+                <span className="text-xs text-slate-400">•</span>
+                <span className="text-xs text-slate-600 font-medium">
+                  {delayedShipment.sender.city} → {delayedShipment.receiver.city}
+                </span>
+              </div>
+              <div className="text-sm font-bold text-slate-900 mt-1">
+                {delayedShipment.delayInfo?.customerExplanation || delayedShipment.delayInfo?.reason || 'Unexpected transportation disruption along the delivery route.'}
+              </div>
+              <div className="text-xs text-slate-500 mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span><strong>Revised Delivery:</strong> <span className="text-amber-800 font-bold">{delayedShipment.delayInfo?.revisedEta || 'New delivery estimate pending'}</span></span>
+                <span>•</span>
+                <span><strong>Location:</strong> {delayedShipment.delayInfo?.location || `${delayedShipment.originHub} → ${delayedShipment.destinationHub}`}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
+            <Link
+              to="/account/shipments"
+              className="px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors flex items-center gap-1.5"
+            >
+              <span>View Advisory Details</span>
+              <IndustrialIcon name="arrow-right" size={12} />
+            </Link>
+          </div>
+        </div>
+      ))}
+
       {/* 4. Active Shipments Directory (Customer-Isolated) */}
       <div className="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
         <div className="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -261,6 +316,14 @@ export const CustomerDashboardPage: React.FC = () => {
 
                     <td className="py-3.5 px-4">
                       <StatusBadge status={s.status} />
+                      {(s.status === 'delayed' || s.delayInfo) && (
+                        <Link
+                          to="/account/shipments"
+                          className="text-[10px] text-amber-700 font-semibold block mt-1 hover:underline"
+                        >
+                          Advisory Notice →
+                        </Link>
+                      )}
                     </td>
 
                     <td className="py-3.5 px-4">
@@ -281,13 +344,24 @@ export const CustomerDashboardPage: React.FC = () => {
                     </td>
 
                     <td className="py-3.5 px-4 text-right">
-                      <Link
-                        to={`/track?id=${s.id}`}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 bg-orange-50 hover:bg-orange-100 px-2.5 py-1 rounded-md transition-colors"
-                      >
-                        <IndustrialIcon name="search" size={12} />
-                        <span>Track</span>
-                      </Link>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <Link
+                          to={`/account/receipt/${s.id}`}
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 px-2 py-1 rounded-md transition-colors shadow-2xs"
+                          title="View official electronic lorry receipt"
+                        >
+                          <IndustrialIcon name="file" size={11} className="text-orange-500" />
+                          <span>e-LR</span>
+                        </Link>
+
+                        <Link
+                          to={`/track?id=${s.id}`}
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 bg-orange-50 hover:bg-orange-100 px-2 py-1 rounded-md transition-colors"
+                        >
+                          <IndustrialIcon name="search" size={11} />
+                          <span>Track</span>
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 ))}

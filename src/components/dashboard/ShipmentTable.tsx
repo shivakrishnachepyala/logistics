@@ -134,7 +134,7 @@ export const ShipmentTable: React.FC<ShipmentTableProps> = ({
                   {/* Parcel ID & LR */}
                   <td className="py-3.5 px-4 font-mono">
                     <Link
-                      to={`/shipment/${s.id}`}
+                      to={`/manager/shipment/${s.id}`}
                       className="font-bold text-asphalt text-sm hover:text-orange flex items-center gap-1.5 transition-colors"
                     >
                       <span>{s.id}</span>
@@ -208,7 +208,7 @@ export const ShipmentTable: React.FC<ShipmentTableProps> = ({
                         <span>{lang === 'hi' ? 'ट्रैक' : 'TRACK'}</span>
                       </Link>
                       <Link
-                        to={`/shipment/${s.id}`}
+                        to={`/manager/shipment/${s.id}`}
                         className="btn-industrial bg-asphalt text-paper text-xs px-3 py-1.5 border border-asphalt hover:bg-orange hover:border-orange min-h-[36px] flex items-center gap-1"
                         title="View Parcel Receipt"
                       >

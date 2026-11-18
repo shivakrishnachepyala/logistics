@@ -24,15 +24,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
           to="/manager/dashboard"
           onClick={onCloseMobile}
           className="flex items-center gap-3 overflow-hidden group"
-          title="FreightLine LMS Home"
+          title="VELTRAX LMS Home"
         >
           <div className="w-9 h-9 rounded-lg bg-orange-500 text-white flex items-center justify-center font-heading font-black text-lg shadow-sm group-hover:bg-orange-600 transition-colors shrink-0">
-            F
+            V
           </div>
           {!isCollapsed && (
             <div className="flex flex-col min-w-0">
               <span className="font-heading font-bold text-base text-white tracking-tight leading-none flex items-center gap-1.5">
-                FREIGHTLINE
+                VELTRAX
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block"></span>
               </span>
               <span className="text-[10px] uppercase tracking-wider text-slate-400 font-medium mt-1">

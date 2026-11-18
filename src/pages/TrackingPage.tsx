@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { getShipmentById, updateShipmentStatus } from '../data/mockShipments';
 import type { Shipment } from '../types';
@@ -8,8 +8,8 @@ import { StatusBadge } from '../components/common/StatusBadge';
 import { Barcode } from '../components/common/Barcode';
 import { IndustrialIcon } from '../components/common/IndustrialIcon';
 import { DelayReasonCard } from '../components/tracking/DelayReasonCard';
-import { ConfidenceMeter } from '../components/tracking/ConfidenceMeter';
 import { OtpVerificationModal } from '../components/tracking/OtpVerificationModal';
+import { ShipmentCardDetailModal, type ShipmentCardModalType } from '../components/tracking/ShipmentCardDetailModal';
 import { useTranslation } from '../context/LanguageContext';
 import { formatCurrency } from '../utils/indiaHelpers';
 
@@ -23,6 +23,7 @@ export const TrackingPage: React.FC = () => {
   const [inputVal, setInputVal] = useState(queryId);
   const [shipment, setShipment] = useState<Shipment | undefined>(() => queryId ? getShipmentById(queryId) : undefined);
   const [notFound, setNotFound] = useState(() => !getShipmentById(queryId));
+  const [cardModalType, setCardModalType] = useState<ShipmentCardModalType | null>(null);
 
   if (queryId !== prevQueryId) {
     setPrevQueryId(queryId);
@@ -32,6 +33,24 @@ export const TrackingPage: React.FC = () => {
     setNotFound(!found);
   }
 
+  useEffect(() => {
+    const handleUpdate = () => {
+      if (queryId) {
+        const found = getShipmentById(queryId);
+        if (found) {
+          setShipment(found);
+          setNotFound(false);
+        }
+      }
+    };
+    window.addEventListener('freightline_storage_update', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('freightline_storage_update', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, [queryId]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputVal.trim()) return;
@@ -39,12 +58,11 @@ export const TrackingPage: React.FC = () => {
   };
 
   const sampleShipmentIds = [
-    { id: 'FLX-8829-JPR', label: lang === 'hi' ? 'दिल्ली ➔ जयपुर' : 'Delhi ➔ Jaipur' },
-    { id: 'FLX-4012-MUM', label: lang === 'hi' ? 'सूरत ➔ मुंबई' : 'Surat ➔ Mumbai' },
+    { id: 'FLX-8829-JPR', label: lang === 'hi' ? 'दिल्ली ➔ जयपुर (सामान्य)' : 'Delhi ➔ Jaipur (On-Time)' },
+    { id: 'FLX-7741-KOL', label: lang === 'hi' ? 'लुधियाना ➔ कोलकाता (देरी)' : 'Ludhiana ➔ Kolkata (Delayed)' },
+    { id: 'FLX-6218-DEL', label: lang === 'hi' ? 'जयपुर ➔ दिल्ली (देरी)' : 'Jaipur ➔ Delhi (Delayed)' },
+    { id: 'FLX-4012-MUM', label: lang === 'hi' ? 'सूरत ➔ मुंबई (पहुंच गया)' : 'Surat ➔ Mumbai (Delivered)' },
     { id: 'FLX-3109-BLR', label: lang === 'hi' ? 'चेन्नई ➔ बेंगलुरु' : 'Chennai ➔ Bengaluru' },
-    { id: 'FLX-7741-KOL', label: lang === 'hi' ? 'लुधियाना ➔ कोलकाता' : 'Ludhiana ➔ Kolkata' },
-    { id: 'FLX-5520-HYD', label: lang === 'hi' ? 'अहमदाबाद ➔ हैदराबाद' : 'Ahmedabad ➔ Hyderabad' },
-    { id: 'FLX-1194-IND', label: lang === 'hi' ? 'पुणे ➔ इंदौर' : 'Pune ➔ Indore' },
   ];
 
   return (
@@ -150,7 +168,15 @@ export const TrackingPage: React.FC = () => {
         {/* If Shipment Found */}
         {shipment && (
           <div className="space-y-8">
-            
+            {/* 1. Visible Delivery Delayed Warning Alert (Only when shipment is actively delayed and NOT delivered) */}
+            {shipment.status === 'delayed' && (
+              <DelayReasonCard
+                parcelNumber={shipment.id}
+                status={shipment.status}
+                delayInfo={shipment.delayInfo}
+              />
+            )}
+
             {/* Top Consignment Overview Banner Card */}
             <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
@@ -207,8 +233,9 @@ export const TrackingPage: React.FC = () => {
                   
                   <div className="flex flex-col gap-2">
                     <Link
-                      to={`/shipment/${shipment.id}`}
+                      to={`/receipt/${shipment.id}`}
                       className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5"
+                      title="View full official parcel receipt and e-LR bilty"
                     >
                       <IndustrialIcon name="file" size={14} />
                       <span>{t('track.viewReceipt', 'View Official Bilty')}</span>
@@ -226,80 +253,163 @@ export const TrackingPage: React.FC = () => {
               </div>
 
               {/* Specification Grid */}
-              <div className="mt-8 pt-6 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
-                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                    {lang === 'hi' ? 'सामान का प्रकार' : 'Consignment Item'}
+              <div className="mt-8 pt-6 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3 text-xs">
+                {/* 1. Consignment Item */}
+                <div className="border border-slate-200/90 rounded-xl p-3 bg-slate-50/70 hover:bg-slate-50 transition-colors min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+                  <div className="space-y-1 min-w-0">
+                    <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider truncate">
+                      {lang === 'hi' ? 'सामान का प्रकार' : 'Consignment Item'}
+                    </div>
+                    <div className="font-semibold text-slate-900 line-clamp-2 leading-snug break-words" title={shipment.cargo.type}>
+                      {shipment.cargo.type}
+                    </div>
+                    <div className="text-[10px] text-slate-500 font-mono truncate">
+                      {shipment.cargo.quantity} {lang === 'hi' ? 'इकाई' : 'Units'} • {shipment.cargo.weightKg} KG
+                    </div>
                   </div>
-                  <div className="font-semibold text-slate-900 truncate mt-0.5">{shipment.cargo.type}</div>
+                  <button
+                    type="button"
+                    onClick={() => setCardModalType('consignment')}
+                    className="text-[11px] font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1 mt-2.5 pt-1.5 border-t border-slate-200/60 transition-colors group cursor-pointer"
+                  >
+                    <span>{lang === 'hi' ? 'विवरण देखें' : 'View Details'}</span>
+                    <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                  </button>
                 </div>
 
-                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                    {lang === 'hi' ? 'कुल वजन' : 'Total Weight'}
+                {/* 2. Total Weight */}
+                <div className="border border-slate-200/90 rounded-xl p-3 bg-slate-50/70 hover:bg-slate-50 transition-colors min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+                  <div className="space-y-1 min-w-0">
+                    <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider truncate">
+                      {lang === 'hi' ? 'कुल वजन' : 'Total Weight'}
+                    </div>
+                    <div className="font-bold text-slate-900 text-sm mt-0.5 truncate">
+                      {shipment.cargo.weightKg.toLocaleString('en-IN')} KG
+                    </div>
+                    <div className="text-[10px] text-slate-500 truncate">
+                      {lang === 'hi' ? 'सत्यापित वेईब्रिज' : 'Weighbridge Certified'}
+                    </div>
                   </div>
-                  <div className="font-semibold text-slate-900 mt-0.5">{shipment.cargo.weightKg.toLocaleString()} KG</div>
-                </div>
-
-                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                    {lang === 'hi' ? 'घोषित मूल्य' : 'Declared Value'}
-                  </div>
-                  <div className="font-semibold text-slate-900 mt-0.5">
-                    {shipment.cargo.declaredValueInr ? formatCurrency(shipment.cargo.declaredValueInr) : '₹4,85,000'}
-                  </div>
-                </div>
-
-                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                    {lang === 'hi' ? 'गाड़ी / वाहन' : 'Fleet Carrier'}
-                  </div>
-                  <div className="font-semibold text-slate-900 truncate mt-0.5">{shipment.vesselOrFlight || shipment.carrier}</div>
-                </div>
-
-                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                    {lang === 'hi' ? 'पहुंचने की तारीख' : 'Scheduled ETA'}
-                  </div>
-                  <div className="font-semibold text-orange-600 truncate mt-0.5">{shipment.deliveryTimeEstimate || shipment.eta}</div>
-                  <div className="mt-1">
-                    <ConfidenceMeter promise={shipment.deliveryPromise} />
+                  <div className="text-[10px] text-slate-400 font-mono mt-2.5 pt-1.5 border-t border-slate-200/60 truncate">
+                    {shipment.cargo.volumeCbm ? `${shipment.cargo.volumeCbm} CBM Volume` : 'Standard Volume'}
                   </div>
                 </div>
 
-                <div className="border border-slate-200/80 rounded-xl p-3 bg-slate-50/60">
-                  <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                    {lang === 'hi' ? 'भुगतान तरीका' : 'Payment Mode'}
+                {/* 3. Declared Value */}
+                <div className="border border-slate-200/90 rounded-xl p-3 bg-slate-50/70 hover:bg-slate-50 transition-colors min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+                  <div className="space-y-1 min-w-0">
+                    <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider truncate">
+                      {lang === 'hi' ? 'घोषित मूल्य' : 'Declared Value'}
+                    </div>
+                    <div className="font-bold text-slate-900 text-sm mt-0.5 truncate">
+                      {shipment.cargo.declaredValueInr ? formatCurrency(shipment.cargo.declaredValueInr) : '₹4,85,000'}
+                    </div>
+                    <div className="text-[10px] text-slate-500 truncate">
+                      {lang === 'hi' ? 'पार्सल बीमा सुरक्षित' : 'Transit Insured'}
+                    </div>
                   </div>
-                  <div className="font-semibold text-emerald-600 truncate mt-0.5 uppercase">
-                    {shipment.paymentMethod === 'cod'
-                      ? (lang === 'hi' ? 'कैश ऑन डिलीवरी (COD)' : 'Cash on Delivery')
-                      : (lang === 'hi' ? 'ऑनलाइन भुगतान (UPI)' : 'Prepaid Online')}
+                  <div className="text-[10px] text-slate-400 font-mono mt-2.5 pt-1.5 border-t border-slate-200/60 truncate">
+                    {shipment.billOfLading ? `LR #${shipment.billOfLading.slice(-6)}` : 'Policy Active'}
+                  </div>
+                </div>
+
+                {/* 4. Fleet Carrier */}
+                <div className="border border-slate-200/90 rounded-xl p-3 bg-slate-50/70 hover:bg-slate-50 transition-colors min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+                  <div className="space-y-1 min-w-0">
+                    <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider truncate">
+                      {lang === 'hi' ? 'गाड़ी / वाहन' : 'Fleet Carrier'}
+                    </div>
+                    <div className="font-semibold text-slate-900 truncate leading-snug mt-0.5" title={shipment.vesselOrFlight || shipment.carrier}>
+                      {shipment.vesselOrFlight || shipment.carrier}
+                    </div>
+                    <div className="text-[10px] text-slate-500 truncate">
+                      {shipment.assignedDriver?.vehiclePlate || shipment.carrier || 'VELTRAX Fleet'}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setCardModalType('carrier')}
+                    className="text-[11px] font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1 mt-2.5 pt-1.5 border-t border-slate-200/60 transition-colors group cursor-pointer"
+                  >
+                    <span>{lang === 'hi' ? 'विवरण देखें' : 'View Details'}</span>
+                    <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                  </button>
+                </div>
+
+                {/* 5. Scheduled ETA and SLA */}
+                <div className="border border-slate-200/90 rounded-xl p-3 bg-slate-50/70 hover:bg-slate-50 transition-colors min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1 text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                      <span className="truncate">{lang === 'hi' ? 'पहुंचने की तारीख' : 'Scheduled ETA'}</span>
+                      {shipment.status === 'delayed' ? (
+                        <span className="text-[9px] font-bold text-rose-600 bg-rose-50 px-1 py-0.2 rounded border border-rose-200">DELAY</span>
+                      ) : shipment.status === 'delivered' ? (
+                        <span className="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200">DONE</span>
+                      ) : (
+                        <span className="text-[9px] font-bold text-blue-700 bg-blue-50 px-1 py-0.2 rounded border border-blue-200">TRANSIT</span>
+                      )}
+                    </div>
+                    <div className={`font-semibold truncate leading-tight ${shipment.status === 'delayed' ? 'text-rose-600' : shipment.status === 'delivered' ? 'text-emerald-700' : 'text-orange-600'}`}>
+                      {shipment.status === 'delayed'
+                        ? shipment.delayInfo?.revisedEta || shipment.deliveryTimeEstimate || shipment.eta
+                        : shipment.deliveryTimeEstimate || shipment.eta}
+                    </div>
+                    {/* Compact SLA Progress Bar (Single % display, strictly contained) */}
+                    <div className="pt-0.5">
+                      <div className="flex items-center justify-between text-[10px] text-slate-500 mb-0.5">
+                        <span className="truncate">{shipment.deliveryPromise?.promisedDay || (lang === 'hi' ? 'गुरुवार तक' : 'By Thu')}</span>
+                        <span className="font-bold font-mono text-emerald-600 shrink-0 ml-1">
+                          {shipment.deliveryPromise?.confidencePercent ?? 90}% SLA
+                        </span>
+                      </div>
+                      <div
+                        className="w-full bg-slate-200/80 h-1.5 rounded-full overflow-hidden"
+                        role="progressbar"
+                        aria-valuenow={shipment.deliveryPromise?.confidencePercent ?? 90}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label="SLA On-time chance"
+                      >
+                        <div
+                          className="h-full bg-emerald-500 rounded-full transition-all duration-300"
+                          style={{ width: `${shipment.deliveryPromise?.confidencePercent ?? 90}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setCardModalType('eta_sla')}
+                    className="text-[11px] font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1 mt-2.5 pt-1.5 border-t border-slate-200/60 transition-colors group cursor-pointer"
+                  >
+                    <span>{lang === 'hi' ? 'विवरण देखें' : 'View Details'}</span>
+                    <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                  </button>
+                </div>
+
+                {/* 6. Payment Mode */}
+                <div className="border border-slate-200/90 rounded-xl p-3 bg-slate-50/70 hover:bg-slate-50 transition-colors min-w-0 flex flex-col justify-between h-full min-h-[148px] shadow-2xs">
+                  <div className="space-y-1 min-w-0">
+                    <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider truncate">
+                      {lang === 'hi' ? 'भुगतान तरीका' : 'Payment Mode'}
+                    </div>
+                    <div className="font-semibold text-emerald-600 truncate mt-0.5">
+                      {shipment.paymentMethod === 'cod'
+                        ? (lang === 'hi' ? 'कैश ऑन डिलीवरी (COD)' : 'Cash on Delivery')
+                        : (lang === 'hi' ? 'ऑनलाइन भुगतान (UPI)' : 'Prepaid Online')}
+                    </div>
+                    <div className="text-[10px] text-slate-500 truncate">
+                      {shipment.paymentMethod === 'cod'
+                        ? (lang === 'hi' ? 'डिलीवरी पर देय' : 'Pay Upon Handover')
+                        : (lang === 'hi' ? 'पूर्ण भुगतान प्राप्त' : '100% Settled')}
+                    </div>
+                  </div>
+                  <div className="text-[10px] text-slate-400 font-mono mt-2.5 pt-1.5 border-t border-slate-200/60 truncate">
+                    GST #{shipment.id.slice(-4)}
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Delay Reason Card (if delayed) */}
-            {(shipment.status === 'delayed' || shipment.delayInfo) && (
-              <DelayReasonCard
-                parcelNumber={shipment.id}
-                delayInfo={
-                  shipment.delayInfo || {
-                    reason: 'Corridor slowdown due to highway inspection and localized rain.',
-                    reasonHindi: 'हाईवे पर भारी बारिश और पुल निरीक्षण के कारण गति धीमी हुई।',
-                    reasonCode: 'heavy_rain',
-                    durationHours: 18,
-                    durationText: '18 Hours',
-                    originalEta: shipment.eta,
-                    revisedEta: 'Tomorrow evening (revised)',
-                    location: `${shipment.sender.city} - ${shipment.receiver.city} Corridor`,
-                    historyText: `Expected ${shipment.eta} → Revised due to weather`,
-                    actionOption: 'change_time',
-                  }
-                }
-              />
-            )}
 
             {/* OTP-Confirmed Delivery Card */}
             <OtpVerificationModal
@@ -382,10 +492,18 @@ export const TrackingPage: React.FC = () => {
                   {lang === 'hi' ? 'डेमो सूचना:' : 'Simulation Demonstration Notice:'}
                 </strong>
                 {lang === 'hi'
-                  ? 'यह ट्रैकिंग पोर्टल फ्रेटलाइन एलएमएस के रीयल-टाइम जीपीएस और टेलीमैटिक्स सिस्टम का लाइव फ्रंटएंड प्रदर्शन है। सभी गतिविधियां, समय और चेकपॉइंट मॉक डेटा पर आधारित हैं।'
-                  : 'This tracking page demonstrates real-time consignment telematics, dynamic delay revisions, and OTP security workflows for FreightLine LMS using browser state.'}
+                  ? 'यह ट्रैकिंग पोर्टल वेल्ट्रैक्स एलएमएस के रीयल-टाइम जीपीएस और टेलीमैटिक्स सिस्टम का लाइव फ्रंटएंड प्रदर्शन है। सभी गतिविधियां, समय और चेकपॉइंट मॉक डेटा पर आधारित हैं।'
+                  : 'This tracking page demonstrates real-time consignment telematics, dynamic delay revisions, and OTP security workflows for VELTRAX LMS using browser state.'}
               </div>
             </div>
+
+            {/* Shipment Card Detail Modal */}
+            <ShipmentCardDetailModal
+              type={cardModalType}
+              isOpen={Boolean(cardModalType)}
+              onClose={() => setCardModalType(null)}
+              shipment={shipment}
+            />
 
           </div>
         )}

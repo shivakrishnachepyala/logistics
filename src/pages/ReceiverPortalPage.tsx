@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getShipmentById, updateReceiverPreferences } from '../data/mockShipments';
 import type { Shipment } from '../types';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { IndustrialIcon } from '../components/common/IndustrialIcon';
+import { DelayReasonCard } from '../components/tracking/DelayReasonCard';
 import { useTranslation } from '../context/LanguageContext';
 import { formatCurrency } from '../utils/indiaHelpers';
 
@@ -18,6 +19,21 @@ export const ReceiverPortalPage: React.FC = () => {
     setPrevId(id);
     setShipment(id ? getShipmentById(id) : undefined);
   }
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      if (id) {
+        const found = getShipmentById(id);
+        if (found) setShipment(found);
+      }
+    };
+    window.addEventListener('freightline_storage_update', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('freightline_storage_update', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, [id]);
 
   // Receiver preferences form state
   const [landmark, setLandmark] = useState(() => shipment?.receiverPreferences?.landmark || shipment?.receiver.landmark || '');
@@ -167,6 +183,15 @@ export const ReceiverPortalPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Delay Reason Card (Only when shipment is actively delayed) */}
+        {shipment.status === 'delayed' && (
+          <DelayReasonCard
+            parcelNumber={shipment.id}
+            status={shipment.status}
+            delayInfo={shipment.delayInfo}
+          />
+        )}
+
         {/* 3. Receiver Preferences Form */}
         <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm text-xs">
           <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
@@ -273,26 +298,46 @@ export const ReceiverPortalPage: React.FC = () => {
         </div>
 
         {/* 4. Support Assistance Buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <a
-            href="mailto:support@freightline.in"
+            href="https://wa.me/916303766064"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Chat on WhatsApp (+91 6303766064)"
+            className="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs flex items-center justify-between hover:border-emerald-300 transition-colors"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 text-[#25D366] flex items-center justify-center shrink-0">
+                <IndustrialIcon name="phone" size={16} />
+              </div>
+              <div>
+                <div className="font-semibold text-slate-900">{lang === 'hi' ? 'व्हाट्सएप सहायता' : 'WhatsApp Support'}</div>
+                <div className="text-[11px] text-slate-500 font-mono">+91 6303766064</div>
+              </div>
+            </div>
+            <span className="text-[#25D366] font-semibold text-xs">Chat ➔</span>
+          </a>
+
+          <a
+            href="mailto:support@veltrax.in"
             className="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs flex items-center justify-between hover:border-slate-300 transition-colors"
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center shrink-0">
                 <IndustrialIcon name="phone" size={16} />
               </div>
               <div>
                 <div className="font-semibold text-slate-900">{lang === 'hi' ? 'हेल्प डेस्क सहायता' : 'Operations Help Desk'}</div>
-                <div className="text-[11px] text-slate-500">support@freightline.in</div>
+                <div className="text-[11px] text-slate-500">support@veltrax.in</div>
               </div>
             </div>
             <span className="text-orange-600 font-semibold text-xs">Email ➔</span>
           </a>
 
           <Link
-            to={`/shipment/${shipment.id}`}
+            to={`/receipt/${shipment.id}`}
             className="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs flex items-center justify-between hover:border-slate-300 transition-colors"
+            title="View official electronic lorry receipt (e-LR / Bilty)"
           >
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">

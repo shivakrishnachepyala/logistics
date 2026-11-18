@@ -13,6 +13,7 @@ import { getStoredShipments } from '../data/mockShipments';
 import { getVehicles, getFleetDrivers, getWarehouses, getInventoryItems } from '../data/mockAssets';
 import type { AppSettings } from '../types/commercial';
 import { AppIcon } from '../components/common/AppIcon';
+import { ThemeToggle } from '../components/common/ThemeToggle';
 import { useEnterprise } from '../context/EnterpriseContext';
 
 type SettingsTab = 'general' | 'operations' | 'appearance' | 'profile' | 'data';
@@ -431,38 +432,25 @@ export const SettingsPage: React.FC = () => {
           <div>
             <h2 className="text-base font-bold text-navy">Interface Styling & Density</h2>
             <p className="text-xs text-secondary mt-0.5">
-              Visual configuration of the FreightLine SaaS enterprise workspace.
+              Visual configuration of the VELTRAX SaaS enterprise workspace.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Theme preview */}
-            <div className="space-y-2">
-              <label className="block text-xs font-semibold text-secondary">Visual Theme</label>
-              <div className="p-4 rounded-xl border-2 border-orange bg-slate-50 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-xs text-navy">Enterprise Light Palette (Approved)</span>
-                  <span className="p-1 rounded-full bg-orange text-white">
-                    <AppIcon name="check" size={12} />
-                  </span>
-                </div>
-                <p className="text-[11px] text-secondary">
-                  High-contrast Navy headers, subtle borders, slate workspace canvas, and industrial orange accents.
-                </p>
-                <div className="flex items-center gap-2 pt-2">
-                  <span className="w-6 h-6 rounded bg-[#0F172A] border border-border" title="Navy" />
-                  <span className="w-6 h-6 rounded bg-[#1E293B] border border-border" title="Secondary Navy" />
-                  <span className="w-6 h-6 rounded bg-[#F97316] border border-border" title="Accent Orange" />
-                  <span className="w-6 h-6 rounded bg-[#FFFFFF] border border-border" title="White Cards" />
-                  <span className="w-6 h-6 rounded bg-[#F8FAFC] border border-border" title="Slate Canvas" />
-                </div>
-              </div>
+          {/* Theme Selector */}
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs font-semibold text-secondary mb-1">Color Theme & Appearance</label>
+              <p className="text-[11px] text-secondary">
+                Select your preferred appearance mode. Changes take effect across all VELTRAX portals immediately.
+              </p>
             </div>
+            <ThemeToggle variant="cards" />
+          </div>
 
-            {/* Layout Toggles */}
-            <div className="space-y-3">
-              <label className="block text-xs font-semibold text-secondary">Layout Controls</label>
+          <div className="pt-4 border-t border-border space-y-3">
+            <label className="block text-xs font-semibold text-secondary">Layout Controls</label>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <label className="flex items-center gap-3 p-3 rounded-lg border border-border bg-slate-50/50 hover:bg-slate-50 cursor-pointer transition-colors">
                 <input
                   type="checkbox"
@@ -698,7 +686,7 @@ export const SettingsPage: React.FC = () => {
                 <span>Zero External Backend Dependency</span>
               </div>
               <p className="text-blue-800">
-                FreightLine is running in client-side reactive simulation mode. Changes you make in any module
+                VELTRAX is running in client-side reactive simulation mode. Changes you make in any module
                 are instantly persisted to your web browser and broadcast across tabs via custom window storage events.
                 Resetting the sample data restores all initial mock consignments, clients, invoices, and vehicle assets.
               </p>
@@ -709,8 +697,8 @@ export const SettingsPage: React.FC = () => {
 
       {/* MODAL: RESET CONFIRMATION */}
       {showResetConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/50 backdrop-blur-sm">
-          <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
             <div className="flex items-center gap-3 text-rose-600">
               <div className="p-2.5 rounded-full bg-rose-50 border border-rose-200">
                 <AppIcon name="alert" size={20} />

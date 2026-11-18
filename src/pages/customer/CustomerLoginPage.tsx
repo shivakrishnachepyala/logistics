@@ -60,7 +60,7 @@ export const CustomerLoginPage: React.FC = () => {
               <IndustrialIcon name="box" size={18} />
             </div>
             <div className="font-heading font-bold text-lg text-slate-900 tracking-tight">
-              FREIGHTLINE
+              VELTRAX
             </div>
           </Link>
           <Link
@@ -85,7 +85,7 @@ export const CustomerLoginPage: React.FC = () => {
               Customer Sign In
             </h1>
             <p className="text-xs text-slate-500 mt-1">
-              Access your FreightLine self-service shipments, address book & bookings
+              Access your VELTRAX self-service shipments, address book & bookings
             </p>
           </div>
 
@@ -209,7 +209,7 @@ export const CustomerLoginPage: React.FC = () => {
                   <span>Ramesh Sharma</span>
                   <span className="text-[10px] bg-slate-200/80 group-hover:bg-orange-200 text-slate-700 px-1.5 py-0.5 rounded">Demo 1</span>
                 </div>
-                <div className="text-[11px] text-slate-500 truncate mt-0.5">customer@freightline.in</div>
+                <div className="text-[11px] text-slate-500 truncate mt-0.5">customer@veltrax.in</div>
                 <div className="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
                   <span>2 shipments • Delhi Hub</span>
                 </div>
@@ -224,7 +224,7 @@ export const CustomerLoginPage: React.FC = () => {
                   <span>Priya Patel</span>
                   <span className="text-[10px] bg-slate-200/80 group-hover:bg-orange-200 text-slate-700 px-1.5 py-0.5 rounded">Demo 2</span>
                 </div>
-                <div className="text-[11px] text-slate-500 truncate mt-0.5">priya@freightline.in</div>
+                <div className="text-[11px] text-slate-500 truncate mt-0.5">priya@veltrax.in</div>
                 <div className="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
                   <span>1 shipment • Surat Mill</span>
                 </div>
@@ -255,7 +255,7 @@ export const CustomerLoginPage: React.FC = () => {
 
       {/* Footer note */}
       <footer className="py-4 text-center text-xs text-slate-400 border-t border-slate-200/80 bg-white">
-        FreightLine Logistics • Customer Self-Service Portal • Client-Side Simulation
+        VELTRAX Logistics • Customer Self-Service Portal • MOVING BEYOND MILES.
       </footer>
     </div>
   );
