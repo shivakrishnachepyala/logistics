@@ -33,10 +33,19 @@ const BRANCH_STORAGE_KEY = 'freightline_active_branch';
 export const BRANCH_NAMES: Record<BranchId, { name: string; city: string }> = {
   all: { name: 'All Branches & Hubs', city: 'National Network' },
   'DEL-CENTRAL': { name: 'Delhi Central Sorting Hub', city: 'Delhi / Okhla' },
+  'MH-MUMBAI': { name: 'Mumbai Central Godown', city: 'Mumbai / Bhiwandi' },
   'JPR-MAIN': { name: 'Jaipur Delivery Centre', city: 'Jaipur / MI Road' },
   'GJ-SURAT': { name: 'Surat Textile Cargo Hub', city: 'Surat / Ring Road' },
-  'MH-MUMBAI': { name: 'Mumbai Central Godown', city: 'Mumbai / Bhiwandi' },
-  'TN-CHENNAI': { name: 'Chennai Ambattur Hub', city: 'Chennai / Peenya Corridor' },
+  'KA-BLR': { name: 'Bengaluru Tech & Cargo Park', city: 'Bengaluru / Electronic City' },
+  'WB-KOL': { name: 'Kolkata Eastern Gateway', city: 'Kolkata / Dankuni' },
+  'HYD': { name: 'Hyderabad Regional Hub', city: 'Hyderabad / Shamshabad' },
+  'MAA': { name: 'Chennai Coromandel Coastal Gateway', city: 'Chennai / Madhavaram' },
+  'AMD': { name: 'Ahmedabad Sabarmati Intermodal Terminal', city: 'Ahmedabad / Aslali' },
+  // Compatibility aliases
+  'TN-CHENNAI': { name: 'Chennai Coromandel Coastal Gateway', city: 'Chennai / Madhavaram' },
+  'TG-HYDERABAD': { name: 'Hyderabad Regional Hub', city: 'Hyderabad / Shamshabad' },
+  'GJ-AHMEDABAD': { name: 'Ahmedabad Sabarmati Intermodal Terminal', city: 'Ahmedabad / Aslali' },
+  'WB-KOLKATA': { name: 'Kolkata Eastern Gateway', city: 'Kolkata / Dankuni' },
 };
 
 export const EnterpriseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

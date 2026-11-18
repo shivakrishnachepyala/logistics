@@ -61,14 +61,14 @@ export const CustomerBookingHistoryPage: React.FC = () => {
       </div>
 
       {/* 2. Search & Filter Controls */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="relative flex-1">
           <input
             type="text"
             placeholder="Search by Booking ID (e.g. BKG-2026-8829), Tracking ID or city..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-50 text-slate-900 placeholder:text-slate-400 text-xs px-3.5 py-2.5 pl-9 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white"
+            className="w-full bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-xs px-3.5 py-2.5 pl-9 rounded-xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900"
           />
           <span className="absolute left-3 top-2.5 text-slate-400">
             <IndustrialIcon name="search" size={15} />
@@ -76,7 +76,7 @@ export const CustomerBookingHistoryPage: React.FC = () => {
           {searchTerm && (
             <button
               onClick={() => setSearchTerm('')}
-              className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 text-xs font-bold"
+              className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold"
             >
               ✕
             </button>
@@ -103,14 +103,14 @@ export const CustomerBookingHistoryPage: React.FC = () => {
                 onClick={() => setStatusFilter(tab.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   active
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-slate-900 dark:bg-orange-500 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span
                   className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                    active ? 'bg-slate-700 text-white' : 'bg-slate-200 text-slate-700'
+                    active ? 'bg-slate-700 dark:bg-orange-600 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   {count}
@@ -122,14 +122,14 @@ export const CustomerBookingHistoryPage: React.FC = () => {
       </div>
 
       {/* 3. Booking History Ledger Table */}
-      <div className="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xs overflow-hidden">
         {filteredBookings.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
               <IndustrialIcon name="clock" size={24} />
             </div>
-            <h3 className="text-base font-bold text-slate-900 mb-1">No booking orders found</h3>
-            <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">No booking orders found</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-4">
               {searchTerm
                 ? `No booking records match "${searchTerm}".`
                 : 'You have not registered any bookings under this filter.'}
@@ -139,7 +139,7 @@ export const CustomerBookingHistoryPage: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50 text-[11px] font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                <tr className="bg-slate-50 dark:bg-slate-800/80 text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
                   <th className="py-3 px-4">Booking ID</th>
                   <th className="py-3 px-4">Tracking Number</th>
                   <th className="py-3 px-4">Booking Date</th>
@@ -151,18 +151,18 @@ export const CustomerBookingHistoryPage: React.FC = () => {
                   <th className="py-3 px-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-xs">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60 text-xs">
                 {filteredBookings.map((b) => (
-                  <tr key={b.bookingId} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="py-3.5 px-4 font-mono font-bold text-slate-900">
+                  <tr key={b.bookingId} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/50 transition-colors">
+                    <td className="py-3.5 px-4 font-mono font-bold text-slate-900 dark:text-white">
                       {b.bookingId}
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="font-mono font-bold text-orange-600">{b.trackingId}</div>
+                      <div className="font-mono font-bold text-orange-600 dark:text-orange-400">{b.trackingId}</div>
                     </td>
 
-                    <td className="py-3.5 px-4 text-slate-500 font-mono text-[11px]">
+                    <td className="py-3.5 px-4 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
                       {new Date(b.bookingDate).toLocaleDateString('en-IN', {
                         day: '2-digit',
                         month: 'short',
@@ -170,22 +170,22 @@ export const CustomerBookingHistoryPage: React.FC = () => {
                       })}
                     </td>
 
-                    <td className="py-3.5 px-4 font-semibold text-slate-800">
+                    <td className="py-3.5 px-4 font-semibold text-slate-800 dark:text-slate-200">
                       {b.originCity} → {b.destinationCity}
                     </td>
 
-                    <td className="py-3.5 px-4 text-slate-600">
-                      <div className="font-medium text-slate-800">{b.cargoDescription}</div>
-                      <div className="text-[11px] text-slate-400">
+                    <td className="py-3.5 px-4 text-slate-600 dark:text-slate-300">
+                      <div className="font-medium text-slate-800 dark:text-slate-200">{b.cargoDescription}</div>
+                      <div className="text-[11px] text-slate-400 dark:text-slate-500">
                         {b.weightKg} kg • {b.quantity} pkgs
                       </div>
                     </td>
 
-                    <td className="py-3.5 px-4 uppercase font-semibold text-[11px] text-slate-700">
+                    <td className="py-3.5 px-4 uppercase font-semibold text-[11px] text-slate-700 dark:text-slate-300">
                       {b.paymentMethod}
                     </td>
 
-                    <td className="py-3.5 px-4 font-bold text-slate-900">
+                    <td className="py-3.5 px-4 font-bold text-slate-900 dark:text-white">
                       {formatCurrency(b.totalAmount)}
                     </td>
 
@@ -193,12 +193,12 @@ export const CustomerBookingHistoryPage: React.FC = () => {
                       <span
                         className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                           b.status === 'delivered'
-                            ? 'bg-emerald-100 text-emerald-800'
+                            ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
                             : b.status === 'dispatched'
-                            ? 'bg-blue-100 text-blue-800'
+                            ? 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300'
                             : b.status === 'cancelled'
-                            ? 'bg-rose-100 text-rose-800'
-                            : 'bg-amber-100 text-amber-800'
+                            ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300'
+                            : 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300'
                         }`}
                       >
                         {b.status}
@@ -209,7 +209,7 @@ export const CustomerBookingHistoryPage: React.FC = () => {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           to={`/account/receipt/${b.trackingId}`}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 px-2.5 py-1 rounded-md transition-colors shadow-2xs"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 px-2.5 py-1 rounded-md transition-colors shadow-2xs"
                           title="View official electronic lorry receipt (e-LR / Bilty)"
                         >
                           <IndustrialIcon name="file" size={12} className="text-orange-500" />

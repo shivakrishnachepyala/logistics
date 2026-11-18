@@ -238,12 +238,12 @@ export const CustomerAddressesPage: React.FC = () => {
 
       {/* 3. Address Cards Grid */}
       {filteredAddresses.length === 0 ? (
-        <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-xs">
-          <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-12 text-center shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
             <IndustrialIcon name="pin" size={24} />
           </div>
-          <h3 className="text-base font-bold text-slate-900 mb-1">No saved addresses</h3>
-          <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">
+          <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">No saved addresses</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-4">
             You don't have any saved {filterType !== 'all' ? filterType : ''} addresses yet. Add addresses for fast 1-click booking.
           </p>
           <button
@@ -259,42 +259,42 @@ export const CustomerAddressesPage: React.FC = () => {
           {filteredAddresses.map((addr) => (
             <div
               key={addr.id}
-              className={`bg-white border rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all hover:border-slate-300 ${
-                addr.isDefault ? 'border-orange-300 ring-1 ring-orange-200 bg-orange-50/10' : 'border-slate-200'
+              className={`bg-white dark:bg-[#1E293B] border rounded-2xl p-5 shadow-xs flex flex-col justify-between transition-all hover:border-slate-300 dark:hover:border-slate-600 ${
+                addr.isDefault ? 'border-orange-300 dark:border-orange-500/50 ring-1 ring-orange-200 dark:ring-orange-500/20 bg-orange-50/10 dark:bg-orange-950/10' : 'border-slate-200 dark:border-slate-700'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="font-heading font-bold text-sm text-slate-900 truncate">
+                  <span className="font-heading font-bold text-sm text-slate-900 dark:text-white truncate">
                     {addr.label}
                   </span>
                   <div className="flex items-center gap-1 shrink-0">
                     <span
                       className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${
                         addr.type === 'sender'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-emerald-100 text-emerald-800'
+                          ? 'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300'
+                          : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
                       }`}
                     >
                       {addr.type}
                     </span>
                     {addr.isDefault && (
-                      <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800">
+                      <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-950/60 text-orange-800 dark:text-orange-300">
                         Default
                       </span>
                     )}
                   </div>
                 </div>
 
-                <div className="text-xs font-semibold text-slate-800">
+                <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">
                   {addr.name}
-                  {addr.company && <span className="text-slate-500 font-normal"> ({addr.company})</span>}
+                  {addr.company && <span className="text-slate-500 dark:text-slate-400 font-normal"> ({addr.company})</span>}
                 </div>
 
-                <div className="text-xs text-slate-600 mt-2 line-clamp-2">
+                <div className="text-xs text-slate-600 dark:text-slate-300 mt-2 line-clamp-2">
                   {addr.address}
                 </div>
-                <div className="text-xs text-slate-500 mt-0.5 font-medium">
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
                   {addr.city}, {addr.state} - <span className="font-mono">{addr.postalCode}</span>
                 </div>
 
@@ -304,18 +304,18 @@ export const CustomerAddressesPage: React.FC = () => {
                   </div>
                 )}
 
-                <div className="text-xs text-slate-700 mt-2 font-mono flex items-center gap-1.5">
+                <div className="text-xs text-slate-700 dark:text-slate-300 mt-2 font-mono flex items-center gap-1.5">
                   <IndustrialIcon name="phone" size={12} className="text-slate-400" />
                   <span>{addr.mobile}</span>
                 </div>
               </div>
 
               {/* Actions Footer */}
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs">
                 {addr.type === 'sender' && !addr.isDefault ? (
                   <button
                     onClick={() => handleSetDefaultSender(addr.id)}
-                    className="text-[11px] font-semibold text-orange-600 hover:text-orange-700 hover:underline"
+                    className="text-[11px] font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-700 hover:underline"
                   >
                     Set as Default Sender
                   </button>
@@ -328,14 +328,14 @@ export const CustomerAddressesPage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleOpenEdit(addr)}
-                    className="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
+                    className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
                     title="Edit Address"
                   >
                     <IndustrialIcon name="file" size={14} />
                   </button>
                   <button
                     onClick={() => handleDelete(addr.id)}
-                    className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                    className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg transition-colors"
                     title="Delete Address"
                   >
                     <IndustrialIcon name="alert" size={14} />
@@ -350,22 +350,22 @@ export const CustomerAddressesPage: React.FC = () => {
       {/* 4. Add / Edit Address Modal */}
       {isEditing && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
-              <h3 className="text-lg font-heading font-bold text-slate-900">
+          <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 mb-4">
+              <h3 className="text-lg font-heading font-bold text-slate-900 dark:text-white">
                 {editingId ? 'Edit Address' : 'Add New Address'}
               </h3>
               <button
                 onClick={() => setIsEditing(false)}
-                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg"
+                className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg"
               >
                 ✕
               </button>
             </div>
 
             {formError && (
-              <div className="mb-4 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl p-3 flex items-start gap-2">
-                <span className="text-rose-600 shrink-0 mt-0.5">
+              <div className="mb-4 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs rounded-xl p-3 flex items-start gap-2">
+                <span className="text-rose-600 dark:text-rose-400 shrink-0 mt-0.5">
                   <IndustrialIcon name="alert" size={14} />
                 </span>
                 <span>{formError}</span>
@@ -375,13 +375,13 @@ export const CustomerAddressesPage: React.FC = () => {
             <form onSubmit={handleSubmit} className="space-y-3.5 text-xs">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     Address Type <span className="text-rose-500">*</span>
                   </label>
                   <select
                     value={formData.type}
                     onChange={(e) => setFormData({ ...formData, type: e.target.value as AddressType })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   >
                     <option value="receiver">Delivery Receiver</option>
                     <option value="sender">Sender Dispatch Origin</option>
@@ -389,7 +389,7 @@ export const CustomerAddressesPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     Address Label <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -398,14 +398,14 @@ export const CustomerAddressesPage: React.FC = () => {
                     placeholder="e.g. Main Shop / Jaipur Depot"
                     value={formData.label}
                     onChange={(e) => setFormData({ ...formData, label: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     Contact Person Name <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -414,12 +414,12 @@ export const CustomerAddressesPage: React.FC = () => {
                     placeholder="e.g. Amit Gupta"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     Company / Firm Name
                   </label>
                   <input
@@ -427,14 +427,14 @@ export const CustomerAddressesPage: React.FC = () => {
                     placeholder="Optional"
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     Mobile Number <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -443,12 +443,12 @@ export const CustomerAddressesPage: React.FC = () => {
                     placeholder="10-digit mobile"
                     value={formData.mobile}
                     onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     Email Address
                   </label>
                   <input
@@ -456,13 +456,13 @@ export const CustomerAddressesPage: React.FC = () => {
                     placeholder="Optional"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
+                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                   Complete Street Address <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -471,13 +471,13 @@ export const CustomerAddressesPage: React.FC = () => {
                   placeholder="Shop No., Complex, Street, Area"
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                 />
               </div>
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     PIN Code <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -486,12 +486,12 @@ export const CustomerAddressesPage: React.FC = () => {
                     maxLength={6}
                     value={formData.postalCode}
                     onChange={(e) => handlePinChange(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-mono focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     City <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -499,18 +499,18 @@ export const CustomerAddressesPage: React.FC = () => {
                     required
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 mb-1">
+                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     State <span className="text-rose-500">*</span>
                   </label>
                   <select
                     value={formData.state}
                     onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                   >
                     {INDIAN_STATES.map((st) => (
                       <option key={st} value={st}>
@@ -522,7 +522,7 @@ export const CustomerAddressesPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">
+                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                   Landmark
                 </label>
                 <input
@@ -530,7 +530,7 @@ export const CustomerAddressesPage: React.FC = () => {
                   placeholder="e.g. Near Town Hall"
                   value={formData.landmark}
                   onChange={(e) => setFormData({ ...formData, landmark: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                 />
               </div>
 
@@ -542,15 +542,21 @@ export const CustomerAddressesPage: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, isDefault: e.target.checked })}
                     className="rounded text-orange-500 focus:ring-orange-500"
                   />
-                  <span className="font-medium text-slate-700">Set as my primary default dispatch address</span>
+                  <span className="font-medium text-slate-700 dark:text-slate-300">Set as my primary default dispatch address</span>
                 </label>
               )}
 
-              <div className="mt-5 pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="mt-5 pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                  className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs font-semibold shadow-xs"
                 >
                   Cancel
                 </button>

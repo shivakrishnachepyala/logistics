@@ -44,6 +44,48 @@
   color-scheme: dark;
 }
 
+/* Bulletproof Dark Mode Form Controls */
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="file"]),
+.dark select,
+.dark textarea {
+  background-color: #1E293B !important;
+  border-color: #334155 !important;
+  color: #F8FAFC !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+.dark select option {
+  background-color: #1E293B;
+  color: #F8FAFC;
+}
+
+/* Bulletproof Dark Mode Data Tables */
+.dark table thead tr {
+  background-color: #1E293B !important;
+  border-color: #334155 !important;
+}
+
+.dark table thead th {
+  color: #CBD5E1 !important;
+  border-color: #334155 !important;
+}
+
+.dark table tbody tr {
+  border-color: #334155 !important;
+}
+
+.dark table tbody tr:hover {
+  background-color: rgba(51, 65, 85, 0.45) !important;
+}
+
+.dark table td {
+  border-color: #334155 !important;
+}
+
 html, body {
   background-color: #F8FAFC;
   color: #0F172A;
@@ -115,6 +157,86 @@ html.dark, html.dark body {
 .dark .modal-surface-solid {
   background-color: #1E293B !important;
   color: #F8FAFC !important;
+}
+
+/* Legacy Theme Mapping for Dark Mode */
+.dark .text-asphalt {
+  color: #F8FAFC !important;
+}
+
+.dark .border-asphalt {
+  border-color: #334155 !important;
+}
+
+.dark .bg-paper {
+  background-color: #1E293B !important;
+  color: #F8FAFC !important;
+}
+
+.dark .bg-chalk {
+  background-color: #1E293B !important;
+  color: #F8FAFC !important;
+}
+
+.dark .text-steel {
+  color: #94A3B8 !important;
+}
+
+.dark .border-steel,
+.dark .border-steel-border {
+  border-color: #334155 !important;
+}
+
+.dark .bg-\[\#EAE5D9\] {
+  background-color: #334155 !important;
+  color: #CBD5E1 !important;
+  border-color: #334155 !important;
+}
+
+.dark .bg-\[\#EAF3F1\] {
+  background-color: rgba(29, 90, 82, 0.25) !important;
+  border-color: #1D5A52 !important;
+}
+
+/* Bulletproof Manager Workspace Dark Mode Surfaces */
+.dark .manager-workspace .bg-white:not(.keep-white):not([data-keep-white="true"]) {
+  background-color: #1E293B !important;
+  border-color: #334155 !important;
+}
+
+.dark .manager-workspace .border-slate-200,
+.dark .manager-workspace .border-slate-100 {
+  border-color: #334155 !important;
+}
+
+.dark .manager-workspace .divide-slate-200 > :not([hidden]) ~ :not([hidden]),
+.dark .manager-workspace .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #334155 !important;
+}
+
+.dark .manager-workspace .text-slate-900 {
+  color: #F8FAFC !important;
+}
+
+.dark .manager-workspace .text-slate-800,
+.dark .manager-workspace .text-slate-700 {
+  color: #E2E8F0 !important;
+}
+
+.dark .manager-workspace .text-slate-600 {
+  color: #CBD5E1 !important;
+}
+
+.dark .manager-workspace .text-slate-500 {
+  color: #94A3B8 !important;
+}
+
+.dark .manager-workspace .bg-slate-50:not(.keep-light) {
+  background-color: #111827 !important;
+}
+
+.dark .manager-workspace .bg-slate-100:not(.keep-light) {
+  background-color: #1E293B !important;
 }
 
 .card-enterprise {

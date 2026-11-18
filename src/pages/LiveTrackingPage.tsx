@@ -13,10 +13,16 @@ const HUB_COORDINATES: Record<string, { x: number; y: number; name: string; stat
   'MH-MUMBAI': { x: 141, y: 511, name: 'Mumbai JNPT Port Hub', state: 'Maharashtra' },
   'MH-PUNE': { x: 167, y: 523, name: 'Pune Chakan Hub', state: 'Maharashtra' },
   'MP-INDORE': { x: 225, y: 404, name: 'Indore Siyaganj Centre', state: 'Madhya Pradesh' },
-  'TN-CHENNAI': { x: 350, y: 677, name: 'Chennai Ocean & Air Port', state: 'Tamil Nadu' },
   'KA-BLR': { x: 274, y: 680, name: 'Bengaluru Logistics Park', state: 'Karnataka' },
   'WB-KOL': { x: 582, y: 409, name: 'Kolkata Shalimar Siding', state: 'West Bengal' },
+  'WB-KOLKATA': { x: 582, y: 409, name: 'Kolkata Shalimar Siding', state: 'West Bengal' },
+  'HYD': { x: 300, y: 556, name: 'Hyderabad Begumpet Cargo', state: 'Telangana' },
+  'TG-HYDERABAD': { x: 300, y: 556, name: 'Hyderabad Begumpet Cargo', state: 'Telangana' },
   'TS-HYD': { x: 300, y: 556, name: 'Hyderabad Begumpet Cargo', state: 'Telangana' },
+  'MAA': { x: 350, y: 677, name: 'Chennai Coromandel Port', state: 'Tamil Nadu' },
+  'TN-CHENNAI': { x: 350, y: 677, name: 'Chennai Coromandel Port', state: 'Tamil Nadu' },
+  'AMD': { x: 148, y: 388, name: 'Ahmedabad Sabarmati Hub', state: 'Gujarat' },
+  'GJ-AHMEDABAD': { x: 148, y: 388, name: 'Ahmedabad Sabarmati Hub', state: 'Gujarat' },
 };
 
 export const LiveTrackingPage: React.FC = () => {
@@ -345,10 +351,16 @@ export const LiveTrackingPage: React.FC = () => {
               <line x1="265" y1="238" x2="582" y2="409" stroke="#E2E8F0" strokeWidth="2" strokeDasharray="3 3" />
               {/* Surat - Mumbai (Western DFC / NH-48) */}
               <line x1="138" y1="448" x2="141" y2="511" stroke="#CBD5E1" strokeWidth="3" strokeLinecap="round" />
+              {/* Ahmedabad - Mumbai */}
+              <line x1="148" y1="388" x2="141" y2="511" stroke="#CBD5E1" strokeWidth="2.5" strokeLinecap="round" />
               {/* Chennai - Bengaluru */}
               <line x1="350" y1="677" x2="274" y2="680" stroke="#CBD5E1" strokeWidth="3" strokeLinecap="round" />
               {/* Mumbai - Hyderabad */}
               <line x1="141" y1="511" x2="300" y2="556" stroke="#E2E8F0" strokeWidth="2" strokeDasharray="3 3" />
+              {/* Hyderabad - Bengaluru */}
+              <line x1="300" y1="556" x2="274" y2="680" stroke="#CBD5E1" strokeWidth="2.5" strokeLinecap="round" />
+              {/* Hyderabad - Chennai */}
+              <line x1="300" y1="556" x2="350" y2="677" stroke="#CBD5E1" strokeWidth="2.5" strokeLinecap="round" />
               {/* Pune - Indore */}
               <line x1="167" y1="523" x2="225" y2="404" stroke="#CBD5E1" strokeWidth="2.5" />
 

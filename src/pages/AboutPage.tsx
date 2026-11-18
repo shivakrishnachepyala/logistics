@@ -68,6 +68,36 @@ export const AboutPage: React.FC = () => {
       features: ['Rail Freight Siding', 'Bulk Goods Warehousing', 'Northeast Feeder Links'],
       corridors: 'Kolkata ➔ Delhi, Kolkata ➔ Ludhiana, Kolkata ➔ Patna',
       badgeColor: 'bg-amber-50 text-amber-700 border-amber-200'
+    },
+    {
+      code: 'HYD',
+      city: lang === 'hi' ? 'हैदराबाद' : 'Hyderabad',
+      name: lang === 'hi' ? 'हैदराबाद डेक्कन कार्गो हब' : 'Hyderabad Regional Cargo Hub',
+      location: 'Shamshabad Airport Logistics Complex / Begumpet Feeder',
+      role: lang === 'hi' ? 'दक्कन पठार व फार्मा एक्सप्रेस गेटवे' : 'Deccan Logistics & Pharma Hub',
+      features: ['Pharma Cold Chain Bays', 'Same-Day Bengaluru Line', 'Air Express Cargo Staging'],
+      corridors: 'Hyderabad ➔ Bengaluru, Hyderabad ➔ Chennai, Hyderabad ➔ Mumbai',
+      badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200'
+    },
+    {
+      code: 'MAA',
+      city: lang === 'hi' ? 'चेन्नई' : 'Chennai',
+      name: lang === 'hi' ? 'चेन्नई कोरोमंडल कोस्टल गेटवे' : 'Chennai Coromandel Coastal Gateway',
+      location: 'Madhavaram Logistics Complex / Chennai Port Gate 4',
+      role: lang === 'hi' ? 'तटीय एवं महासागरीय व्यापार केंद्र' : 'Coromandel Maritime & Air Cargo Gateway',
+      features: ['Port Direct Container Siding', 'Reefer Cold Storage', 'Automotive Logistics Bay'],
+      corridors: 'Chennai ➔ Bengaluru, Chennai ➔ Hyderabad, Chennai ➔ Mumbai',
+      badgeColor: 'bg-teal-50 text-teal-700 border-teal-200'
+    },
+    {
+      code: 'AMD',
+      city: lang === 'hi' ? 'अहमदाबाद' : 'Ahmedabad',
+      name: lang === 'hi' ? 'अहमदाबाद साबरमती इंटरमॉडल टर्मिनल' : 'Ahmedabad Sabarmati Intermodal Terminal',
+      location: 'Aslali Transport Nagar / SP Ring Road Commercial',
+      role: lang === 'hi' ? 'गुजरात औद्योगिक एवं टेक्सटाइल केंद्र' : 'Gujarat Commercial & Western Intermodal Hub',
+      features: ['Western DFC Connectivity', 'Express Highway Cross-Dock', 'Heavy Chemical & Textile Bays'],
+      corridors: 'Ahmedabad ➔ Mumbai, Ahmedabad ➔ Jaipur, Ahmedabad ➔ Delhi',
+      badgeColor: 'bg-rose-50 text-rose-700 border-rose-200'
     }
   ];
 
@@ -139,10 +169,10 @@ export const AboutPage: React.FC = () => {
     },
     {
       number: '03',
-      title: lang === 'hi' ? '6 प्रमुख राज्यों का संगठित ग्रिड' : 'Synchronized Regional Hub Grid',
+      title: lang === 'hi' ? '9 प्रमुख राज्यों का संगठित ग्रिड' : 'Synchronized 9-Hub Regional Grid',
       desc: lang === 'hi'
-        ? 'दिल्ली, जयपुर, सूरत, मुंबई, बेंगलुरु और कोलकाता के बीच दैनिक नियमित गाड़ियां।'
-        : 'Established daily line-haul departures between our 6 strategic consolidation hubs across major commercial arteries.'
+        ? 'दिल्ली, जयपुर, सूरत, मुंबई, बेंगलुरु, कोलकाता, हैदराबाद, चेन्नई और अहमदाबाद के बीच दैनिक नियमित गाड़ियां।'
+        : 'Established daily line-haul departures between our 9 strategic consolidation hubs across major commercial arteries.'
     },
     {
       number: '04',
@@ -168,18 +198,18 @@ export const AboutPage: React.FC = () => {
   ];
 
   return (
-    <div className="flex-1 bg-slate-50 text-slate-900 selection:bg-orange-500 selection:text-white">
+    <div className="flex-1 bg-slate-50 dark:bg-[#0B1220] text-slate-900 dark:text-slate-100 selection:bg-orange-500 selection:text-white">
       {/* 1. HERO & BREADCRUMB HEADER */}
-      <section className="bg-gradient-to-b from-white via-slate-50 to-slate-100/80 border-b border-slate-200 py-10 sm:py-16">
+      <section className="bg-gradient-to-b from-white via-slate-50 to-slate-100/80 dark:from-[#0B1220] dark:via-[#111827] dark:to-[#0B1220] border-b border-slate-200 dark:border-slate-800 py-10 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Breadcrumbs */}
-          <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6 font-medium" aria-label="Breadcrumb">
-            <Link to="/" className="hover:text-slate-900 transition-colors">
+          <nav className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-6 font-medium" aria-label="Breadcrumb">
+            <Link to="/" className="hover:text-slate-900 dark:hover:text-white transition-colors">
               {lang === 'hi' ? 'होम' : 'Home'}
             </Link>
-            <span className="text-slate-300">/</span>
-            <span className="text-orange-600 font-semibold">
+            <span className="text-slate-300 dark:text-slate-600">/</span>
+            <span className="text-orange-600 dark:text-orange-400 font-semibold">
               {lang === 'hi' ? 'हमारे बारे में' : 'About Us'}
             </span>
           </nav>
@@ -187,18 +217,18 @@ export const AboutPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column (Hero Content) */}
             <div className="lg:col-span-7 space-y-5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-orange-700 text-xs font-semibold shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300 text-xs font-semibold shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
                 <span>{lang === 'hi' ? 'विश्वसनीय माल परिवहन एवं पार्सल नेटवर्क' : 'Reliable Surface & Express Freight Network'}</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
                 {lang === 'hi'
                   ? 'व्यापार और उद्योगों के लिए अनुशासित माल ढुलाई'
                   : 'Structured Freight Logistics Built for Indian Trade'}
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
+              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
                 {lang === 'hi'
                   ? 'VELTRAX (वेलट्रैक्स — मीलों से आगे) एक आधुनिक तकनीक-संचालित माल परिवहन और पार्सल प्रबंधन प्रणाली है, जो भारत के प्रमुख व्यापारिक शहरों को पारदर्शी दरों, डिजिटल रसीदों और वास्तविक समय ट्रैकिंग के साथ जोड़ती है।'
                   : 'VELTRAX (Moving Beyond Miles) is a technology-driven logistics management platform connecting traders, manufacturers, MSMEs, and consumers across major commercial corridors with disciplined scheduling, verifiable e-LR documentation, and milestone checkpoint transparency.'}
@@ -206,21 +236,21 @@ export const AboutPage: React.FC = () => {
 
               {/* Quick Key Metrics Strip */}
               <div className="pt-2 grid grid-cols-3 gap-3 max-w-lg">
-                <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-2xs">
-                  <div className="text-xl sm:text-2xl font-bold font-mono text-slate-900">6</div>
-                  <div className="text-[11px] text-slate-500 mt-0.5">
+                <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 p-3 rounded-xl shadow-2xs">
+                  <div className="text-xl sm:text-2xl font-bold font-mono text-slate-900 dark:text-white">6</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                     {lang === 'hi' ? 'सक्रिय क्षेत्रीय हब' : 'Regional Hubs'}
                   </div>
                 </div>
-                <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-2xs">
-                  <div className="text-xl sm:text-2xl font-bold font-mono text-orange-600">100%</div>
-                  <div className="text-[11px] text-slate-500 mt-0.5">
+                <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 p-3 rounded-xl shadow-2xs">
+                  <div className="text-xl sm:text-2xl font-bold font-mono text-orange-600 dark:text-orange-400">100%</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                     {lang === 'hi' ? 'जीएसटी पक्की रसीद' : 'GST e-LR Bilty'}
                   </div>
                 </div>
-                <div className="bg-white border border-slate-200 p-3 rounded-xl shadow-2xs">
-                  <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-600">OTP</div>
-                  <div className="text-[11px] text-slate-500 mt-0.5">
+                <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 p-3 rounded-xl shadow-2xs">
+                  <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">OTP</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                     {lang === 'hi' ? 'सत्यापित डिलीवरी' : 'Verified Delivery'}
                   </div>
                 </div>
@@ -238,7 +268,7 @@ export const AboutPage: React.FC = () => {
 
                 <Link
                   to="/track"
-                  className="bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold px-5 py-3 rounded-xl border border-slate-200 shadow-2xs transition-all flex items-center gap-2"
+                  className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs transition-all flex items-center gap-2"
                 >
                   <IndustrialIcon name="search" size={16} />
                   <span>{lang === 'hi' ? 'पार्सल ट्रैक करें' : 'Track by Shipment ID'}</span>
@@ -322,13 +352,13 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* 2. MISSION & VISION SECTION */}
-      <section className="py-14 sm:py-20 bg-white border-b border-slate-200">
+      <section className="py-14 sm:py-20 bg-white dark:bg-[#0B1220] border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <span className="text-xs font-semibold uppercase tracking-wider text-orange-600 block mb-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 block mb-1">
               {lang === 'hi' ? 'हमारा उद्देश्य और दृष्टि' : 'Purpose & Long-Term Direction'}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
               {lang === 'hi'
                 ? 'भारतीय लॉजिस्टिक्स में अनुशासन और पारदर्शिता'
                 : 'Mission & Vision for Indian Logistics'}
@@ -337,38 +367,38 @@ export const AboutPage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Mission Card */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 sm:p-8 hover:border-slate-300 transition-colors">
-              <div className="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-5">
+            <div className="bg-slate-50 dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8 hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-5">
                 <IndustrialIcon name="compass" size={24} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
                 {lang === 'hi' ? 'हमारा मिशन (Our Mission)' : 'Our Mission'}
               </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                 {lang === 'hi'
                   ? 'पारंपरिक और असंगठित माल परिवहन व्यवस्था को बदलकर एक पारदर्शी, समयबद्ध और तकनीकी रूप से सशक्त लॉजिस्टिक्स नेटवर्क प्रदान करना। हर व्यापारी, किसान और छोटे व्यवसाय को विश्वसनीय दरों, कानूनी बिल्टी और वास्तविक समय ट्रैकिंग की सुविधा देना ताकि उनका सामान सुरक्षित और सही समय पर पहुंचे।'
                   : 'To transform conventional, fragmented freight handling into a dependable, disciplined, and technologically transparent logistics ecosystem. We empower Indian traders, manufacturers, and small businesses with fair weight-based pricing, verifiable legal bilty documentation, and real-time checkpoint updates to make intercity freight seamless and worry-free.'}
               </p>
-              <div className="mt-6 pt-5 border-t border-slate-200/80 text-xs font-semibold text-slate-700 flex items-center gap-2">
+              <div className="mt-6 pt-5 border-t border-slate-200/80 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
                 <span>{lang === 'hi' ? 'पारदर्शिता • सुरक्षा • समयबद्धता' : 'Transparency • Security • Punctuality'}</span>
               </div>
             </div>
 
             {/* Vision Card */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 sm:p-8 hover:border-slate-300 transition-colors">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-5">
+            <div className="bg-slate-50 dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8 hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-5">
                 <IndustrialIcon name="gauge" size={24} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
                 {lang === 'hi' ? 'हमारा विजन (Our Vision)' : 'Our Vision'}
               </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                 {lang === 'hi'
                   ? 'भारत का सबसे भरोसेमंद मल्टीमॉडल एक्सप्रेस लॉजिस्टिक्स नेटवर्क बनना—जहाँ सड़क, रेल और हवाई परिवहन का ऐसा सुंदर समन्वय हो कि बड़े शहरों से लेकर दूरदराज की मंडियों तक हर पार्सल 24 से 48 घंटे में सुरक्षित पहुंचे, और हर ग्राहक को अपनी खेप की स्थिति पर पूरा भरोसा हो।'
                   : 'To establish India’s most trusted multimodal express surface grid—unifying expressways, dedicated freight rail lines, and regional consolidation nodes into a single resilient network where freight flows swiftly, every handover is authenticated, and commerce between industrial clusters thrives with complete visibility.'}
               </p>
-              <div className="mt-6 pt-5 border-t border-slate-200/80 text-xs font-semibold text-slate-700 flex items-center gap-2">
+              <div className="mt-6 pt-5 border-t border-slate-200/80 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                 <span>{lang === 'hi' ? 'मल्टीमॉडल कनेक्टिविटी • आधुनिक भारत' : 'Multimodal Connectivity • Future-Ready Freight'}</span>
               </div>
@@ -378,18 +408,18 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* 3. COMPREHENSIVE LOGISTICS SERVICES */}
-      <section className="py-14 sm:py-20 bg-slate-50 border-b border-slate-200">
+      <section className="py-14 sm:py-20 bg-slate-50 dark:bg-[#111827] border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <span className="text-xs font-semibold uppercase tracking-wider text-orange-600 block mb-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 block mb-1">
               {lang === 'hi' ? 'हमारी सेवाएं' : 'End-to-End Capabilities'}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
               {lang === 'hi'
                 ? 'प्रत्येक प्रकार के माल के लिए विशेष परिवहन सेवाएं'
                 : 'VELTRAX Logistics Services'}
             </h2>
-            <p className="text-sm text-slate-600 mt-2">
+            <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
               {lang === 'hi'
                 ? 'दुकानदारों के छोटे पार्सल से लेकर कारखानों के भारी लोड तक, हमारे पास हर जरूरत का समाधान है।'
                 : 'From retail shop cartons to heavy manufacturing equipment, our services are calibrated for reliability.'}
@@ -400,22 +430,22 @@ export const AboutPage: React.FC = () => {
             {services.map((svc, idx) => (
               <div
                 key={idx}
-                className="bg-white border border-slate-200 rounded-2xl p-6 shadow-2xs hover:shadow-sm hover:border-slate-300 transition-all flex flex-col justify-between"
+                className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-2xs hover:shadow-sm hover:border-slate-300 dark:hover:border-slate-600 transition-all flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 text-orange-600 flex items-center justify-center mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-100 dark:border-orange-800 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-4">
                     <IndustrialIcon name={svc.icon} size={20} />
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 mb-2">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
                     {svc.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                     {svc.desc}
                   </p>
                 </div>
-                <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
-                  <span className="text-orange-600">{svc.highlight}</span>
-                  <span className="text-slate-400 font-mono text-[11px]">0{idx + 1}</span>
+                <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs font-semibold">
+                  <span className="text-orange-600 dark:text-orange-400">{svc.highlight}</span>
+                  <span className="text-slate-400 dark:text-slate-500 font-mono text-[11px]">0{idx + 1}</span>
                 </div>
               </div>
             ))}
@@ -424,18 +454,18 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* 4. REGIONAL HUB NETWORK */}
-      <section className="py-14 sm:py-20 bg-white border-b border-slate-200">
+      <section className="py-14 sm:py-20 bg-white dark:bg-[#0B1220] border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <span className="text-xs font-semibold uppercase tracking-wider text-orange-600 block mb-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 block mb-1">
               {lang === 'hi' ? 'हमारा नेटवर्क' : 'Station Grid & Corridors'}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
               {lang === 'hi'
-                ? '6 प्रमुख क्षेत्रीय स्टेशन व पार्सल केंद्र'
-                : '6 Key Regional Logistics Hubs'}
+                ? '9 प्रमुख क्षेत्रीय स्टेशन व पार्सल केंद्र'
+                : '9 Key Regional Logistics Hubs'}
             </h2>
-            <p className="text-sm text-slate-600 mt-2">
+            <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
               {lang === 'hi'
                 ? 'भारत के प्रमुख औद्योगिक और व्यापारिक शहरों में स्थित हमारे आधुनिक सॉर्टिंग केंद्र।'
                 : 'Strategically located sorting and distribution terminals serving active commercial corridors.'}
@@ -446,11 +476,11 @@ export const AboutPage: React.FC = () => {
             {regionalHubs.map((hub) => (
               <div
                 key={hub.code}
-                className="bg-slate-50 border border-slate-200 rounded-2xl p-5 sm:p-6 hover:border-slate-300 transition-all flex flex-col justify-between"
+                className="bg-slate-50 dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-5 sm:p-6 hover:border-slate-300 dark:hover:border-slate-600 transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="font-mono text-sm font-bold bg-slate-900 text-white px-2.5 py-1 rounded-lg shadow-2xs">
+                    <span className="font-mono text-sm font-bold bg-slate-900 dark:bg-slate-800 text-white px-2.5 py-1 rounded-lg shadow-2xs border border-transparent dark:border-slate-700">
                       {hub.code}
                     </span>
                     <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${hub.badgeColor}`}>
@@ -458,21 +488,21 @@ export const AboutPage: React.FC = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-900 mb-1">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
                     {hub.name}
                   </h3>
-                  <div className="text-xs text-slate-500 mb-3 flex items-center gap-1.5 font-medium">
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-1.5 font-medium">
                     <IndustrialIcon name="pin" size={13} className="text-orange-500 shrink-0" />
                     <span className="truncate">{hub.location}</span>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
                     {hub.role}
                   </p>
 
-                  <div className="space-y-1.5 pt-3 border-t border-slate-200/70">
+                  <div className="space-y-1.5 pt-3 border-t border-slate-200/70 dark:border-slate-700">
                     {hub.features.map((feat, i) => (
-                      <div key={i} className="text-[11px] text-slate-700 flex items-center gap-2">
+                      <div key={i} className="text-[11px] text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
                         <span>{feat}</span>
                       </div>
@@ -480,11 +510,11 @@ export const AboutPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-slate-200/80 text-[11px] font-mono text-slate-500">
-                  <span className="text-slate-400 block uppercase text-[10px] font-semibold font-sans">
+                <div className="mt-5 pt-3 border-t border-slate-200/80 dark:border-slate-700 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                  <span className="text-slate-400 dark:text-slate-500 block uppercase text-[10px] font-semibold font-sans">
                     {lang === 'hi' ? 'कनेक्टिंग कॉरिडोर:' : 'Express Connections:'}
                   </span>
-                  <span className="text-slate-800 font-semibold">{hub.corridors}</span>
+                  <span className="text-slate-800 dark:text-slate-200 font-semibold">{hub.corridors}</span>
                 </div>
               </div>
             ))}
@@ -584,18 +614,18 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* 6. REASONS TO CHOOSE VELTRAX */}
-      <section className="py-14 sm:py-20 bg-white border-b border-slate-200">
+      <section className="py-14 sm:py-20 bg-white dark:bg-[#0B1220] border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <span className="text-xs font-semibold uppercase tracking-wider text-orange-600 block mb-1">
+            <span className="text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 block mb-1">
               {lang === 'hi' ? 'हमारे फायदे' : 'The VELTRAX Difference'}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
               {lang === 'hi'
                 ? 'व्यापारी और उद्योग हमें क्यों चुनते हैं?'
                 : 'Why Businesses Choose VELTRAX'}
             </h2>
-            <p className="text-sm text-slate-600 mt-2">
+            <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
               {lang === 'hi'
                 ? 'पुरानी और असंगठित परिवहन व्यवस्था के मुकाबले आधुनिक, सुरक्षित और पेशेवर अनुभव।'
                 : 'Engineered from the ground up for transparency, legal protection, and accountability.'}
@@ -606,18 +636,18 @@ export const AboutPage: React.FC = () => {
             {reasons.map((r, i) => (
               <div
                 key={i}
-                className="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-slate-300 transition-colors"
+                className="bg-slate-50 dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-lg font-bold text-orange-600">
+                  <span className="font-mono text-lg font-bold text-orange-600 dark:text-orange-400">
                     {r.number}
                   </span>
-                  <div className="w-2 h-2 rounded-full bg-slate-300"></div>
+                  <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></div>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 mb-2">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
                   {r.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {r.desc}
                 </p>
               </div>

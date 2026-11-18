@@ -459,7 +459,7 @@ export const PaymentsBillingPage: React.FC = () => {
       {activeTab === 'invoices' && (
         <div className="space-y-6">
           {/* Filter, Search & Controls */}
-          <div className="bg-card border border-border rounded-xl p-4 shadow-sm space-y-3">
+          <div className="bg-card dark:bg-[#1E293B] border border-border dark:border-slate-700/80 rounded-xl p-4 shadow-sm space-y-3">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
               {/* Search Bar */}
               <div className="md:col-span-5 relative">
@@ -471,7 +471,7 @@ export const PaymentsBillingPage: React.FC = () => {
                     setInvSearch(e.target.value);
                     setInvPage(1);
                   }}
-                  className="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                  className="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
                 />
                 <span className="absolute left-3 top-2.5 text-slate-400 pointer-events-none">
                   <AppIcon name="search" size={16} />
@@ -486,11 +486,11 @@ export const PaymentsBillingPage: React.FC = () => {
                     setInvStatusFilter(e.target.value);
                     setInvPage(1);
                   }}
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange cursor-pointer"
                 >
-                  <option value="all">All Payment Statuses</option>
+                  <option value="all" className="dark:bg-slate-800 dark:text-slate-100">All Payment Statuses</option>
                   {INVOICE_STATUSES.map((s) => (
-                    <option key={s} value={s}>
+                    <option key={s} value={s} className="dark:bg-slate-800 dark:text-slate-100">
                       {s}
                     </option>
                   ))}
@@ -506,18 +506,18 @@ export const PaymentsBillingPage: React.FC = () => {
                       e.target.value as 'issueDate' | 'totalAmount' | 'outstandingAmount' | 'invoiceNumber'
                     )
                   }
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange cursor-pointer"
                 >
-                  <option value="issueDate">Sort: Issue Date</option>
-                  <option value="totalAmount">Sort: Total Amount</option>
-                  <option value="outstandingAmount">Sort: Outstanding Balance</option>
-                  <option value="invoiceNumber">Sort: Invoice Number</option>
+                  <option value="issueDate" className="dark:bg-slate-800 dark:text-slate-100">Sort: Issue Date</option>
+                  <option value="totalAmount" className="dark:bg-slate-800 dark:text-slate-100">Sort: Total Amount</option>
+                  <option value="outstandingAmount" className="dark:bg-slate-800 dark:text-slate-100">Sort: Outstanding Balance</option>
+                  <option value="invoiceNumber" className="dark:bg-slate-800 dark:text-slate-100">Sort: Invoice Number</option>
                 </select>
                 <button
                   type="button"
                   title="Toggle Sort Order"
                   onClick={() => setInvSortAsc(!invSortAsc)}
-                  className="p-2 bg-slate-50 border border-border rounded-lg text-secondary hover:text-navy hover:bg-slate-100 transition-colors"
+                  className="p-2 bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-secondary hover:text-navy dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                 >
                   <AppIcon name={invSortAsc ? 'arrow-up' : 'arrow-down'} size={16} />
                 </button>
@@ -526,11 +526,11 @@ export const PaymentsBillingPage: React.FC = () => {
           </div>
 
           {/* Invoices Table */}
-          <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-card dark:bg-[#1E293B] border border-border dark:border-slate-700/80 rounded-xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-sm">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-border text-xs uppercase font-semibold text-secondary">
+                  <tr className="bg-slate-50 dark:bg-slate-800/80 border-b border-border dark:border-slate-700 text-xs uppercase font-semibold text-secondary dark:text-slate-400">
                     <th className="py-3 px-4">Invoice # & Date</th>
                     <th className="py-3 px-4">Customer Entity</th>
                     <th className="py-3 px-4">Linked Consignment</th>
@@ -554,37 +554,37 @@ export const PaymentsBillingPage: React.FC = () => {
                     </tr>
                   ) : (
                     paginatedInvoices.map((inv) => (
-                      <tr key={inv.id} className="hover:bg-slate-50/70 transition-colors">
+                      <tr key={inv.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition-colors">
                         <td className="py-3.5 px-4">
-                          <div className="font-semibold font-mono text-navy">{inv.invoiceNumber}</div>
-                          <div className="text-xs text-secondary">{inv.issueDate}</div>
+                          <div className="font-semibold font-mono text-navy dark:text-slate-100">{inv.invoiceNumber}</div>
+                          <div className="text-xs text-secondary dark:text-slate-400">{inv.issueDate}</div>
                         </td>
 
                         <td className="py-3.5 px-4">
-                          <div className="font-semibold text-navy">{inv.customerName}</div>
-                          <div className="text-xs text-secondary font-mono">{inv.customerGstin || 'No GSTIN'}</div>
+                          <div className="font-semibold text-navy dark:text-slate-100">{inv.customerName}</div>
+                          <div className="text-xs text-secondary dark:text-slate-400 font-mono">{inv.customerGstin || 'No GSTIN'}</div>
                         </td>
 
                         <td className="py-3.5 px-4">
                           {inv.shipmentId ? (
-                            <span className="inline-flex items-center gap-1 font-mono text-xs text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                            <span className="inline-flex items-center gap-1 font-mono text-xs text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800/60">
                               <AppIcon name="truck" size={12} />
                               {inv.shipmentId}
                             </span>
                           ) : (
-                            <span className="text-xs text-slate-400">Direct Invoice</span>
+                            <span className="text-xs text-slate-400 dark:text-slate-500">Direct Invoice</span>
                           )}
                         </td>
 
-                        <td className="py-3.5 px-4 text-xs font-mono text-slate-600">
+                        <td className="py-3.5 px-4 text-xs font-mono text-slate-600 dark:text-slate-400">
                           {inv.dueDate}
                         </td>
 
                         <td className="py-3.5 px-4 text-right">
-                          <div className="font-semibold text-navy">
+                          <div className="font-semibold text-navy dark:text-slate-100">
                             ₹{inv.totalAmount.toLocaleString('en-IN')}
                           </div>
-                          <div className="text-[11px] text-secondary">
+                          <div className="text-[11px] text-secondary dark:text-slate-400">
                             Tax: ₹{inv.tax.toLocaleString('en-IN')}
                           </div>
                         </td>
@@ -592,13 +592,13 @@ export const PaymentsBillingPage: React.FC = () => {
                         <td className="py-3.5 px-4 text-right">
                           <div
                             className={`font-semibold ${
-                              inv.outstandingAmount > 0 ? 'text-amber-700' : 'text-slate-400'
+                              inv.outstandingAmount > 0 ? 'text-amber-700 dark:text-amber-400' : 'text-slate-400 dark:text-slate-500'
                             }`}
                           >
                             ₹{inv.outstandingAmount.toLocaleString('en-IN')}
                           </div>
                           {inv.paidAmount > 0 && (
-                            <div className="text-[11px] text-emerald-600">
+                            <div className="text-[11px] text-emerald-600 dark:text-emerald-400">
                               Paid: ₹{inv.paidAmount.toLocaleString('en-IN')}
                             </div>
                           )}
@@ -608,14 +608,14 @@ export const PaymentsBillingPage: React.FC = () => {
                           <span
                             className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
                               inv.paymentStatus === 'Paid'
-                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60'
                                 : inv.paymentStatus === 'Partially Paid'
-                                ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                                ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60'
                                 : inv.paymentStatus === 'Overdue'
-                                ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                                ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60'
                                 : inv.paymentStatus === 'Draft'
-                                ? 'bg-slate-100 text-slate-700 border border-slate-200'
-                                : 'bg-blue-50 text-blue-700 border border-blue-200'
+                                ? 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                                : 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60'
                             }`}
                           >
                             {inv.paymentStatus}
@@ -627,7 +627,7 @@ export const PaymentsBillingPage: React.FC = () => {
                             {/* View / Print Invoice */}
                             <button
                               onClick={() => setViewingInvoice(inv)}
-                              className="p-1.5 text-secondary hover:text-navy hover:bg-slate-100 rounded-md transition-colors"
+                              className="p-1.5 text-secondary hover:text-navy dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md transition-colors"
                               title="View & Print Official Invoice"
                             >
                               <AppIcon name="printer" size={15} />
@@ -637,7 +637,7 @@ export const PaymentsBillingPage: React.FC = () => {
                             {inv.outstandingAmount > 0 && inv.paymentStatus !== 'Cancelled' && (
                               <button
                                 onClick={() => handleOpenRecordPayment(inv)}
-                                className="p-1.5 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-md transition-colors"
+                                className="p-1.5 text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-md transition-colors"
                                 title="Record Simulated Settlement"
                               >
                                 <AppIcon name="credit-card" size={15} />
@@ -647,7 +647,7 @@ export const PaymentsBillingPage: React.FC = () => {
                             {/* Delete Invoice */}
                             <button
                               onClick={() => setDeletingInvoiceId(inv.id)}
-                              className="p-1.5 text-secondary hover:text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
+                              className="p-1.5 text-secondary hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-md transition-colors"
                               title="Delete Invoice"
                             >
                               <AppIcon name="trash" size={15} />
@@ -663,34 +663,34 @@ export const PaymentsBillingPage: React.FC = () => {
 
             {/* Pagination */}
             {filteredInvoices.length > 0 && (
-              <div className="flex items-center justify-between px-4 py-3 bg-slate-50/50 border-t border-border text-xs text-secondary">
+              <div className="flex items-center justify-between px-4 py-3 bg-slate-50/50 dark:bg-slate-800/50 border-t border-border dark:border-slate-700 text-xs text-secondary dark:text-slate-400">
                 <div>
                   Showing{' '}
-                  <span className="font-semibold text-navy">
+                  <span className="font-semibold text-navy dark:text-white">
                     {Math.min(filteredInvoices.length, (invPage - 1) * invPageSize + 1)}
                   </span>{' '}
                   to{' '}
-                  <span className="font-semibold text-navy">
+                  <span className="font-semibold text-navy dark:text-white">
                     {Math.min(filteredInvoices.length, invPage * invPageSize)}
                   </span>{' '}
-                  of <span className="font-semibold text-navy">{filteredInvoices.length}</span> invoices
+                  of <span className="font-semibold text-navy dark:text-white">{filteredInvoices.length}</span> invoices
                 </div>
 
                 <div className="flex items-center gap-1">
                   <button
                     disabled={invPage <= 1}
                     onClick={() => setInvPage((p) => Math.max(1, p - 1))}
-                    className="p-1.5 border border-border rounded bg-white text-secondary hover:text-navy disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="p-1.5 border border-border dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-secondary dark:text-slate-300 hover:text-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <AppIcon name="chevron-left" size={14} />
                   </button>
-                  <span className="px-2 font-medium text-navy">
+                  <span className="px-2 font-medium text-navy dark:text-white">
                     {invPage} / {totalInvPages}
                   </span>
                   <button
                     disabled={invPage >= totalInvPages}
                     onClick={() => setInvPage((p) => Math.min(totalInvPages, p + 1))}
-                    className="p-1.5 border border-border rounded bg-white text-secondary hover:text-navy disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="p-1.5 border border-border dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-secondary dark:text-slate-300 hover:text-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <AppIcon name="chevron-right" size={14} />
                   </button>
@@ -705,7 +705,7 @@ export const PaymentsBillingPage: React.FC = () => {
       {activeTab === 'payments' && (
         <div className="space-y-6">
           {/* Payment Controls */}
-          <div className="bg-card border border-border rounded-xl p-4 shadow-sm space-y-3">
+          <div className="bg-card dark:bg-[#1E293B] border border-border dark:border-slate-700/80 rounded-xl p-4 shadow-sm space-y-3">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
               {/* Search */}
               <div className="md:col-span-8 relative">
@@ -717,7 +717,7 @@ export const PaymentsBillingPage: React.FC = () => {
                     setPaySearch(e.target.value);
                     setPayPage(1);
                   }}
-                  className="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                  className="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
                 />
                 <span className="absolute left-3 top-2.5 text-slate-400 pointer-events-none">
                   <AppIcon name="search" size={16} />
@@ -732,11 +732,11 @@ export const PaymentsBillingPage: React.FC = () => {
                     setPayMethodFilter(e.target.value);
                     setPayPage(1);
                   }}
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange cursor-pointer"
                 >
-                  <option value="all">All Payment Channels</option>
+                  <option value="all" className="dark:bg-slate-800 dark:text-slate-100">All Payment Channels</option>
                   {PAYMENT_METHODS.map((m) => (
-                    <option key={m} value={m}>
+                    <option key={m} value={m} className="dark:bg-slate-800 dark:text-slate-100">
                       {m}
                     </option>
                   ))}
@@ -746,11 +746,11 @@ export const PaymentsBillingPage: React.FC = () => {
           </div>
 
           {/* Transactions Table */}
-          <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-card dark:bg-[#1E293B] border border-border dark:border-slate-700/80 rounded-xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-sm">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-border text-xs uppercase font-semibold text-secondary">
+                  <tr className="bg-slate-50 dark:bg-slate-800/80 border-b border-border dark:border-slate-700 text-xs uppercase font-semibold text-secondary dark:text-slate-400">
                     <th className="py-3 px-4">Receipt # & Date</th>
                     <th className="py-3 px-4">Invoice Reference</th>
                     <th className="py-3 px-4">Customer Entity</th>
@@ -760,50 +760,50 @@ export const PaymentsBillingPage: React.FC = () => {
                     <th className="py-3 px-4 text-center">Audit Nature</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border">
+                <tbody className="divide-y divide-border dark:divide-slate-700/80">
                   {paginatedPayments.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="py-8 text-center text-secondary">
+                      <td colSpan={7} className="py-8 text-center text-secondary dark:text-slate-400">
                         <div className="flex flex-col items-center justify-center gap-2">
-                          <AppIcon name="credit-card" size={28} className="text-slate-300" />
-                          <p className="font-medium text-navy">No transactions recorded</p>
-                          <p className="text-xs text-secondary">Record a payment from the Invoices Directory.</p>
+                          <AppIcon name="credit-card" size={28} className="text-slate-300 dark:text-slate-600" />
+                          <p className="font-medium text-navy dark:text-slate-200">No transactions recorded</p>
+                          <p className="text-xs text-secondary dark:text-slate-400">Record a payment from the Invoices Directory.</p>
                         </div>
                       </td>
                     </tr>
                   ) : (
                     paginatedPayments.map((p) => (
-                      <tr key={p.id} className="hover:bg-slate-50/70 transition-colors">
+                      <tr key={p.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition-colors">
                         <td className="py-3.5 px-4">
-                          <div className="font-semibold font-mono text-navy">{p.id}</div>
-                          <div className="text-xs text-secondary">{p.paymentDate}</div>
+                          <div className="font-semibold font-mono text-navy dark:text-slate-100">{p.id}</div>
+                          <div className="text-xs text-secondary dark:text-slate-400">{p.paymentDate}</div>
                         </td>
 
-                        <td className="py-3.5 px-4 font-mono text-xs font-semibold text-blue-700">
+                        <td className="py-3.5 px-4 font-mono text-xs font-semibold text-blue-700 dark:text-blue-400">
                           {p.invoiceId}
                         </td>
 
                         <td className="py-3.5 px-4">
-                          <div className="font-medium text-navy">{p.customerName}</div>
-                          <div className="text-xs text-slate-400">{p.customerId}</div>
+                          <div className="font-medium text-navy dark:text-slate-100">{p.customerName}</div>
+                          <div className="text-xs text-slate-400 dark:text-slate-500">{p.customerId}</div>
                         </td>
 
                         <td className="py-3.5 px-4">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800 border border-slate-200">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
                             {p.paymentMethod}
                           </span>
                         </td>
 
-                        <td className="py-3.5 px-4 font-mono text-xs text-slate-600">
+                        <td className="py-3.5 px-4 font-mono text-xs text-slate-600 dark:text-slate-400">
                           {p.transactionReference}
                         </td>
 
-                        <td className="py-3.5 px-4 text-right font-bold text-emerald-700">
+                        <td className="py-3.5 px-4 text-right font-bold text-emerald-700 dark:text-emerald-400">
                           ₹{p.amount.toLocaleString('en-IN')}
                         </td>
 
                         <td className="py-3.5 px-4 text-center">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
                             Simulated Record
                           </span>
                         </td>
@@ -816,34 +816,34 @@ export const PaymentsBillingPage: React.FC = () => {
 
             {/* Pagination */}
             {filteredPayments.length > 0 && (
-              <div className="flex items-center justify-between px-4 py-3 bg-slate-50/50 border-t border-border text-xs text-secondary">
+              <div className="flex items-center justify-between px-4 py-3 bg-slate-50/50 dark:bg-slate-800/50 border-t border-border dark:border-slate-700 text-xs text-secondary dark:text-slate-400">
                 <div>
                   Showing{' '}
-                  <span className="font-semibold text-navy">
+                  <span className="font-semibold text-navy dark:text-white">
                     {Math.min(filteredPayments.length, (payPage - 1) * payPageSize + 1)}
                   </span>{' '}
                   to{' '}
-                  <span className="font-semibold text-navy">
+                  <span className="font-semibold text-navy dark:text-white">
                     {Math.min(filteredPayments.length, payPage * payPageSize)}
                   </span>{' '}
-                  of <span className="font-semibold text-navy">{filteredPayments.length}</span> records
+                  of <span className="font-semibold text-navy dark:text-white">{filteredPayments.length}</span> records
                 </div>
 
                 <div className="flex items-center gap-1">
                   <button
                     disabled={payPage <= 1}
                     onClick={() => setPayPage((p) => Math.max(1, p - 1))}
-                    className="p-1.5 border border-border rounded bg-white text-secondary hover:text-navy disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="p-1.5 border border-border dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-secondary dark:text-slate-300 hover:text-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <AppIcon name="chevron-left" size={14} />
                   </button>
-                  <span className="px-2 font-medium text-navy">
+                  <span className="px-2 font-medium text-navy dark:text-white">
                     {payPage} / {totalPayPages}
                   </span>
                   <button
                     disabled={payPage >= totalPayPages}
                     onClick={() => setPayPage((p) => Math.min(totalPayPages, p + 1))}
-                    className="p-1.5 border border-border rounded bg-white text-secondary hover:text-navy disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="p-1.5 border border-border dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-secondary dark:text-slate-300 hover:text-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <AppIcon name="chevron-right" size={14} />
                   </button>
@@ -856,11 +856,11 @@ export const PaymentsBillingPage: React.FC = () => {
 
       {/* MODAL: CREATE INVOICE */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
-          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-slate-50">
-              <h2 className="text-lg font-bold text-navy">Issue Commercial Freight Invoice</h2>
-              <button onClick={() => setShowCreateModal(false)} className="text-secondary hover:text-navy p-1">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/70 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border dark:border-slate-700 bg-slate-50 dark:bg-slate-800/90">
+              <h2 className="text-lg font-bold text-navy dark:text-white">Issue Commercial Freight Invoice</h2>
+              <button onClick={() => setShowCreateModal(false)} className="text-secondary hover:text-navy dark:text-slate-400 dark:hover:text-white p-1">
                 <AppIcon name="x" size={18} />
               </button>
             </div>
@@ -869,18 +869,18 @@ export const PaymentsBillingPage: React.FC = () => {
               {/* Header Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-secondary mb-1">
+                  <label className="block text-xs font-semibold text-secondary dark:text-slate-300 mb-1">
                     Select Customer Account *
                   </label>
                   <select
                     required
                     value={formCustomerId}
                     onChange={(e) => setFormCustomerId(e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                    className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange cursor-pointer"
                   >
-                    <option value="">-- Choose Customer --</option>
+                    <option value="" className="dark:bg-slate-800 dark:text-slate-100">-- Choose Customer --</option>
                     {customers.map((c) => (
-                      <option key={c.id} value={c.id}>
+                      <option key={c.id} value={c.id} className="dark:bg-slate-800 dark:text-slate-100">
                         {c.name} ({c.id})
                       </option>
                     ))}
@@ -888,17 +888,17 @@ export const PaymentsBillingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-secondary mb-1">
+                  <label className="block text-xs font-semibold text-secondary dark:text-slate-300 mb-1">
                     Link Consignment / Shipment (Optional)
                   </label>
                   <select
                     value={formShipmentId}
                     onChange={(e) => setFormShipmentId(e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange font-mono"
+                    className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange font-mono cursor-pointer"
                   >
-                    <option value="">-- No Direct Consignment Link --</option>
+                    <option value="" className="dark:bg-slate-800 dark:text-slate-100">-- No Direct Consignment Link --</option>
                     {shipments.map((s) => (
-                      <option key={s.id} value={s.id}>
+                      <option key={s.id} value={s.id} className="dark:bg-slate-800 dark:text-slate-100">
                         {s.id} ({s.originHub} → {s.destinationHub})
                       </option>
                     ))}
@@ -906,24 +906,24 @@ export const PaymentsBillingPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-secondary mb-1">Invoice Issue Date</label>
+                  <label className="block text-xs font-semibold text-secondary dark:text-slate-300 mb-1">Invoice Issue Date</label>
                   <input
                     type="date"
                     required
                     value={formIssueDate}
                     onChange={(e) => setFormIssueDate(e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                    className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-secondary mb-1">Payment Due Date</label>
+                  <label className="block text-xs font-semibold text-secondary dark:text-slate-300 mb-1">Payment Due Date</label>
                   <input
                     type="date"
                     required
                     value={formDueDate}
                     onChange={(e) => setFormDueDate(e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                    className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
                   />
                 </div>
               </div>
@@ -931,18 +931,18 @@ export const PaymentsBillingPage: React.FC = () => {
               {/* Line Items Builder */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm font-bold text-navy">Itemized Freight & Logistics Services</h3>
+                  <h3 className="text-sm font-bold text-navy dark:text-white">Itemized Freight & Logistics Services</h3>
                   <button
                     type="button"
                     onClick={handleAddItem}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-navy text-xs font-semibold rounded-md transition-colors"
+                    className="inline-flex items-center gap-1 px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-navy dark:text-slate-100 text-xs font-semibold rounded-md transition-colors"
                   >
                     <AppIcon name="plus" size={14} />
                     <span>Add Item</span>
                   </button>
                 </div>
 
-                <div className="space-y-2 border border-border rounded-lg p-3 bg-slate-50/50">
+                <div className="space-y-2 border border-border dark:border-slate-700 rounded-lg p-3 bg-slate-50/50 dark:bg-slate-800/40">
                   {formItems.map((item, index) => (
                     <div key={item.id} className="grid grid-cols-12 gap-2 items-center">
                       <div className="col-span-6">
@@ -952,7 +952,7 @@ export const PaymentsBillingPage: React.FC = () => {
                           placeholder="Description of freight service"
                           value={item.description}
                           onChange={(e) => handleUpdateItem(index, 'description', e.target.value)}
-                          className="w-full px-2.5 py-1.5 text-xs bg-white border border-border rounded text-navy focus:outline-none focus:border-orange"
+                          className="w-full px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 border border-border dark:border-slate-700 rounded text-navy dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-orange"
                         />
                       </div>
                       <div className="col-span-2">
@@ -963,7 +963,7 @@ export const PaymentsBillingPage: React.FC = () => {
                           placeholder="Qty"
                           value={item.quantity}
                           onChange={(e) => handleUpdateItem(index, 'quantity', e.target.value)}
-                          className="w-full px-2.5 py-1.5 text-xs bg-white border border-border rounded text-navy focus:outline-none focus:border-orange text-center"
+                          className="w-full px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 border border-border dark:border-slate-700 rounded text-navy dark:text-slate-100 focus:outline-none focus:border-orange text-center"
                         />
                       </div>
                       <div className="col-span-2">
@@ -975,10 +975,10 @@ export const PaymentsBillingPage: React.FC = () => {
                           placeholder="Rate"
                           value={item.unitPrice}
                           onChange={(e) => handleUpdateItem(index, 'unitPrice', e.target.value)}
-                          className="w-full px-2.5 py-1.5 text-xs bg-white border border-border rounded text-navy focus:outline-none focus:border-orange text-right"
+                          className="w-full px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 border border-border dark:border-slate-700 rounded text-navy dark:text-slate-100 focus:outline-none focus:border-orange text-right"
                         />
                       </div>
-                      <div className="col-span-1 text-right font-semibold text-xs text-navy">
+                      <div className="col-span-1 text-right font-semibold text-xs text-navy dark:text-slate-100">
                         ₹{item.amount.toLocaleString('en-IN')}
                       </div>
                       <div className="col-span-1 text-right">
@@ -986,7 +986,7 @@ export const PaymentsBillingPage: React.FC = () => {
                           type="button"
                           onClick={() => handleRemoveItem(index)}
                           disabled={formItems.length <= 1}
-                          className="p-1 text-secondary hover:text-rose-600 disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="p-1 text-secondary hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 disabled:opacity-30 disabled:cursor-not-allowed"
                         >
                           <AppIcon name="trash" size={14} />
                         </button>
@@ -998,15 +998,15 @@ export const PaymentsBillingPage: React.FC = () => {
                 {/* Subtotal & GST Calculation */}
                 <div className="mt-3 flex justify-end">
                   <div className="w-64 space-y-1.5 text-xs">
-                    <div className="flex justify-between text-secondary">
+                    <div className="flex justify-between text-secondary dark:text-slate-400">
                       <span>Subtotal:</span>
-                      <span className="font-semibold text-navy">₹{formSubtotal.toLocaleString('en-IN')}</span>
+                      <span className="font-semibold text-navy dark:text-slate-100">₹{formSubtotal.toLocaleString('en-IN')}</span>
                     </div>
-                    <div className="flex justify-between text-secondary">
+                    <div className="flex justify-between text-secondary dark:text-slate-400">
                       <span>GST (18%):</span>
-                      <span className="font-semibold text-navy">₹{formTax.toLocaleString('en-IN')}</span>
+                      <span className="font-semibold text-navy dark:text-slate-100">₹{formTax.toLocaleString('en-IN')}</span>
                     </div>
-                    <div className="flex justify-between border-t border-border pt-1.5 text-sm font-bold text-navy">
+                    <div className="flex justify-between border-t border-border dark:border-slate-700 pt-1.5 text-sm font-bold text-navy dark:text-white">
                       <span>Invoice Total:</span>
                       <span className="text-orange">₹{formTotal.toLocaleString('en-IN')}</span>
                     </div>
@@ -1017,36 +1017,36 @@ export const PaymentsBillingPage: React.FC = () => {
               {/* Terms & Notes */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-secondary mb-1">Payment Terms</label>
+                  <label className="block text-xs font-semibold text-secondary dark:text-slate-300 mb-1">Payment Terms</label>
                   <select
                     value={formPaymentTerms}
                     onChange={(e) => setFormPaymentTerms(e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                    className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange cursor-pointer"
                   >
-                    <option value="Immediate on Receipt">Immediate on Receipt</option>
-                    <option value="Net 15 Days">Net 15 Days</option>
-                    <option value="Net 30 Days">Net 30 Days</option>
-                    <option value="Net 45 Days">Net 45 Days</option>
+                    <option value="Immediate on Receipt" className="dark:bg-slate-800 dark:text-slate-100">Immediate on Receipt</option>
+                    <option value="Net 15 Days" className="dark:bg-slate-800 dark:text-slate-100">Net 15 Days</option>
+                    <option value="Net 30 Days" className="dark:bg-slate-800 dark:text-slate-100">Net 30 Days</option>
+                    <option value="Net 45 Days" className="dark:bg-slate-800 dark:text-slate-100">Net 45 Days</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-secondary mb-1">Invoice Notes / Remarks</label>
+                  <label className="block text-xs font-semibold text-secondary dark:text-slate-300 mb-1">Invoice Notes / Remarks</label>
                   <input
                     type="text"
                     value={formNotes}
                     onChange={(e) => setFormNotes(e.target.value)}
                     placeholder="e.g. Standard GST invoice for interstate freight haul"
-                    className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                    className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-border">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-border dark:border-slate-700">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border border-border text-secondary hover:text-navy hover:bg-slate-50 rounded-lg text-sm font-medium transition-colors"
+                  className="px-4 py-2 border border-border dark:border-slate-700 text-secondary dark:text-slate-300 hover:text-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg text-sm font-medium transition-colors"
                 >
                   Cancel
                 </button>
@@ -1064,42 +1064,42 @@ export const PaymentsBillingPage: React.FC = () => {
 
       {/* MODAL: VIEW & PRINT INVOICE */}
       {viewingInvoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto print:p-0 print:bg-white">
-          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden print:border-none print:shadow-none print:m-0 print:max-w-full">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/75 backdrop-blur-xs overflow-y-auto print:p-0 print:bg-white">
+          <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden print:border-none print:shadow-none print:m-0 print:max-w-full">
             {/* Header actions (hidden when printing) */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-slate-50 print:hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border dark:border-slate-700 bg-slate-50 dark:bg-slate-800/90 print:hidden">
               <div className="flex items-center gap-2">
                 <AppIcon name="file-text" size={18} className="text-orange" />
-                <h3 className="font-bold text-navy">Official Tax Invoice – {viewingInvoice.invoiceNumber}</h3>
+                <h3 className="font-bold text-navy dark:text-white">Official Tax Invoice – {viewingInvoice.invoiceNumber}</h3>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => window.print()}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-navy text-white text-xs font-semibold rounded-lg hover:bg-navy-light transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-navy dark:bg-slate-700 text-white text-xs font-semibold rounded-lg hover:bg-navy-light dark:hover:bg-slate-600 transition-colors"
                 >
                   <AppIcon name="printer" size={14} />
                   <span>Print / Save PDF</span>
                 </button>
-                <button onClick={() => setViewingInvoice(null)} className="text-secondary hover:text-navy p-1">
+                <button onClick={() => setViewingInvoice(null)} className="text-secondary hover:text-navy dark:text-slate-400 dark:hover:text-white p-1">
                   <AppIcon name="x" size={18} />
                 </button>
               </div>
             </div>
 
             {/* Printable Document Body */}
-            <div className="p-8 space-y-6 bg-white text-navy print:p-6" id="printable-invoice">
+            <div className="p-8 space-y-6 bg-white dark:bg-slate-900 text-navy dark:text-slate-100 print:bg-white print:text-black" id="printable-invoice">
               {/* Branding & Invoice Metas */}
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-border pb-6">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-border dark:border-slate-700 pb-6">
                 <div>
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-orange flex items-center justify-center text-white font-black text-base shadow-sm">
-                      F
+                      V
                     </div>
-                    <span className="font-black text-xl tracking-tight text-navy">
+                    <span className="font-black text-xl tracking-tight text-navy dark:text-white">
                       {appSettings.general.companyName}
                     </span>
                   </div>
-                  <div className="text-xs text-secondary mt-2 space-y-0.5">
+                  <div className="text-xs text-secondary dark:text-slate-400 mt-2 space-y-0.5">
                     <div>{appSettings.general.companyAddress}</div>
                     <div>Email: {appSettings.general.contactEmail} • Tel: {appSettings.general.contactPhone}</div>
                     <div className="font-mono">GSTIN: 07AAACF8829F1Z4</div>
@@ -1107,22 +1107,22 @@ export const PaymentsBillingPage: React.FC = () => {
                 </div>
 
                 <div className="text-right space-y-1">
-                  <div className="inline-block px-3 py-1 bg-slate-100 rounded text-xs font-mono font-bold text-navy uppercase tracking-wider">
+                  <div className="inline-block px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs font-mono font-bold text-navy dark:text-slate-200 uppercase tracking-wider">
                     TAX INVOICE
                   </div>
-                  <div className="text-sm font-bold font-mono text-navy mt-1">
+                  <div className="text-sm font-bold font-mono text-navy dark:text-white mt-1">
                     #{viewingInvoice.invoiceNumber}
                   </div>
-                  <div className="text-xs text-secondary">Issue Date: {viewingInvoice.issueDate}</div>
-                  <div className="text-xs text-secondary">Due Date: {viewingInvoice.dueDate}</div>
+                  <div className="text-xs text-secondary dark:text-slate-400">Issue Date: {viewingInvoice.issueDate}</div>
+                  <div className="text-xs text-secondary dark:text-slate-400">Due Date: {viewingInvoice.dueDate}</div>
                   <div className="pt-1">
                     <span
                       className={`inline-flex px-2 py-0.5 rounded-full text-xs font-semibold ${
                         viewingInvoice.paymentStatus === 'Paid'
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60'
                           : viewingInvoice.paymentStatus === 'Partially Paid'
-                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                          : 'bg-rose-50 text-rose-700 border border-rose-200'
+                          ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60'
+                          : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60'
                       }`}
                     >
                       Status: {viewingInvoice.paymentStatus}
@@ -1134,35 +1134,35 @@ export const PaymentsBillingPage: React.FC = () => {
               {/* Bill To & Dispatch Details */}
               <div className="grid grid-cols-2 gap-6 text-xs">
                 <div>
-                  <span className="uppercase tracking-wider font-semibold text-secondary block mb-1">
+                  <span className="uppercase tracking-wider font-semibold text-secondary dark:text-slate-400 block mb-1">
                     Billed To (Client Entity):
                   </span>
-                  <div className="font-bold text-sm text-navy">{viewingInvoice.customerName}</div>
-                  <div className="text-secondary mt-1">{viewingInvoice.customerAddress}</div>
-                  <div className="text-secondary font-mono mt-1">
+                  <div className="font-bold text-sm text-navy dark:text-white">{viewingInvoice.customerName}</div>
+                  <div className="text-secondary dark:text-slate-400 mt-1">{viewingInvoice.customerAddress}</div>
+                  <div className="text-secondary dark:text-slate-400 font-mono mt-1">
                     GSTIN: {viewingInvoice.customerGstin || 'Unregistered / Consumer'}
                   </div>
-                  <div className="text-secondary">{viewingInvoice.customerEmail}</div>
+                  <div className="text-secondary dark:text-slate-400">{viewingInvoice.customerEmail}</div>
                 </div>
 
                 <div className="text-right">
-                  <span className="uppercase tracking-wider font-semibold text-secondary block mb-1">
+                  <span className="uppercase tracking-wider font-semibold text-secondary dark:text-slate-400 block mb-1">
                     Consignment Dispatch Reference:
                   </span>
-                  <div className="font-mono font-bold text-navy">
+                  <div className="font-mono font-bold text-navy dark:text-white">
                     {viewingInvoice.shipmentId || 'Direct Service Billing'}
                   </div>
                   {viewingInvoice.shipmentRoute && (
-                    <div className="text-secondary mt-0.5">Route: {viewingInvoice.shipmentRoute}</div>
+                    <div className="text-secondary dark:text-slate-400 mt-0.5">Route: {viewingInvoice.shipmentRoute}</div>
                   )}
-                  <div className="text-secondary mt-1">Terms: {viewingInvoice.paymentTerms}</div>
+                  <div className="text-secondary dark:text-slate-400 mt-1">Terms: {viewingInvoice.paymentTerms}</div>
                 </div>
               </div>
 
               {/* Line Items Table */}
-              <div className="border border-border rounded-lg overflow-hidden">
+              <div className="border border-border dark:border-slate-700 rounded-lg overflow-hidden">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 border-b border-border font-semibold uppercase text-secondary">
+                  <thead className="bg-slate-50 dark:bg-slate-800/80 border-b border-border dark:border-slate-700 font-semibold uppercase text-secondary dark:text-slate-300">
                     <tr>
                       <th className="py-2.5 px-3">#</th>
                       <th className="py-2.5 px-3">Service Description</th>
@@ -1171,16 +1171,16 @@ export const PaymentsBillingPage: React.FC = () => {
                       <th className="py-2.5 px-3 text-right">Total (₹)</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border">
+                  <tbody className="divide-y divide-border dark:divide-slate-700">
                     {viewingInvoice.items.map((item, idx) => (
-                      <tr key={item.id}>
-                        <td className="py-2.5 px-3 text-secondary">{idx + 1}</td>
-                        <td className="py-2.5 px-3 font-medium text-navy">{item.description}</td>
-                        <td className="py-2.5 px-3 text-center">{item.quantity}</td>
-                        <td className="py-2.5 px-3 text-right font-mono">
+                      <tr key={item.id} className="dark:hover:bg-slate-800/40">
+                        <td className="py-2.5 px-3 text-secondary dark:text-slate-400">{idx + 1}</td>
+                        <td className="py-2.5 px-3 font-medium text-navy dark:text-slate-200">{item.description}</td>
+                        <td className="py-2.5 px-3 text-center dark:text-slate-300">{item.quantity}</td>
+                        <td className="py-2.5 px-3 text-right font-mono dark:text-slate-300">
                           {item.unitPrice.toLocaleString('en-IN')}
                         </td>
-                        <td className="py-2.5 px-3 text-right font-mono font-semibold">
+                        <td className="py-2.5 px-3 text-right font-mono font-semibold text-navy dark:text-white">
                           {item.amount.toLocaleString('en-IN')}
                         </td>
                       </tr>
@@ -1192,31 +1192,31 @@ export const PaymentsBillingPage: React.FC = () => {
               {/* Total Calculations */}
               <div className="flex justify-end">
                 <div className="w-64 space-y-1.5 text-xs">
-                  <div className="flex justify-between text-secondary">
+                  <div className="flex justify-between text-secondary dark:text-slate-400">
                     <span>Subtotal:</span>
-                    <span className="font-mono font-semibold text-navy">
+                    <span className="font-mono font-semibold text-navy dark:text-slate-100">
                       ₹{viewingInvoice.subtotal.toLocaleString('en-IN')}
                     </span>
                   </div>
-                  <div className="flex justify-between text-secondary">
+                  <div className="flex justify-between text-secondary dark:text-slate-400">
                     <span>GST (18%):</span>
-                    <span className="font-mono font-semibold text-navy">
+                    <span className="font-mono font-semibold text-navy dark:text-slate-100">
                       ₹{viewingInvoice.tax.toLocaleString('en-IN')}
                     </span>
                   </div>
-                  <div className="flex justify-between border-t border-border pt-1.5 text-sm font-bold text-navy">
+                  <div className="flex justify-between border-t border-border dark:border-slate-700 pt-1.5 text-sm font-bold text-navy dark:text-white">
                     <span>Grand Total:</span>
                     <span className="font-mono text-orange">
                       ₹{viewingInvoice.totalAmount.toLocaleString('en-IN')}
                     </span>
                   </div>
-                  <div className="flex justify-between text-secondary pt-0.5">
+                  <div className="flex justify-between text-secondary dark:text-slate-400 pt-0.5">
                     <span>Amount Paid:</span>
-                    <span className="font-mono text-emerald-600 font-semibold">
+                    <span className="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
                       ₹{viewingInvoice.paidAmount.toLocaleString('en-IN')}
                     </span>
                   </div>
-                  <div className="flex justify-between border-t border-border pt-1 font-bold text-xs text-amber-700">
+                  <div className="flex justify-between border-t border-border dark:border-slate-700 pt-1 font-bold text-xs text-amber-700 dark:text-amber-400">
                     <span>Balance Due:</span>
                     <span className="font-mono">
                       ₹{viewingInvoice.outstandingAmount.toLocaleString('en-IN')}
@@ -1226,17 +1226,17 @@ export const PaymentsBillingPage: React.FC = () => {
               </div>
 
               {/* Footer Bank & Terms */}
-              <div className="border-t border-border pt-4 text-[11px] text-secondary grid grid-cols-2 gap-4">
+              <div className="border-t border-border dark:border-slate-700 pt-4 text-[11px] text-secondary dark:text-slate-400 grid grid-cols-2 gap-4">
                 <div>
-                  <span className="font-semibold text-navy block mb-0.5">Bank Settlement Details:</span>
+                  <span className="font-semibold text-navy dark:text-slate-200 block mb-0.5">Bank Settlement Details:</span>
                   <div>Beneficiary: VELTRAX Logistics Private Limited</div>
                   <div>Bank: State Bank of India • Branch: Connaught Place</div>
                   <div className="font-mono">A/C: 40918820019 • IFSC: SBIN0000691</div>
                   <div className="font-mono">UPI VPA: veltrax.corp@sbi</div>
                 </div>
                 <div className="text-right">
-                  <span className="font-semibold text-navy block mb-0.5">Authorized Signatory:</span>
-                  <div className="italic text-slate-400 mt-4">Digitally Generated Invoice • No Physical Signature Required</div>
+                  <span className="font-semibold text-navy dark:text-slate-200 block mb-0.5">Authorized Signatory:</span>
+                  <div className="italic text-slate-400 dark:text-slate-500 mt-4">Digitally Generated Invoice • No Physical Signature Required</div>
                 </div>
               </div>
             </div>
@@ -1246,23 +1246,23 @@ export const PaymentsBillingPage: React.FC = () => {
 
       {/* MODAL: RECORD SIMULATED PAYMENT */}
       {payingInvoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-lg p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-border pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/75 backdrop-blur-xs">
+          <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl w-full max-w-lg p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-border dark:border-slate-700 pb-3">
               <div>
-                <h3 className="text-base font-bold text-navy">Record Commercial Settlement</h3>
-                <span className="text-xs text-secondary">
+                <h3 className="text-base font-bold text-navy dark:text-white">Record Commercial Settlement</h3>
+                <span className="text-xs text-secondary dark:text-slate-400">
                   Invoice #{payingInvoice.invoiceNumber} • Outstanding: ₹{payingInvoice.outstandingAmount.toLocaleString('en-IN')}
                 </span>
               </div>
-              <button onClick={() => setPayingInvoice(null)} className="text-secondary hover:text-navy p-1">
+              <button onClick={() => setPayingInvoice(null)} className="text-secondary hover:text-navy dark:text-slate-400 dark:hover:text-white p-1">
                 <AppIcon name="x" size={18} />
               </button>
             </div>
 
             <form onSubmit={handleConfirmPayment} className="space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-secondary mb-1">
+                <label className="block font-semibold text-secondary dark:text-slate-300 mb-1">
                   Payment Amount to Settle (₹) *
                 </label>
                 <input
@@ -1272,22 +1272,22 @@ export const PaymentsBillingPage: React.FC = () => {
                   required
                   value={payAmount}
                   onChange={(e) => setPayAmount(Number(e.target.value))}
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange font-semibold"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange font-semibold"
                 />
-                <span className="text-[11px] text-secondary mt-1 block">
+                <span className="text-[11px] text-secondary dark:text-slate-400 mt-1 block">
                   Supports partial settlement. Maximum payable: ₹{payingInvoice.outstandingAmount.toLocaleString('en-IN')}
                 </span>
               </div>
 
               <div>
-                <label className="block font-semibold text-secondary mb-1">Payment Method *</label>
+                <label className="block font-semibold text-secondary dark:text-slate-300 mb-1">Payment Method *</label>
                 <select
                   value={payMethod}
                   onChange={(e) => setPayMethod(e.target.value as PaymentMethod)}
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange cursor-pointer"
                 >
                   {PAYMENT_METHODS.map((m) => (
-                    <option key={m} value={m}>
+                    <option key={m} value={m} className="dark:bg-slate-800 dark:text-slate-100">
                       {m}
                     </option>
                   ))}
@@ -1295,7 +1295,7 @@ export const PaymentsBillingPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-secondary mb-1">
+                <label className="block font-semibold text-secondary dark:text-slate-300 mb-1">
                   Bank UTR / Transaction Reference *
                 </label>
                 <input
@@ -1303,31 +1303,31 @@ export const PaymentsBillingPage: React.FC = () => {
                   required
                   value={payRef}
                   onChange={(e) => setPayRef(e.target.value)}
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange font-mono"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange font-mono"
                   placeholder="e.g. NEFT/12345678/HDFC"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-secondary mb-1">Remarks / Audit Note</label>
+                <label className="block font-semibold text-secondary dark:text-slate-300 mb-1">Remarks / Audit Note</label>
                 <input
                   type="text"
                   value={payNotes}
                   onChange={(e) => setPayNotes(e.target.value)}
-                  className="w-full px-3 py-2 text-sm bg-slate-50 border border-border rounded-lg text-navy focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
+                  className="w-full px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-border dark:border-slate-700 rounded-lg text-navy dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange/20 focus:border-orange"
                 />
               </div>
 
-              <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-[11px] leading-relaxed">
+              <div className="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 rounded-lg text-amber-800 dark:text-amber-300 text-[11px] leading-relaxed">
                 <strong>Simulated Client Ledger:</strong> This transaction will update the local invoice balance,
                 recalculate customer credit usage, and append a verified mock transaction to the ledger.
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-border">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-border dark:border-slate-700">
                 <button
                   type="button"
                   onClick={() => setPayingInvoice(null)}
-                  className="px-4 py-2 border border-border text-secondary hover:text-navy hover:bg-slate-50 rounded-lg font-medium transition-colors"
+                  className="px-4 py-2 border border-border dark:border-slate-700 text-secondary dark:text-slate-300 hover:text-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors"
                 >
                   Cancel
                 </button>
@@ -1345,22 +1345,22 @@ export const PaymentsBillingPage: React.FC = () => {
 
       {/* MODAL: DELETE CONFIRMATION (INVOICE) */}
       {deletingInvoiceId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-          <div className="bg-white border border-slate-200 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/75 backdrop-blur-xs">
+          <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-4">
             <div className="flex items-center gap-3 text-rose-600">
-              <div className="p-2.5 rounded-full bg-rose-50 border border-rose-200">
+              <div className="p-2.5 rounded-full bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60">
                 <AppIcon name="alert" size={20} />
               </div>
-              <h3 className="text-base font-bold text-navy">Cancel & Remove Invoice?</h3>
+              <h3 className="text-base font-bold text-navy dark:text-white">Cancel & Remove Invoice?</h3>
             </div>
-            <p className="text-xs text-secondary leading-relaxed">
-              Are you sure you want to remove invoice <strong className="text-navy">{deletingInvoiceId}</strong>?
+            <p className="text-xs text-secondary dark:text-slate-300 leading-relaxed">
+              Are you sure you want to remove invoice <strong className="text-navy dark:text-white">{deletingInvoiceId}</strong>?
               This record will be permanently deleted from local storage.
             </p>
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-border">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-border dark:border-slate-700">
               <button
                 onClick={() => setDeletingInvoiceId(null)}
-                className="px-4 py-2 border border-border text-secondary hover:text-navy hover:bg-slate-50 rounded-lg text-xs font-medium transition-colors"
+                className="px-4 py-2 border border-border dark:border-slate-700 text-secondary dark:text-slate-300 hover:text-navy dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg text-xs font-medium transition-colors"
               >
                 Cancel
               </button>

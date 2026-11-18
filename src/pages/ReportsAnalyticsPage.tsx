@@ -795,12 +795,16 @@ export const ReportsAnalyticsPage: React.FC = () => {
                   onChange={(e) => setDelayHubFilter(e.target.value)}
                   className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
                 >
-                  <option value="all">All Responsible Hubs</option>
+                  <option value="all">All Responsible Hubs (9 Hubs)</option>
                   <option value="DEL-CENTRAL">Delhi Sorting Hub (DEL)</option>
+                  <option value="MH-MUMBAI">Mumbai Central Godown (BOM)</option>
                   <option value="JPR-MAIN">Jaipur Delivery Centre (JPR)</option>
                   <option value="GJ-SURAT">Surat Textile Cargo Hub (SUR)</option>
-                  <option value="MH-MUMBAI">Mumbai Central Godown (BOM)</option>
-                  <option value="TN-CHENNAI">Chennai Ambattur Hub (MAA)</option>
+                  <option value="KA-BLR">Bengaluru Tech Park (BLR)</option>
+                  <option value="WB-KOL">Kolkata Eastern Gateway (CCU)</option>
+                  <option value="HYD">Hyderabad Regional Hub (HYD)</option>
+                  <option value="MAA">Chennai Ambattur Hub (MAA)</option>
+                  <option value="AMD">Ahmedabad Express Hub (AMD)</option>
                 </select>
               </div>
 

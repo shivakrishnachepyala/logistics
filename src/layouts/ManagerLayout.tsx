@@ -66,7 +66,7 @@ export const ManagerLayout: React.FC = () => {
         />
 
         {/* Scrollable Operations Workspace */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 bg-slate-50 dark:bg-[#0B1220] transition-colors">
+        <main className="manager-workspace flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 bg-slate-50 dark:bg-[#0B1220] transition-colors">
           <div className="max-w-7xl mx-auto space-y-4">
             <Breadcrumbs />
             <Outlet />

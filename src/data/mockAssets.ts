@@ -450,7 +450,7 @@ export const INITIAL_WAREHOUSES: Warehouse[] = [
   {
     id: 'WH-CHN-01',
     name: 'Chennai Port & Coastal Fulfilment Depot',
-    branchId: 'TN-CHENNAI',
+    branchId: 'MAA',
     city: 'Chennai',
     state: 'Tamil Nadu',
     address: 'Expressway Road, Madhavaram Logistics Complex, Near Port Gate 4',
@@ -489,6 +489,70 @@ export const INITIAL_WAREHOUSES: Warehouse[] = [
     zones: ['Zone A: ESD Sensitive Electronics', 'Zone B: High-Rack Pallets', 'Zone C: Express Dispatch'],
     recentActivity: [
       { id: 'ACT-W9', timestamp: '2026-10-19 14:00', event: 'Automated conveyor maintenance completed', user: 'Girish Hegde' },
+    ],
+  },
+  {
+    id: 'WH-KOL-01',
+    name: 'Kolkata Shalimar Multi-Modal Gateway Depot',
+    branchId: 'WB-KOL',
+    city: 'Kolkata',
+    state: 'West Bengal',
+    address: 'Dankuni Freight Complex, Near Burrabazar Feeder Terminal',
+    managerName: 'Arup Mukherjee',
+    managerPhone: '+91 98310 55104',
+    managerEmail: 'arup.m@veltrax.in',
+    totalCapacitySqFt: 80000,
+    totalCapacityCbm: 15500,
+    occupiedCapacityCbm: 9200,
+    operationalStatus: 'active',
+    dockCount: 15,
+    temperatureControlled: false,
+    zones: ['Zone A: Rail Freight Cross-Dock', 'Zone B: Eastern Trade Bulk Bay', 'Zone C: Regional Dispatch'],
+    recentActivity: [
+      { id: 'ACT-W10', timestamp: '2026-10-19 16:20', event: 'Eastern DFC freight rake consignment staged', user: 'Arup Mukherjee' },
+    ],
+  },
+  {
+    id: 'WH-HYD-01',
+    name: 'Hyderabad Begumpet Deccan Air Cargo Hub',
+    branchId: 'HYD',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    address: 'Survey 48/A, Shamshabad Airport Cargo Complex, Begumpet Feeder',
+    managerName: 'K. S. Rao',
+    managerPhone: '+91 94400 33100',
+    managerEmail: 'ks.rao@veltrax.in',
+    totalCapacitySqFt: 72000,
+    totalCapacityCbm: 13800,
+    occupiedCapacityCbm: 7800,
+    operationalStatus: 'active',
+    dockCount: 14,
+    temperatureControlled: true,
+    tempRange: '+15°C to +25°C',
+    zones: ['Zone A: Pharma Cold Chain', 'Zone B: Air Express Staging', 'Zone C: Regional Sorting'],
+    recentActivity: [
+      { id: 'ACT-W11', timestamp: '2026-10-19 11:40', event: 'Inbound pharma shipment cleared at Cold Chain Bay', user: 'K. S. Rao' },
+    ],
+  },
+  {
+    id: 'WH-AMD-01',
+    name: 'Ahmedabad Sabarmati Intermodal Depot',
+    branchId: 'AMD',
+    city: 'Ahmedabad',
+    state: 'Gujarat',
+    address: 'Plot 88-92, Aslali Transport Nagar, Near Sardar Patel Ring Road',
+    managerName: 'Chirag Shah',
+    managerPhone: '+91 98980 44120',
+    managerEmail: 'chirag.shah@veltrax.in',
+    totalCapacitySqFt: 68000,
+    totalCapacityCbm: 12500,
+    occupiedCapacityCbm: 8100,
+    operationalStatus: 'active',
+    dockCount: 12,
+    temperatureControlled: false,
+    zones: ['Zone A: Textile & Chemical Staging', 'Zone B: Highway Line-Haul Dock', 'Zone C: Urban Feeder'],
+    recentActivity: [
+      { id: 'ACT-W12', timestamp: '2026-10-19 13:10', event: 'Line-haul departure dispatched to Mumbai Bhiwandi', user: 'Chirag Shah' },
     ],
   },
 ];
@@ -843,7 +907,26 @@ export const getWarehouses = (): Warehouse[] => {
       localStorage.setItem(WAREHOUSES_KEY, JSON.stringify(INITIAL_WAREHOUSES));
       return INITIAL_WAREHOUSES;
     }
-    return JSON.parse(raw);
+    const parsed: Warehouse[] = JSON.parse(raw);
+    let changed = false;
+    const merged = [...parsed];
+
+    // Ensure all 9 regional warehouses are present without duplicates
+    INITIAL_WAREHOUSES.forEach(iw => {
+      const idx = merged.findIndex(w => w.id === iw.id || w.city.toLowerCase() === iw.city.toLowerCase());
+      if (idx === -1) {
+        merged.push(iw);
+        changed = true;
+      } else if (merged[idx].branchId !== iw.branchId) {
+        merged[idx] = { ...merged[idx], branchId: iw.branchId, name: iw.name };
+        changed = true;
+      }
+    });
+
+    if (changed) {
+      localStorage.setItem(WAREHOUSES_KEY, JSON.stringify(merged));
+    }
+    return merged;
   } catch (e) {
     console.error('Failed to get warehouses', e);
     return INITIAL_WAREHOUSES;

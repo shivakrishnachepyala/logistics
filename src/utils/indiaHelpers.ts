@@ -125,3 +125,42 @@ export const INDIAN_STATES = [
   'Uttarakhand',
   'West Bengal'
 ];
+
+export interface RegionalHubMetadata {
+  code: string;
+  name: string;
+  city: string;
+  state: string;
+}
+
+export const ALL_REGIONAL_HUBS: RegionalHubMetadata[] = [
+  { code: 'DEL-CENTRAL', name: 'Delhi Central Sorting & National Gateway', city: 'Delhi', state: 'Delhi' },
+  { code: 'MH-MUMBAI', name: 'Mumbai Bhiwandi Logistics Gateway', city: 'Mumbai', state: 'Maharashtra' },
+  { code: 'JPR-MAIN', name: 'Jaipur Industrial Distribution Hub', city: 'Jaipur', state: 'Rajasthan' },
+  { code: 'GJ-SURAT', name: 'Surat Textile & Western Cargo Center', city: 'Surat', state: 'Gujarat' },
+  { code: 'KA-BLR', name: 'Bengaluru Tech & Electronics Park', city: 'Bengaluru', state: 'Karnataka' },
+  { code: 'WB-KOL', name: 'Kolkata Eastern Logistics Gateway', city: 'Kolkata', state: 'West Bengal' },
+  { code: 'HYD', name: 'Hyderabad Regional Cargo Hub', city: 'Hyderabad', state: 'Telangana' },
+  { code: 'MAA', name: 'Chennai Coromandel Coastal Gateway', city: 'Chennai', state: 'Tamil Nadu' },
+  { code: 'AMD', name: 'Ahmedabad Sabarmati Intermodal Terminal', city: 'Ahmedabad', state: 'Gujarat' },
+];
+
+export const CITY_TO_HUB_CODE: Record<string, string> = {
+  delhi: 'DEL-CENTRAL',
+  'new delhi': 'DEL-CENTRAL',
+  mumbai: 'MH-MUMBAI',
+  jaipur: 'JPR-MAIN',
+  surat: 'GJ-SURAT',
+  bengaluru: 'KA-BLR',
+  bangalore: 'KA-BLR',
+  kolkata: 'WB-KOL',
+  hyderabad: 'HYD',
+  chennai: 'MAA',
+  ahmedabad: 'AMD',
+};
+
+export const getHubCodeForCity = (city: string): string => {
+  if (!city) return 'ORG-HUB';
+  const clean = city.trim().toLowerCase();
+  return CITY_TO_HUB_CODE[clean] || `${city.slice(0, 3).toUpperCase()}-HUB`;
+};

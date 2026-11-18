@@ -37,7 +37,7 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-3 truncate">
             <span className="inline-flex items-center gap-1.5 text-xs text-orange-400 font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              {lang === 'hi' ? 'क्षेत्रीय स्टेशन नेटवर्क (दिल्ली, जयपुर, सूरत, मुंबई, बेंगलुरु, कोलकाता)' : 'VELTRAX LMS • 6 Regional Corridors: Delhi • Jaipur • Surat • Mumbai • Bengaluru • Kolkata'}
+              {lang === 'hi' ? 'क्षेत्रीय स्टेशन नेटवर्क (दिल्ली, जयपुर, सूरत, मुंबई, बेंगलुरु, कोलकाता, हैदराबाद, चेन्नई, अहमदाबाद)' : 'VELTRAX LMS • 9 Regional Corridors: Delhi • Jaipur • Surat • Mumbai • Bengaluru • Kolkata • Hyderabad • Chennai • Ahmedabad'}
             </span>
           </div>
 
@@ -126,16 +126,16 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Quick Tracking Search Box & Action */}
-          <div className="hidden lg:flex items-center gap-3">
-            <form onSubmit={handleQuickTrack} className="flex items-center">
+          {/* Desktop Actions & Theme Toggle */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            <form onSubmit={handleQuickTrack} className="hidden lg:flex items-center">
               <div className="relative">
                 <input
                   type="text"
                   placeholder={lang === 'hi' ? 'रसीद / पार्सल नंबर...' : 'Track parcel ID...'}
                   value={quickTrackId}
                   onChange={(e) => setQuickTrackId(e.target.value)}
-                  className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-mono px-3 py-2 w-44 border border-slate-200 dark:border-slate-700 rounded-l-lg uppercase placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white dark:focus:bg-slate-800 h-9"
+                  className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-mono px-3 py-2 w-40 xl:w-44 border border-slate-200 dark:border-slate-700 rounded-l-lg uppercase placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white dark:focus:bg-slate-800 h-9"
                 />
                 <span className="absolute right-2.5 top-2.5 text-slate-400 pointer-events-none">
                   <IndustrialIcon name="barcode" size={14} />
@@ -151,7 +151,7 @@ export const Navbar: React.FC = () => {
               </button>
             </form>
 
-            <div className="h-6 w-[1px] bg-slate-200 dark:bg-slate-700"></div>
+            <div className="hidden lg:block h-6 w-[1px] bg-slate-200 dark:bg-slate-700"></div>
 
             {/* Desktop Theme Selector */}
             <ThemeToggle variant="dropdown" />

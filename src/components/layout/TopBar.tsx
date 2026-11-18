@@ -122,10 +122,14 @@ export const TopBar: React.FC<TopBarProps> = ({
             >
               <option value="all" className="dark:bg-slate-800">National Network (All Hubs)</option>
               <option value="DEL-CENTRAL" className="dark:bg-slate-800">Delhi Sorting Hub (DEL)</option>
+              <option value="MH-MUMBAI" className="dark:bg-slate-800">Mumbai Central Godown (BOM)</option>
               <option value="JPR-MAIN" className="dark:bg-slate-800">Jaipur Delivery Centre (JPR)</option>
               <option value="GJ-SURAT" className="dark:bg-slate-800">Surat Textile Cargo Hub (SUR)</option>
-              <option value="MH-MUMBAI" className="dark:bg-slate-800">Mumbai Central Godown (BOM)</option>
-              <option value="TN-CHENNAI" className="dark:bg-slate-800">Chennai Ambattur Hub (MAA)</option>
+              <option value="KA-BLR" className="dark:bg-slate-800">Bengaluru Tech Park (BLR)</option>
+              <option value="WB-KOL" className="dark:bg-slate-800">Kolkata Eastern Gateway (CCU)</option>
+              <option value="HYD" className="dark:bg-slate-800">Hyderabad Regional Hub (HYD)</option>
+              <option value="MAA" className="dark:bg-slate-800">Chennai Coromandel Hub (MAA)</option>
+              <option value="AMD" className="dark:bg-slate-800">Ahmedabad Sabarmati Hub (AMD)</option>
             </select>
           </div>
         </div>

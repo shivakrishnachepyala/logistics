@@ -61,15 +61,15 @@ export const ParcelReceiptPage: React.FC = () => {
 
   if (!shipment) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center p-4 bg-slate-50">
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full text-center shadow-lg">
-          <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-4">
+      <div className="min-h-[70vh] flex items-center justify-center p-4 bg-slate-50 dark:bg-[#0B1220]">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-3xl p-8 max-w-md w-full text-center shadow-lg">
+          <div className="w-14 h-14 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto mb-4">
             <IndustrialIcon name="alert" size={28} />
           </div>
-          <h2 className="text-lg font-bold text-slate-900 mb-2">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
             {lang === 'hi' ? 'पार्सल रसीद नहीं मिली' : 'Parcel Receipt Not Found'}
           </h2>
-          <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
             {lang === 'hi'
               ? `पार्सल आईडी "${id || ''}" के लिए कोई आधिकारिक बिल्ती या रसीद दर्ज नहीं है। कृपया ट्रैकिंग नंबर की जांच करें।`
               : `No official lorry receipt (e-LR) was found for consignment identifier "${id || ''}". Please verify the tracking number.`}
@@ -84,7 +84,7 @@ export const ParcelReceiptPage: React.FC = () => {
             {customer && (
               <Link
                 to="/account/shipments"
-                className="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl transition-colors"
+                className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-colors"
               >
                 {lang === 'hi' ? 'मेरे पार्सल' : 'My Shipments'}
               </Link>
@@ -98,21 +98,18 @@ export const ParcelReceiptPage: React.FC = () => {
   // Access restriction enforcement for Customer Portal
   if (isCustomerPortalRoute && !isCustomerAccountAuthorized()) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center p-4 bg-slate-50">
-        <div className="bg-white border border-rose-200 rounded-3xl p-8 max-w-md w-full text-center shadow-lg">
-          <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4">
+      <div className="min-h-[70vh] flex items-center justify-center p-4 bg-slate-50 dark:bg-[#0B1220]">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-3xl p-8 max-w-md w-full text-center shadow-lg">
+          <div className="w-14 h-14 rounded-2xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-4">
             <IndustrialIcon name="shield" size={28} />
           </div>
-          <div className="text-[10px] uppercase font-bold tracking-wider text-rose-600 font-mono mb-1">
-            403 Security Restriction
-          </div>
-          <h2 className="text-lg font-bold text-slate-900 mb-2">
-            {lang === 'hi' ? 'पहुंच प्रतिबंधित है' : 'Access Restricted'}
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+            {lang === 'hi' ? 'अनधिकृत पहुंच' : 'Access Restricted'}
           </h2>
-          <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
             {lang === 'hi'
-              ? `यह पार्सल रसीद (${shipment.id}) दूसरे ग्राहक खाते से जुड़ी है। आप केवल अपने बुक किए गए पार्सल की रसीदें देख सकते हैं।`
-              : `This consignment note (${shipment.id}) belongs to another registered customer account. Through the Customer Portal, you can only access receipts for your own shipments.`}
+              ? 'यह पार्सल रसीद आपके ग्राहक खाते से संबद्ध नहीं है। सुरक्षा कारणों से केवल प्रेषक या अधिकृत प्राप्तकर्ता ही पूर्ण खाता बिलती देख सकते हैं।'
+              : 'This consignment receipt is not associated with your logged-in customer account. For security, only the authenticated account owner can view complete billing receipts.'}
           </p>
           <div className="flex flex-col sm:flex-row gap-2.5 justify-center">
             <Link
@@ -123,7 +120,7 @@ export const ParcelReceiptPage: React.FC = () => {
             </Link>
             <Link
               to={`/track?id=${shipment.id}`}
-              className="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-xl transition-colors"
+              className="px-5 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-colors"
             >
               {lang === 'hi' ? 'सार्वजनिक ट्रैकिंग देखें' : 'Public Tracking'}
             </Link>
@@ -232,25 +229,25 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
   };
 
   return (
-    <div className="min-h-screen bg-slate-100/70 py-8 px-4 sm:px-6 lg:px-8 print:bg-white print:p-0 print:min-h-0">
+    <div className="min-h-screen bg-slate-100/70 dark:bg-[#0B1220] py-8 px-4 sm:px-6 lg:px-8 print:bg-white print:p-0 print:min-h-0 text-slate-800 dark:text-slate-100">
       <div className="max-w-4xl mx-auto space-y-6">
 
         {/* 1. Header Toolbar (Hidden when printing) */}
-        <div className="flex flex-wrap items-center justify-between gap-4 bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-xs print:hidden">
+        <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-[#1E293B] border border-slate-200/90 dark:border-slate-700 rounded-2xl p-4 sm:p-5 shadow-xs print:hidden">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center font-bold text-lg shadow-sm">
               <IndustrialIcon name="file" size={20} />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono">
                   {isCustomerPortalRoute ? 'Customer Portal' : 'Public Consignment'}
                 </span>
-                <span className="text-xs font-semibold text-slate-500">
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   {lang === 'hi' ? 'आधिकारिक पार्सल रसीद' : 'Official Consignment Note'}
                 </span>
               </div>
-              <h1 className="text-base sm:text-lg font-bold text-slate-900 mt-0.5">
+              <h1 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">
                 {lang === 'hi' ? 'पक्की बिल्टी व पार्सल रसीद' : 'Parcel Receipt & e-LR Bilty'}
               </h1>
             </div>
@@ -261,14 +258,14 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
             {isCustomerPortalRoute ? (
               <Link
                 to="/account/shipments"
-                className="px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition-colors flex items-center gap-1.5 shadow-2xs"
+                className="px-3.5 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors flex items-center gap-1.5 shadow-2xs"
               >
                 <span>← {lang === 'hi' ? 'मेरे पार्सल' : 'My Shipments'}</span>
               </Link>
             ) : (
               <Link
                 to={`/track?id=${shipment.id}`}
-                className="px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition-colors flex items-center gap-1.5 shadow-2xs"
+                className="px-3.5 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors flex items-center gap-1.5 shadow-2xs"
               >
                 <span>← {lang === 'hi' ? 'ट्रैकिंग पर लौटें' : 'Back to Tracking'}</span>
               </Link>
@@ -277,7 +274,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
             {/* Print Receipt Action */}
             <button
               onClick={handlePrint}
-              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-xs"
+              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-orange-500 dark:hover:bg-orange-600 text-white rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-xs"
               title="Print official receipt or save as PDF"
             >
               <IndustrialIcon name="printer" size={14} />
@@ -287,7 +284,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
             {/* Download Text Action */}
             <button
               onClick={handleDownloadText}
-              className="px-3.5 py-2 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 transition-colors flex items-center gap-1.5 shadow-2xs"
+              className="px-3.5 py-2 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors flex items-center gap-1.5 shadow-2xs"
               title="Download text version of bilty"
             >
               <span>{lang === 'hi' ? 'टेक्स्ट कॉपी डाउनलोड' : 'Download .txt'}</span>
@@ -298,7 +295,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
               href="https://wa.me/916303766064"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5"
+              className="px-3.5 py-2 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 rounded-xl text-xs font-semibold transition-colors flex items-center gap-1.5"
               title="Chat on WhatsApp (+91 6303766064)"
             >
               <IndustrialIcon name="phone" size={13} className="text-[#25D366]" />
@@ -310,25 +307,25 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
         {/* 2. Printable Official Lorry Receipt Body */}
         <div
           id="printable-parcel-receipt"
-          className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-lg text-slate-800 space-y-7 print:border-none print:shadow-none print:p-0 print:m-0"
+          className="bg-white dark:bg-[#1E293B] border border-slate-200/90 dark:border-slate-700 rounded-3xl p-6 sm:p-10 shadow-lg text-slate-800 dark:text-slate-100 space-y-7 print:bg-white print:text-black print:border-none print:shadow-none print:p-0 print:m-0"
         >
           {/* A. Top Brand & Carrier Header */}
-          <div className="flex flex-col sm:flex-row items-start justify-between gap-6 border-b-2 border-slate-900 pb-6">
+          <div className="flex flex-col sm:flex-row items-start justify-between gap-6 border-b-2 border-slate-900 dark:border-slate-700 print:border-slate-900 pb-6">
             <div>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center font-black text-xl shadow-xs">
                   V
                 </div>
                 <div>
-                  <div className="font-black text-2xl tracking-tight text-slate-900 leading-none">
+                  <div className="font-black text-2xl tracking-tight text-slate-900 dark:text-white print:text-black leading-none">
                     VELTRAX LOGISTICS
                   </div>
-                  <div className="text-[11px] font-semibold tracking-wider text-orange-600 uppercase mt-0.5">
+                  <div className="text-[11px] font-semibold tracking-wider text-orange-600 dark:text-orange-400 print:text-orange-600 uppercase mt-0.5">
                     Express Multimodal Freight & Parcel Network
                   </div>
                 </div>
               </div>
-              <div className="text-xs text-slate-500 mt-3 space-y-0.5">
+              <div className="text-xs text-slate-500 dark:text-slate-400 print:text-slate-600 mt-3 space-y-0.5">
                 <div>Registered Office: Barakhamba Road, Connaught Place, New Delhi 110001</div>
                 <div>Customer Helpdesk: 1800-266-8829 • support@veltrax.in • WhatsApp: +91 6303766064</div>
                 <div className="font-mono text-[11px]">GSTIN: 07AAACF8829F1Z4 • PAN: AAACF8829F • GTA Reg No: GTA/DEL/2026/882</div>
@@ -336,17 +333,17 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
             </div>
 
             <div className="flex flex-col items-start sm:items-end text-left sm:text-right">
-              <div className="inline-block px-3 py-1 bg-slate-900 text-white rounded-md text-xs font-mono font-bold uppercase tracking-wider">
+              <div className="inline-block px-3 py-1 bg-slate-900 dark:bg-slate-800 print:bg-slate-900 text-white rounded-md text-xs font-mono font-bold uppercase tracking-wider">
                 CONSIGNMENT NOTE (e-LR)
               </div>
-              <div className="text-xl font-black font-mono text-slate-900 mt-1.5">
+              <div className="text-xl font-black font-mono text-slate-900 dark:text-white print:text-black mt-1.5">
                 {lrNumber}
               </div>
-              <div className="text-xs text-slate-500 mt-0.5">
-                Issue Date: <strong className="text-slate-800">{issueDate}</strong>
+              <div className="text-xs text-slate-500 dark:text-slate-400 print:text-slate-600 mt-0.5">
+                Issue Date: <strong className="text-slate-800 dark:text-slate-200 print:text-slate-800">{issueDate}</strong>
               </div>
-              <div className="text-xs text-slate-500">
-                Booking Ref: <strong className="font-mono text-slate-800">{bookingRef}</strong>
+              <div className="text-xs text-slate-500 dark:text-slate-400 print:text-slate-600">
+                Booking Ref: <strong className="font-mono text-slate-800 dark:text-slate-200 print:text-slate-800">{bookingRef}</strong>
               </div>
               <div className="mt-2">
                 <StatusBadge status={shipment.status} />
@@ -355,12 +352,12 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
           </div>
 
           {/* B. Consignment Identifiers & Quick Route Strip */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50/80 border border-slate-200/80 rounded-2xl p-4 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 print:bg-slate-50 rounded-2xl p-4 text-xs">
             <div>
               <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
                 Tracking ID
               </span>
-              <span className="font-mono font-bold text-sm text-slate-900">
+              <span className="font-mono font-bold text-sm text-slate-900 dark:text-white print:text-slate-900">
                 {trackingNumber}
               </span>
             </div>
@@ -369,7 +366,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
               <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
                 Corridor / Route
               </span>
-              <span className="font-bold text-slate-900 flex items-center gap-1.5 mt-0.5">
+              <span className="font-bold text-slate-900 dark:text-white print:text-slate-900 flex items-center gap-1.5 mt-0.5">
                 <span>{sender.city}</span>
                 <span className="text-orange-500">➔</span>
                 <span>{receiver.city}</span>
@@ -380,7 +377,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
               <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
                 Transport Mode
               </span>
-              <span className="font-bold text-slate-900 uppercase">
+              <span className="font-bold text-slate-900 dark:text-white print:text-slate-900 uppercase">
                 {serviceModeText}
               </span>
             </div>
@@ -388,22 +385,22 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
 
           {/* Active Delay Advisory Banner if Delayed */}
           {shipment.status === 'delayed' && (
-            <div className="p-3.5 bg-amber-50/95 border border-amber-300 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-2xs">
+            <div className="p-3.5 bg-amber-50/95 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-2xs print:bg-amber-50">
               <div className="flex items-center gap-2.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
                 <div>
-                  <span className="font-bold text-amber-900 uppercase tracking-wider text-[10px] mr-2">
+                  <span className="font-bold text-amber-900 dark:text-amber-300 print:text-amber-900 uppercase tracking-wider text-[10px] mr-2">
                     ACTIVE TRANSIT DELAY ADVISORY:
                   </span>
-                  <span className="font-medium text-slate-800">
+                  <span className="font-medium text-slate-800 dark:text-slate-200 print:text-slate-800">
                     {shipment.delayInfo?.customerExplanation || shipment.delayInfo?.reason || 'Unexpected transportation disruption along the delivery route.'}
                   </span>
                 </div>
               </div>
-              <div className="text-[11px] font-mono shrink-0 text-slate-600 bg-white/80 px-2.5 py-1 rounded-lg border border-amber-200">
+              <div className="text-[11px] font-mono shrink-0 text-slate-600 dark:text-slate-300 print:text-slate-600 bg-white/80 dark:bg-slate-800 px-2.5 py-1 rounded-lg border border-amber-200 dark:border-amber-700">
                 <span className="text-slate-400">Orig ETA: </span>
                 <span className="line-through text-slate-400 mr-2">{shipment.delayInfo?.originalEta || '17/11/2026, 02:00 PM'}</span>
-                <span className="text-amber-800 font-bold">Revised: {shipment.delayInfo?.revisedEta || '19/11/2026, 06:00 PM'}</span>
+                <span className="text-amber-800 dark:text-amber-400 font-bold">Revised: {shipment.delayInfo?.revisedEta || '19/11/2026, 06:00 PM'}</span>
               </div>
             </div>
           )}
@@ -411,71 +408,71 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
           {/* C. Sender & Receiver Party Details */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Sender / Consignor */}
-            <div className="border border-slate-200 rounded-2xl p-5 bg-white space-y-2 text-xs">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
-                <span className="text-[11px] font-bold text-orange-600 uppercase tracking-wider">
+            <div className="border border-slate-200 dark:border-slate-700 rounded-2xl p-5 bg-white dark:bg-slate-800/60 print:bg-white space-y-2 text-xs">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2 mb-2">
+                <span className="text-[11px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">
                   1. Consignor (Sender)
                 </span>
                 <span className="text-[10px] font-mono text-slate-400">Pickup Origin</span>
               </div>
-              <div className="font-bold text-sm text-slate-900">{sender.name}</div>
+              <div className="font-bold text-sm text-slate-900 dark:text-white print:text-slate-900">{sender.name}</div>
               {sender.company && (
-                <div className="font-semibold text-slate-700">{sender.company}</div>
+                <div className="font-semibold text-slate-700 dark:text-slate-300 print:text-slate-700">{sender.company}</div>
               )}
-              <div className="text-slate-600 leading-relaxed">
+              <div className="text-slate-600 dark:text-slate-300 print:text-slate-600 leading-relaxed">
                 {sender.address}, {sender.city}, {sender.state || ''} - {sender.postalCode}
               </div>
-              <div className="text-slate-600 pt-1">
-                <span className="font-semibold text-slate-800">Phone:</span> {sender.contactPhone}
+              <div className="text-slate-600 dark:text-slate-300 print:text-slate-600 pt-1">
+                <span className="font-semibold text-slate-800 dark:text-slate-200 print:text-slate-800">Phone:</span> {sender.contactPhone}
               </div>
-              <div className="text-slate-600">
-                <span className="font-semibold text-slate-800">Email:</span> {sender.contactEmail}
+              <div className="text-slate-600 dark:text-slate-300 print:text-slate-600">
+                <span className="font-semibold text-slate-800 dark:text-slate-200 print:text-slate-800">Email:</span> {sender.contactEmail}
               </div>
-              <div className="text-slate-600 font-mono text-[11px] pt-1 border-t border-slate-100">
-                <span className="font-semibold text-slate-800">GSTIN:</span> {senderGstin}
+              <div className="text-slate-600 dark:text-slate-300 print:text-slate-600 font-mono text-[11px] pt-1 border-t border-slate-100 dark:border-slate-700">
+                <span className="font-semibold text-slate-800 dark:text-slate-200 print:text-slate-800">GSTIN:</span> {senderGstin}
               </div>
-              <div className="text-[11px] text-slate-500">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 print:text-slate-500">
                 <span className="font-semibold">Dispatch Hub:</span> {shipment.originHub} ({shipment.originHubCode})
               </div>
             </div>
 
             {/* Receiver / Consignee */}
-            <div className="border border-slate-200 rounded-2xl p-5 bg-white space-y-2 text-xs">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
-                <span className="text-[11px] font-bold text-orange-600 uppercase tracking-wider">
+            <div className="border border-slate-200 dark:border-slate-700 rounded-2xl p-5 bg-white dark:bg-slate-800/60 print:bg-white space-y-2 text-xs">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2 mb-2">
+                <span className="text-[11px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">
                   2. Consignee (Receiver)
                 </span>
                 <span className="text-[10px] font-mono text-slate-400">Delivery Destination</span>
               </div>
-              <div className="font-bold text-sm text-slate-900">{receiver.name}</div>
+              <div className="font-bold text-sm text-slate-900 dark:text-white print:text-slate-900">{receiver.name}</div>
               {receiver.company && (
-                <div className="font-semibold text-slate-700">{receiver.company}</div>
+                <div className="font-semibold text-slate-700 dark:text-slate-300 print:text-slate-700">{receiver.company}</div>
               )}
-              <div className="text-slate-600 leading-relaxed">
+              <div className="text-slate-600 dark:text-slate-300 print:text-slate-600 leading-relaxed">
                 {receiver.address}, {receiver.city}, {receiver.state || ''} - {receiver.postalCode}
               </div>
-              <div className="text-slate-600 pt-1">
-                <span className="font-semibold text-slate-800">Phone:</span> {receiver.contactPhone}
+              <div className="text-slate-600 dark:text-slate-300 print:text-slate-600 pt-1">
+                <span className="font-semibold text-slate-800 dark:text-slate-200 print:text-slate-800">Phone:</span> {receiver.contactPhone}
               </div>
-              <div className="text-slate-600">
-                <span className="font-semibold text-slate-800">Email:</span> {receiver.contactEmail}
+              <div className="text-slate-600 dark:text-slate-300 print:text-slate-600">
+                <span className="font-semibold text-slate-800 dark:text-slate-200 print:text-slate-800">Email:</span> {receiver.contactEmail}
               </div>
-              <div className="text-slate-600 font-mono text-[11px] pt-1 border-t border-slate-100">
-                <span className="font-semibold text-slate-800">GSTIN:</span> {receiverGstin}
+              <div className="text-slate-600 dark:text-slate-300 print:text-slate-600 font-mono text-[11px] pt-1 border-t border-slate-100 dark:border-slate-700">
+                <span className="font-semibold text-slate-800 dark:text-slate-200 print:text-slate-800">GSTIN:</span> {receiverGstin}
               </div>
-              <div className="text-[11px] text-slate-500">
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 print:text-slate-500">
                 <span className="font-semibold">Destination Hub:</span> {shipment.destinationHub} ({shipment.destinationHubCode})
               </div>
             </div>
           </div>
 
           {/* D. Parcel Specifications & Weight Details */}
-          <div className="border border-slate-200 rounded-2xl p-5 bg-white space-y-4 text-xs">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-              <span className="text-[11px] font-bold text-orange-600 uppercase tracking-wider">
+          <div className="border border-slate-200 dark:border-slate-700 rounded-2xl p-5 bg-white dark:bg-slate-800/60 print:bg-white space-y-4 text-xs">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+              <span className="text-[11px] font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider">
                 3. Parcel & Cargo Description
               </span>
-              <span className="text-[11px] text-slate-500">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400">
                 Chargeable Weight Basis: Actual / Volumetric
               </span>
             </div>
@@ -485,7 +482,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
                 <span className="text-[10px] text-slate-400 font-semibold uppercase block">
                   Commodity Description
                 </span>
-                <span className="font-bold text-slate-900 mt-0.5 block">
+                <span className="font-bold text-slate-900 dark:text-white print:text-slate-900 mt-0.5 block">
                   {cargo.type}
                 </span>
               </div>
@@ -494,7 +491,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
                 <span className="text-[10px] text-slate-400 font-semibold uppercase block">
                   Chargeable Weight
                 </span>
-                <span className="font-bold text-slate-900 mt-0.5 block font-mono text-sm">
+                <span className="font-bold text-slate-900 dark:text-white print:text-slate-900 mt-0.5 block font-mono text-sm">
                   {cargo.weightKg} KG
                 </span>
               </div>
@@ -503,7 +500,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
                 <span className="text-[10px] text-slate-400 font-semibold uppercase block">
                   Package Quantity
                 </span>
-                <span className="font-bold text-slate-900 mt-0.5 block">
+                <span className="font-bold text-slate-900 dark:text-white print:text-slate-900 mt-0.5 block">
                   {cargo.quantity} Package(s)
                 </span>
               </div>
@@ -512,81 +509,81 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
                 <span className="text-[10px] text-slate-400 font-semibold uppercase block">
                   Declared Consignment Value
                 </span>
-                <span className="font-bold text-slate-900 mt-0.5 block font-mono text-sm text-emerald-700">
+                <span className="font-bold text-slate-900 dark:text-white print:text-slate-900 mt-0.5 block font-mono text-sm text-emerald-700 dark:text-emerald-400">
                   {formatCurrency(declaredValueInr)}
                 </span>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-4 text-[11px] text-slate-600">
+            <div className="pt-3 border-t border-slate-100 dark:border-slate-700 grid grid-cols-2 sm:grid-cols-4 gap-4 text-[11px] text-slate-600 dark:text-slate-300 print:text-slate-600">
               <div>
                 <span className="text-slate-400 font-medium">Volume:</span>{' '}
-                <strong className="text-slate-800">{cargo.volumeCbm} CBM</strong>
+                <strong className="text-slate-800 dark:text-slate-200 print:text-slate-800">{cargo.volumeCbm} CBM</strong>
               </div>
               <div>
                 <span className="text-slate-400 font-medium">Hazardous Cargo:</span>{' '}
-                <strong className="text-slate-800">{cargo.hazardous ? `Yes (${cargo.hazmatClass || 'Classified'})` : 'No (Standard)'}</strong>
+                <strong className="text-slate-800 dark:text-slate-200 print:text-slate-800">{cargo.hazardous ? `Yes (${cargo.hazmatClass || 'Classified'})` : 'No (Standard)'}</strong>
               </div>
               <div>
                 <span className="text-slate-400 font-medium">Temperature Control:</span>{' '}
-                <strong className="text-slate-800">{cargo.temperatureControlled ? cargo.tempRange || 'Controlled' : 'Ambient'}</strong>
+                <strong className="text-slate-800 dark:text-slate-200 print:text-slate-800">{cargo.temperatureControlled ? cargo.tempRange || 'Controlled' : 'Ambient'}</strong>
               </div>
               <div>
                 <span className="text-slate-400 font-medium">Security Seal:</span>{' '}
-                <strong className="font-mono text-slate-800">{cargo.sealNumber || 'VERIFIED-01'}</strong>
+                <strong className="font-mono text-slate-800 dark:text-slate-200 print:text-slate-800">{cargo.sealNumber || 'VERIFIED-01'}</strong>
               </div>
             </div>
           </div>
 
           {/* E. Freight Charges, GST & Total Tariff Breakdown */}
-          <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white text-xs">
-            <div className="bg-slate-50 px-5 py-3 border-b border-slate-200 flex items-center justify-between">
-              <span className="font-bold text-slate-900 uppercase tracking-wide text-xs">
+          <div className="border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden bg-white dark:bg-slate-800/60 print:bg-white text-xs">
+            <div className="bg-slate-50 dark:bg-slate-800/90 print:bg-slate-50 px-5 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+              <span className="font-bold text-slate-900 dark:text-white print:text-black uppercase tracking-wide text-xs">
                 4. Freight Charges & Tariff Breakdown
               </span>
-              <span className="text-[11px] text-slate-500 font-mono">GST Rate: 18% Statutory Rate</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">GST Rate: 18% Statutory Rate</span>
             </div>
 
             <div className="p-5 space-y-3">
-              <div className="flex items-center justify-between text-slate-700">
+              <div className="flex items-center justify-between text-slate-700 dark:text-slate-300 print:text-slate-700">
                 <span>Base Line-Haul Freight Charge ({cargo.weightKg} kg):</span>
                 <span className="font-mono font-semibold">{formatCurrency(baseRate)}</span>
               </div>
 
-              <div className="flex items-center justify-between text-slate-700">
+              <div className="flex items-center justify-between text-slate-700 dark:text-slate-300 print:text-slate-700">
                 <span>Fuel Surcharge & Highway Tolls:</span>
                 <span className="font-mono font-semibold">{formatCurrency(fuelRate)}</span>
               </div>
 
-              <div className="flex items-center justify-between text-slate-700">
+              <div className="flex items-center justify-between text-slate-700 dark:text-slate-300 print:text-slate-700">
                 <span>Docket Processing & Terminal Handling Fee:</span>
                 <span className="font-mono font-semibold">{formatCurrency(handlingFee)}</span>
               </div>
 
-              <div className="flex items-center justify-between text-slate-700">
+              <div className="flex items-center justify-between text-slate-700 dark:text-slate-300 print:text-slate-700">
                 <span>Goods & Services Tax (GST 18%):</span>
                 <span className="font-mono font-semibold">{formatCurrency(gstAmount)}</span>
               </div>
 
-              <div className="pt-3 border-t-2 border-slate-900 flex items-center justify-between text-sm sm:text-base font-bold text-slate-900">
+              <div className="pt-3 border-t-2 border-slate-900 dark:border-slate-700 print:border-slate-900 flex items-center justify-between text-sm sm:text-base font-bold text-slate-900 dark:text-white print:text-black">
                 <span>Total Freight Charges Payable:</span>
-                <span className="font-mono text-lg text-slate-900">{formatCurrency(totalAmount)}</span>
+                <span className="font-mono text-lg text-slate-900 dark:text-white print:text-black">{formatCurrency(totalAmount)}</span>
               </div>
 
-              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-slate-100 mt-2">
+              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-slate-100 dark:border-slate-700 mt-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-slate-500">Payment Mode:</span>
-                  <span className="px-2 py-0.5 bg-slate-100 rounded text-slate-800 font-mono font-bold uppercase">
+                  <span className="text-slate-500 dark:text-slate-400">Payment Mode:</span>
+                  <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-slate-800 dark:text-slate-200 font-mono font-bold uppercase">
                     {paymentMethod}
                   </span>
-                  <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold text-[11px]">
+                  <span className="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 rounded font-semibold text-[11px]">
                     {paymentStatus}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-slate-500">Consignee Delivery OTP:</span>
-                  <span className="px-2.5 py-1 bg-amber-100 text-amber-900 rounded font-mono font-bold tracking-wider">
+                  <span className="text-slate-500 dark:text-slate-400">Consignee Delivery OTP:</span>
+                  <span className="px-2.5 py-1 bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 rounded font-mono font-bold tracking-wider">
                     {shipment.deliveryOtp || '4829'}
                   </span>
                 </div>
@@ -595,7 +592,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
           </div>
 
           {/* F. Barcode & Statutory Declaration */}
-          <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="pt-4 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
               <Barcode value={trackingNumber.replace(/-/g, '')} subtext="OFFICIAL CONSIGNMENT LR" height={42} />
               <div className="text-[10px] text-slate-400 font-mono mt-1">
@@ -603,7 +600,7 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
               </div>
             </div>
 
-            <div className="text-[11px] text-slate-500 max-w-sm text-center sm:text-right space-y-1">
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 max-w-sm text-center sm:text-right space-y-1">
               <div>
                 <strong>Carriage by Road Act 2007 Compliance:</strong> All goods carried subject to the standard conditions of domestic freight carriage.
               </div>
@@ -614,30 +611,30 @@ Helpline: 1800-266-8829 | support@veltrax.in | WhatsApp: +91 6303766064
           </div>
 
           {/* G. Signatures & Stamp Blocks (Optimized for print) */}
-          <div className="pt-6 border-t border-dashed border-slate-300 grid grid-cols-2 sm:grid-cols-3 gap-6 text-center text-xs">
-            <div className="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
-              <div className="h-10 border-b border-slate-300 border-dashed flex items-end justify-center pb-1 text-[11px] text-slate-400 font-mono">
+          <div className="pt-6 border-t border-dashed border-slate-300 dark:border-slate-700 grid grid-cols-2 sm:grid-cols-3 gap-6 text-center text-xs">
+            <div className="border border-slate-200 dark:border-slate-700 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-800/40 print:bg-slate-50">
+              <div className="h-10 border-b border-slate-300 dark:border-slate-600 border-dashed flex items-end justify-center pb-1 text-[11px] text-slate-400 font-mono">
                 {sender.name}
               </div>
-              <div className="text-[10px] font-bold text-slate-700 uppercase mt-2">
+              <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase mt-2">
                 Consignor Signature
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-xl p-4 bg-slate-50/50">
-              <div className="h-10 border-b border-slate-300 border-dashed flex items-end justify-center pb-1 text-[11px] text-slate-400 font-mono">
+            <div className="border border-slate-200 dark:border-slate-700 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-800/40 print:bg-slate-50">
+              <div className="h-10 border-b border-slate-300 dark:border-slate-600 border-dashed flex items-end justify-center pb-1 text-[11px] text-slate-400 font-mono">
                 VELTRAX Authorized Dispatch
               </div>
-              <div className="text-[10px] font-bold text-slate-700 uppercase mt-2">
+              <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase mt-2">
                 Carrier Stamp & Sign
               </div>
             </div>
 
-            <div className="col-span-2 sm:col-span-1 border border-slate-200 rounded-xl p-4 bg-slate-50/50">
-              <div className="h-10 border-b border-slate-300 border-dashed flex items-end justify-center pb-1 text-[11px] text-slate-400 font-mono">
+            <div className="col-span-2 sm:col-span-1 border border-slate-200 dark:border-slate-700 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-800/40 print:bg-slate-50">
+              <div className="h-10 border-b border-slate-300 dark:border-slate-600 border-dashed flex items-end justify-center pb-1 text-[11px] text-slate-400 font-mono">
                 OTP: {shipment.deliveryOtp || '4829'}
               </div>
-              <div className="text-[10px] font-bold text-slate-700 uppercase mt-2">
+              <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase mt-2">
                 Consignee Verification
               </div>
             </div>

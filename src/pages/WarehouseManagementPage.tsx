@@ -362,8 +362,11 @@ export const WarehouseManagementPage: React.FC = () => {
                   <option value="MH-MUMBAI">Mumbai</option>
                   <option value="JPR-MAIN">Jaipur</option>
                   <option value="GJ-SURAT">Surat</option>
-                  <option value="TN-CHENNAI">Chennai</option>
                   <option value="KA-BLR">Bengaluru</option>
+                  <option value="WB-KOL">Kolkata</option>
+                  <option value="HYD">Hyderabad</option>
+                  <option value="MAA">Chennai</option>
+                  <option value="AMD">Ahmedabad</option>
                 </select>
               </div>
             </div>
@@ -821,12 +824,15 @@ export const WarehouseManagementPage: React.FC = () => {
                     onChange={(e) => setWhForm(p => ({ ...p, branchId: e.target.value }))}
                     className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-slate-900 focus:ring-2 focus:ring-orange-500"
                   >
-                    <option value="DEL-CENTRAL">DEL-CENTRAL</option>
-                    <option value="MH-MUMBAI">MH-MUMBAI</option>
-                    <option value="JPR-MAIN">JPR-MAIN</option>
-                    <option value="GJ-SURAT">GJ-SURAT</option>
-                    <option value="TN-CHENNAI">TN-CHENNAI</option>
-                    <option value="KA-BLR">KA-BLR</option>
+                    <option value="DEL-CENTRAL">DEL-CENTRAL (Delhi)</option>
+                    <option value="MH-MUMBAI">MH-MUMBAI (Mumbai)</option>
+                    <option value="JPR-MAIN">JPR-MAIN (Jaipur)</option>
+                    <option value="GJ-SURAT">GJ-SURAT (Surat)</option>
+                    <option value="KA-BLR">KA-BLR (Bengaluru)</option>
+                    <option value="WB-KOL">WB-KOL (Kolkata)</option>
+                    <option value="HYD">HYD (Hyderabad)</option>
+                    <option value="MAA">MAA (Chennai)</option>
+                    <option value="AMD">AMD (Ahmedabad)</option>
                   </select>
                 </div>
               </div>

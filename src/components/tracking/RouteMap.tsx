@@ -23,9 +23,9 @@ export const RouteMap: React.FC<RouteMapProps> = ({ shipment, className = '' }) 
   const currentY = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y;
 
   return (
-    <div className={`bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden ${className}`}>
+    <div className={`bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm overflow-hidden ${className}`}>
       {/* Top Header */}
-      <div className="bg-slate-900 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-slate-900 dark:bg-slate-950 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span className="text-xs font-semibold uppercase tracking-wider text-white">
@@ -40,15 +40,15 @@ export const RouteMap: React.FC<RouteMapProps> = ({ shipment, className = '' }) 
       </div>
 
       {/* SVG Map Canvas */}
-      <div className="relative w-full overflow-hidden bg-slate-50 border-b border-slate-200">
-        <div className="absolute top-3 left-4 pointer-events-none font-mono text-[10px] text-slate-400 uppercase leading-tight select-none">
+      <div className="relative w-full overflow-hidden bg-slate-50 dark:bg-[#0B1220] border-b border-slate-200 dark:border-slate-800">
+        <div className="absolute top-3 left-4 pointer-events-none font-mono text-[10px] text-slate-400 dark:text-slate-500 uppercase leading-tight select-none">
           CORRIDOR: {shipment.originHubCode} ➔ {shipment.destinationHubCode}<br />
           TELEMETRICS: CORRIDOR PROGRESS (SIMULATED DATA)<br />
           EST. SPEED: 62 KM/H
         </div>
 
-        <div className="absolute top-3 right-4 pointer-events-none flex items-center gap-2 font-mono text-[10px] text-slate-500 select-none">
-          <div className="w-6 h-6 border border-slate-300 rounded-full flex items-center justify-center font-bold text-[9px] bg-white">
+        <div className="absolute top-3 right-4 pointer-events-none flex items-center gap-2 font-mono text-[10px] text-slate-500 dark:text-slate-400 select-none">
+          <div className="w-6 h-6 border border-slate-300 dark:border-slate-700 rounded-full flex items-center justify-center font-bold text-[9px] bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200">
             N
           </div>
           <span>NATIONAL HIGHWAY CORRIDOR</span>
@@ -63,7 +63,7 @@ export const RouteMap: React.FC<RouteMapProps> = ({ shipment, className = '' }) 
           {/* Subtle grid lines */}
           <defs>
             <pattern id="radarGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E2E8F0" strokeWidth="0.8" />
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" className="text-slate-200 dark:text-slate-800/80" strokeWidth="0.8" />
             </pattern>
           </defs>
           <rect width="800" height="320" fill="url(#radarGrid)" />
@@ -72,7 +72,8 @@ export const RouteMap: React.FC<RouteMapProps> = ({ shipment, className = '' }) 
           <path
             d="M 100 230 Q 400 70 700 230"
             fill="none"
-            stroke="#CBD5E1"
+            stroke="currentColor"
+            className="text-slate-300 dark:text-slate-700"
             strokeWidth="4"
             strokeDasharray="6 6"
           />
@@ -147,37 +148,37 @@ export const RouteMap: React.FC<RouteMapProps> = ({ shipment, className = '' }) 
       </div>
 
       {/* Bottom Readout Grid */}
-      <div className="p-4 bg-slate-50/70 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-        <div className="border border-slate-200 rounded-xl p-3 bg-white shadow-2xs">
-          <div className="text-[10px] text-slate-400 uppercase font-semibold">
+      <div className="p-4 bg-slate-50/70 dark:bg-slate-800/60 border-t border-slate-200 dark:border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+        <div className="border border-slate-200 dark:border-slate-700 rounded-xl p-3 bg-white dark:bg-[#1E293B] shadow-2xs">
+          <div className="text-[10px] text-slate-400 dark:text-slate-400 uppercase font-semibold">
             {lang === 'hi' ? 'गाड़ी / वाहन का प्रकार' : 'Vehicle Assignment'}
           </div>
-          <div className="text-slate-900 font-semibold text-xs truncate mt-0.5">
+          <div className="text-slate-900 dark:text-white font-semibold text-xs truncate mt-0.5">
             {shipment.vesselOrFlight || 'Express Road Vehicle'}
           </div>
         </div>
-        <div className="border border-slate-200 rounded-xl p-3 bg-white shadow-2xs">
-          <div className="text-[10px] text-slate-400 uppercase font-semibold">
+        <div className="border border-slate-200 dark:border-slate-700 rounded-xl p-3 bg-white dark:bg-[#1E293B] shadow-2xs">
+          <div className="text-[10px] text-slate-400 dark:text-slate-400 uppercase font-semibold">
             {lang === 'hi' ? 'संभावित डिलीवरी तारीख' : 'Scheduled Delivery'}
           </div>
-          <div className="text-orange-600 font-semibold text-xs truncate mt-0.5">
+          <div className="text-orange-600 dark:text-orange-400 font-semibold text-xs truncate mt-0.5">
             {shipment.deliveryTimeEstimate || shipment.eta}
           </div>
         </div>
-        <div className="border border-slate-200 rounded-xl p-3 bg-white shadow-2xs">
-          <div className="text-[10px] text-slate-400 uppercase font-semibold">
+        <div className="border border-slate-200 dark:border-slate-700 rounded-xl p-3 bg-white dark:bg-[#1E293B] shadow-2xs">
+          <div className="text-[10px] text-slate-400 dark:text-slate-400 uppercase font-semibold">
             {lang === 'hi' ? 'सिम्युलेटेड स्थिति' : 'Telematics Status'}
           </div>
-          <div className="text-emerald-600 font-semibold text-xs truncate mt-0.5 flex items-center gap-1.5">
+          <div className="text-emerald-600 dark:text-emerald-400 font-semibold text-xs truncate mt-0.5 flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>{lang === 'hi' ? 'सिम्युलेटेड ट्रांजिट सिग्नल' : 'Simulated Corridor Ping'}</span>
           </div>
         </div>
-        <div className="border border-slate-200 rounded-xl p-3 bg-white shadow-2xs">
-          <div className="text-[10px] text-slate-400 uppercase font-semibold">
+        <div className="border border-slate-200 dark:border-slate-700 rounded-xl p-3 bg-white dark:bg-[#1E293B] shadow-2xs">
+          <div className="text-[10px] text-slate-400 dark:text-slate-400 uppercase font-semibold">
             {lang === 'hi' ? 'भुगतान स्थिति' : 'Payment Status'}
           </div>
-          <div className="text-slate-900 font-semibold text-xs truncate mt-0.5">
+          <div className="text-slate-900 dark:text-white font-semibold text-xs truncate mt-0.5">
             {shipment.paymentMethod === 'cod'
               ? (lang === 'hi' ? 'कैश ऑन डिलीवरी (COD)' : 'Cash on Delivery (COD)')
               : (lang === 'hi' ? 'ऑनलाइन भुगतान (UPI)' : 'Prepaid Online (UPI)')}

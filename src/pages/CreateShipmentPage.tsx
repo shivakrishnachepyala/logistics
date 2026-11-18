@@ -7,7 +7,7 @@ import { Barcode } from '../components/common/Barcode';
 import { PriceBreakdown } from '../components/common/PriceBreakdown';
 import { calculatePriceBreakdown } from '../services/pricingService';
 import { useTranslation, InfoTooltip } from '../context/LanguageContext';
-import { formatCurrency, lookupPinCode, INDIAN_STATES } from '../utils/indiaHelpers';
+import { formatCurrency, lookupPinCode, INDIAN_STATES, getHubCodeForCity } from '../utils/indiaHelpers';
 
 export const CreateShipmentPage: React.FC = () => {
   const navigate = useNavigate();
@@ -182,9 +182,9 @@ export const CreateShipmentPage: React.FC = () => {
       billOfLading: newBol,
       bookingRef: `BKG-${destCode}-${Math.floor(10000 + Math.random() * 90000)}`,
       originHub: `${formData.senderCity} Parcel Centre (${formData.senderArea || formData.senderPin})`,
-      originHubCode: `${formData.senderCity.slice(0, 3).toUpperCase()}-HUB`,
+      originHubCode: getHubCodeForCity(formData.senderCity),
       destinationHub: `${formData.receiverCity} Delivery Centre (${formData.receiverArea || formData.receiverPin})`,
-      destinationHubCode: `${destCode}-MAIN`,
+      destinationHubCode: getHubCodeForCity(formData.receiverCity),
       serviceMode: formData.serviceMode,
       status: 'pending',
       progressPercent: 5,
@@ -306,29 +306,29 @@ export const CreateShipmentPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 py-8 sm:py-12 bg-slate-50 text-slate-900">
+    <div className="flex-1 py-8 sm:py-12 bg-slate-50 dark:bg-[#0B1220] text-slate-900 dark:text-slate-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         
         {/* Top Header */}
-        <div className="border-b border-slate-200 pb-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="border-b border-slate-200 dark:border-slate-800 pb-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
+            <div className="text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-1">
               {t('create.sub')}
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white leading-tight">
               {t('create.title')}
             </h1>
           </div>
           <Link
             to={isManagerRoute ? '/manager/shipments' : '/'}
-            className="bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-200 shadow-2xs flex items-center gap-1.5 transition-colors"
+            className="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs flex items-center gap-1.5 transition-colors"
           >
             <span>← {lang === 'hi' ? 'रद्द करें / वापस' : 'Cancel & Back'}</span>
           </Link>
         </div>
 
         {/* Step Banner */}
-        <div className="bg-slate-900 text-white p-3.5 rounded-xl text-sm font-semibold flex items-center justify-between mb-4 shadow-xs">
+        <div className="bg-slate-900 dark:bg-slate-800 text-white p-3.5 rounded-xl text-sm font-semibold flex items-center justify-between mb-4 shadow-xs border border-transparent dark:border-slate-700">
           <span>
             {currentStep === 1 && t('create.step1')}
             {currentStep === 2 && t('create.step2')}
@@ -342,7 +342,7 @@ export const CreateShipmentPage: React.FC = () => {
         </div>
 
         {/* Multi-Step Indicator Bar */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm mb-6 overflow-x-auto">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-4 shadow-sm mb-6 overflow-x-auto">
           <div className="flex items-center justify-between min-w-[500px]">
             {steps.map((st, idx) => {
               const isPast = st.num < currentStep;
@@ -357,21 +357,21 @@ export const CreateShipmentPage: React.FC = () => {
                           ? 'bg-orange-500 text-white shadow-xs'
                           : isPast
                             ? 'bg-emerald-600 text-white'
-                            : 'bg-slate-100 text-slate-400'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
                       }`}
                     >
                       {isPast ? '✓' : `0${st.num}`}
                     </div>
                     <span
                       className={`text-xs font-semibold ${
-                        isCurrent ? 'text-slate-900' : isPast ? 'text-emerald-700' : 'text-slate-400'
+                        isCurrent ? 'text-slate-900 dark:text-white' : isPast ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'
                       }`}
                     >
                       {st.title}
                     </span>
                   </div>
                   {idx < steps.length - 1 && (
-                    <div className="h-[2px] w-6 sm:w-10 bg-slate-200"></div>
+                    <div className="h-[2px] w-6 sm:w-10 bg-slate-200 dark:bg-slate-700"></div>
                   )}
                 </React.Fragment>
               );
@@ -381,14 +381,14 @@ export const CreateShipmentPage: React.FC = () => {
 
         {/* Error notification banner if any */}
         {formError && (
-          <div className="bg-rose-50 border border-rose-200 rounded-xl p-3.5 mb-6 flex items-center gap-2 text-rose-700 text-xs font-semibold">
-            <IndustrialIcon name="alert" size={18} className="text-rose-600 shrink-0" />
+          <div className="bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 rounded-xl p-3.5 mb-6 flex items-center gap-2 text-rose-700 dark:text-rose-300 text-xs font-semibold">
+            <IndustrialIcon name="alert" size={18} className="text-rose-600 dark:text-rose-400 shrink-0" />
             <span>{formError}</span>
           </div>
         )}
 
         {/* Form Container */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8 shadow-sm">
           <form onSubmit={handleNext}>
             
             {/* STEP 1: SENDER (JO PARCEL BHEJ RAHA HAI) */}

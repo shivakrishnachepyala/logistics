@@ -53,18 +53,18 @@ export const CustomerDashboardPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* 1. Welcome Header Banner */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800">
+            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-950/60 text-orange-800 dark:text-orange-300">
               Verified Customer Account
             </span>
             <span className="text-xs text-slate-400">ID: {customer?.id}</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-white tracking-tight">
             Welcome back, {customer?.fullName}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
             {customer?.company ? `${customer.company} • ` : ''}
             Manage your dispatch orders, live deliveries and freight bookings.
           </p>
@@ -80,7 +80,7 @@ export const CustomerDashboardPage: React.FC = () => {
           </Link>
           <Link
             to="/account/addresses"
-            className="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-1.5"
+            className="bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 text-xs font-semibold px-3.5 py-2.5 rounded-xl transition-all flex items-center gap-1.5"
           >
             <IndustrialIcon name="pin" size={14} />
             <span>Address Book ({addresses.length})</span>
@@ -91,14 +91,14 @@ export const CustomerDashboardPage: React.FC = () => {
       {/* 2. Key Metrics Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Metric 1: Total Shipments */}
-        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-xs">
-          <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-4 sm:p-5 shadow-xs">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2">
             <span>Total Shipments</span>
-            <span className="p-1.5 bg-slate-100 text-slate-600 rounded-lg">
+            <span className="p-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg">
               <IndustrialIcon name="box" size={16} />
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-heading font-black text-slate-900">
+          <div className="text-2xl sm:text-3xl font-heading font-black text-slate-900 dark:text-white">
             {totalCount}
           </div>
           <div className="text-[11px] text-slate-400 mt-1">
@@ -107,14 +107,14 @@ export const CustomerDashboardPage: React.FC = () => {
         </div>
 
         {/* Metric 2: Active In-Transit */}
-        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-xs">
-          <div className="flex items-center justify-between text-blue-600 text-xs font-semibold uppercase tracking-wider mb-2">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-4 sm:p-5 shadow-xs">
+          <div className="flex items-center justify-between text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider mb-2">
             <span>In-Transit Active</span>
-            <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
+            <span className="p-1.5 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-lg">
               <IndustrialIcon name="truck" size={16} />
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-heading font-black text-blue-600">
+          <div className="text-2xl sm:text-3xl font-heading font-black text-blue-600 dark:text-blue-400">
             {inTransitCount}
           </div>
           <div className="text-[11px] text-slate-400 mt-1">
@@ -123,14 +123,14 @@ export const CustomerDashboardPage: React.FC = () => {
         </div>
 
         {/* Metric 3: Delivered */}
-        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-xs">
-          <div className="flex items-center justify-between text-emerald-600 text-xs font-semibold uppercase tracking-wider mb-2">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-4 sm:p-5 shadow-xs">
+          <div className="flex items-center justify-between text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-2">
             <span>Delivered</span>
-            <span className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
+            <span className="p-1.5 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 rounded-lg">
               <IndustrialIcon name="check" size={16} />
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-heading font-black text-emerald-600">
+          <div className="text-2xl sm:text-3xl font-heading font-black text-emerald-600 dark:text-emerald-400">
             {deliveredCount}
           </div>
           <div className="text-[11px] text-slate-400 mt-1">
@@ -139,14 +139,14 @@ export const CustomerDashboardPage: React.FC = () => {
         </div>
 
         {/* Metric 4: Pending Bookings */}
-        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-xs">
-          <div className="flex items-center justify-between text-amber-600 text-xs font-semibold uppercase tracking-wider mb-2">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl p-4 sm:p-5 shadow-xs">
+          <div className="flex items-center justify-between text-amber-600 dark:text-amber-400 text-xs font-semibold uppercase tracking-wider mb-2">
             <span>Pending Manifests</span>
-            <span className="p-1.5 bg-amber-50 text-amber-600 rounded-lg">
+            <span className="p-1.5 bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 rounded-lg">
               <IndustrialIcon name="clock" size={16} />
             </span>
           </div>
-          <div className="text-2xl sm:text-3xl font-heading font-black text-amber-600">
+          <div className="text-2xl sm:text-3xl font-heading font-black text-amber-600 dark:text-amber-400">
             {pendingCount}
           </div>
           <div className="text-[11px] text-slate-400 mt-1">
@@ -243,19 +243,19 @@ export const CustomerDashboardPage: React.FC = () => {
       ))}
 
       {/* 4. Active Shipments Directory (Customer-Isolated) */}
-      <div className="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
-        <div className="p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xs overflow-hidden">
+        <div className="p-5 border-b border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-heading font-bold text-slate-900 tracking-tight">
+            <h2 className="text-base font-heading font-bold text-slate-900 dark:text-white tracking-tight">
               My Active Shipments
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Shipments associated with your customer ID ({customer?.id})
             </p>
           </div>
           <Link
             to="/account/shipments"
-            className="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1"
+            className="text-xs font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 flex items-center gap-1"
           >
             <span>View All ({shipments.length})</span>
             <IndustrialIcon name="arrow-right" size={12} />
@@ -264,11 +264,11 @@ export const CustomerDashboardPage: React.FC = () => {
 
         {shipments.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
               <IndustrialIcon name="box" size={24} />
             </div>
-            <h3 className="text-sm font-bold text-slate-900 mb-1">No Shipments Found</h3>
-            <p className="text-xs text-slate-500 max-w-sm mx-auto mb-4">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">No Shipments Found</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-4">
               You haven't booked any shipments under this account yet. Use our instant booking system to dispatch your first parcel.
             </p>
             <Link
@@ -283,7 +283,7 @@ export const CustomerDashboardPage: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50 text-[11px] font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                <tr className="bg-slate-50 dark:bg-slate-800/80 text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700">
                   <th className="py-3 px-4">Tracking ID & LR</th>
                   <th className="py-3 px-4">Corridor / Route</th>
                   <th className="py-3 px-4">Receiver</th>
@@ -292,26 +292,26 @@ export const CustomerDashboardPage: React.FC = () => {
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 text-xs">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60 text-xs">
                 {shipments.slice(0, 5).map((s) => (
-                  <tr key={s.id} className="hover:bg-slate-50/70 transition-colors">
+                  <tr key={s.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="py-3.5 px-4">
-                      <div className="font-mono font-bold text-slate-900">{s.id}</div>
+                      <div className="font-mono font-bold text-slate-900 dark:text-white">{s.id}</div>
                       <div className="text-[11px] text-slate-400 font-mono">{s.billOfLading}</div>
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="font-medium text-slate-900">
+                      <div className="font-medium text-slate-900 dark:text-white">
                         {s.sender.city} → {s.receiver.city}
                       </div>
-                      <div className="text-[11px] text-slate-500 truncate max-w-[200px]">
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-[200px]">
                         {s.cargo.type} ({s.cargo.weightKg} kg)
                       </div>
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="font-medium text-slate-900">{s.receiver.name}</div>
-                      <div className="text-[11px] text-slate-500">{s.receiver.company || s.receiver.city}</div>
+                      <div className="font-medium text-slate-900 dark:text-white">{s.receiver.name}</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">{s.receiver.company || s.receiver.city}</div>
                     </td>
 
                     <td className="py-3.5 px-4">
@@ -319,7 +319,7 @@ export const CustomerDashboardPage: React.FC = () => {
                       {(s.status === 'delayed' || s.delayInfo) && (
                         <Link
                           to="/account/shipments"
-                          className="text-[10px] text-amber-700 font-semibold block mt-1 hover:underline"
+                          className="text-[10px] text-amber-700 dark:text-amber-400 font-semibold block mt-1 hover:underline"
                         >
                           Advisory Notice →
                         </Link>
@@ -328,13 +328,13 @@ export const CustomerDashboardPage: React.FC = () => {
 
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-16 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                        <div className="w-16 bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
                           <div
                             className="bg-orange-500 h-full rounded-full"
                             style={{ width: `${s.progressPercent}%` }}
                           ></div>
                         </div>
-                        <span className="text-[11px] font-semibold text-slate-600">
+                        <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-300">
                           {s.progressPercent}%
                         </span>
                       </div>
@@ -347,7 +347,7 @@ export const CustomerDashboardPage: React.FC = () => {
                       <div className="flex items-center justify-end gap-1.5">
                         <Link
                           to={`/account/receipt/${s.id}`}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white border border-slate-200 hover:bg-slate-50 px-2 py-1 rounded-md transition-colors shadow-2xs"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 px-2 py-1 rounded-md transition-colors shadow-2xs"
                           title="View official electronic lorry receipt"
                         >
                           <IndustrialIcon name="file" size={11} className="text-orange-500" />
@@ -356,7 +356,7 @@ export const CustomerDashboardPage: React.FC = () => {
 
                         <Link
                           to={`/track?id=${s.id}`}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 bg-orange-50 hover:bg-orange-100 px-2 py-1 rounded-md transition-colors"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-700 bg-orange-50 dark:bg-orange-950/40 hover:bg-orange-100 dark:hover:bg-orange-900/60 px-2 py-1 rounded-md transition-colors"
                         >
                           <IndustrialIcon name="search" size={11} />
                           <span>Track</span>
@@ -372,19 +372,19 @@ export const CustomerDashboardPage: React.FC = () => {
       </div>
 
       {/* 5. Recent Booking History Preview */}
-      <div className="bg-white border border-slate-200 rounded-2xl shadow-xs p-5">
+      <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xs p-5">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-base font-heading font-bold text-slate-900 tracking-tight">
+            <h2 className="text-base font-heading font-bold text-slate-900 dark:text-white tracking-tight">
               Recent Booking Orders
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Self-service orders created from your account
             </p>
           </div>
           <Link
             to="/account/history"
-            className="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1"
+            className="text-xs font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 flex items-center gap-1"
           >
             <span>All Orders ({bookings.length})</span>
             <IndustrialIcon name="arrow-right" size={12} />
@@ -400,28 +400,28 @@ export const CustomerDashboardPage: React.FC = () => {
             {bookings.slice(0, 3).map((b) => (
               <div
                 key={b.bookingId}
-                className="border border-slate-200 rounded-xl p-4 bg-slate-50/50 hover:bg-white hover:border-orange-200 transition-all flex flex-col justify-between"
+                className="border border-slate-200 dark:border-slate-700 rounded-xl p-4 bg-slate-50/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 hover:border-orange-200 dark:hover:border-orange-500/40 transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-mono text-xs font-bold text-slate-900">{b.bookingId}</span>
-                    <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-slate-200/70 text-slate-700">
+                    <span className="font-mono text-xs font-bold text-slate-900 dark:text-white">{b.bookingId}</span>
+                    <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-slate-200/70 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                       {b.status}
                     </span>
                   </div>
-                  <div className="text-xs font-semibold text-slate-800">
+                  <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">
                     {b.originCity} → {b.destinationCity}
                   </div>
-                  <div className="text-[11px] text-slate-500 mt-1 line-clamp-1">
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">
                     {b.cargoDescription}
                   </div>
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-slate-200/60 flex items-center justify-between text-xs">
-                  <div className="font-bold text-slate-900">{formatCurrency(b.totalAmount)}</div>
+                <div className="mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-700 flex items-center justify-between text-xs">
+                  <div className="font-bold text-slate-900 dark:text-white">{formatCurrency(b.totalAmount)}</div>
                   <Link
                     to={`/track?id=${b.trackingId}`}
-                    className="text-orange-600 hover:text-orange-700 font-semibold text-[11px] flex items-center gap-1"
+                    className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 font-semibold text-[11px] flex items-center gap-1"
                   >
                     <span>Track {b.trackingId}</span>
                     <IndustrialIcon name="arrow-right" size={10} />

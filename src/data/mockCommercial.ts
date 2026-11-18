@@ -539,19 +539,6 @@ export const INITIAL_BRANCHES: BranchRecord[] = [
     establishedDate: '2020-11-05',
   },
   {
-    id: 'BR-CHN-01',
-    name: 'Chennai Coastal & Air Express Depot',
-    code: 'TN-CHENNAI',
-    city: 'Chennai',
-    state: 'Tamil Nadu',
-    address: 'Expressway Road, Madhavaram Logistics Complex, Near Port Gate 4',
-    branchManager: 'S. Vijayaraghavan',
-    contactNumber: '+91 94440 66201',
-    email: 'chennai.hub@veltrax.in',
-    operationalStatus: 'active',
-    establishedDate: '2021-04-12',
-  },
-  {
     id: 'BR-BLR-01',
     name: 'Bengaluru Tech & Electronics Park',
     code: 'KA-BLR',
@@ -563,6 +550,58 @@ export const INITIAL_BRANCHES: BranchRecord[] = [
     email: 'bangalore.hub@veltrax.in',
     operationalStatus: 'active',
     establishedDate: '2021-09-01',
+  },
+  {
+    id: 'BR-KOL-01',
+    name: 'Kolkata Eastern Logistics Gateway',
+    code: 'WB-KOL',
+    city: 'Kolkata',
+    state: 'West Bengal',
+    address: 'Dankuni Freight Complex, Near Burrabazar Feeder Terminal',
+    branchManager: 'Arup Mukherjee',
+    contactNumber: '+91 98310 55104',
+    email: 'kolkata.hub@veltrax.in',
+    operationalStatus: 'active',
+    establishedDate: '2021-11-18',
+  },
+  {
+    id: 'BR-HYD-01',
+    name: 'Hyderabad Regional Cargo Hub',
+    code: 'HYD',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    address: 'Survey 48/A, Shamshabad Airport Cargo Complex, Begumpet Feeder',
+    branchManager: 'K. S. Rao',
+    contactNumber: '+91 94400 33100',
+    email: 'hyderabad.hub@veltrax.in',
+    operationalStatus: 'active',
+    establishedDate: '2022-02-14',
+  },
+  {
+    id: 'BR-CHN-01',
+    name: 'Chennai Coromandel Coastal Gateway',
+    code: 'MAA',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    address: 'Expressway Road, Madhavaram Logistics Complex, Near Port Gate 4',
+    branchManager: 'S. Vijayaraghavan',
+    contactNumber: '+91 94440 66201',
+    email: 'chennai.hub@veltrax.in',
+    operationalStatus: 'active',
+    establishedDate: '2021-04-12',
+  },
+  {
+    id: 'BR-AMD-01',
+    name: 'Ahmedabad Sabarmati Intermodal Terminal',
+    code: 'AMD',
+    city: 'Ahmedabad',
+    state: 'Gujarat',
+    address: 'Plot 88-92, Aslali Transport Nagar, Near Sardar Patel Ring Road',
+    branchManager: 'Chirag Shah',
+    contactNumber: '+91 98980 44120',
+    email: 'ahmedabad.hub@veltrax.in',
+    operationalStatus: 'active',
+    establishedDate: '2022-05-20',
   },
 ];
 
@@ -836,7 +875,27 @@ export const getBranches = (): BranchRecord[] => {
       localStorage.setItem(BRANCHES_KEY, JSON.stringify(INITIAL_BRANCHES));
       return INITIAL_BRANCHES;
     }
-    return JSON.parse(raw);
+    const parsed: BranchRecord[] = JSON.parse(raw);
+    let changed = false;
+    const merged = [...parsed];
+
+    // Ensure all 9 initial hubs are present without duplicate entries
+    INITIAL_BRANCHES.forEach(ib => {
+      const idx = merged.findIndex(b => b.id === ib.id || b.code === ib.code || b.city.toLowerCase() === ib.city.toLowerCase());
+      if (idx === -1) {
+        merged.push(ib);
+        changed = true;
+      } else if (merged[idx].code !== ib.code) {
+        // Upgrade legacy code (e.g. TN-CHENNAI -> MAA)
+        merged[idx] = { ...merged[idx], code: ib.code, name: ib.name };
+        changed = true;
+      }
+    });
+
+    if (changed) {
+      localStorage.setItem(BRANCHES_KEY, JSON.stringify(merged));
+    }
+    return merged;
   } catch (e) {
     console.error('Failed to get branches', e);
     return INITIAL_BRANCHES;

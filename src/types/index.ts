@@ -1,7 +1,21 @@
 export * from './analytics';
 
 export type UserRole = 'admin' | 'dispatcher' | 'driver' | 'customer';
-export type BranchId = 'all' | 'DEL-CENTRAL' | 'JPR-MAIN' | 'GJ-SURAT' | 'MH-MUMBAI' | 'TN-CHENNAI';
+export type BranchId =
+  | 'all'
+  | 'DEL-CENTRAL'
+  | 'MH-MUMBAI'
+  | 'JPR-MAIN'
+  | 'GJ-SURAT'
+  | 'KA-BLR'
+  | 'WB-KOL'
+  | 'HYD'
+  | 'MAA'
+  | 'AMD'
+  | 'TN-CHENNAI'
+  | 'TG-HYDERABAD'
+  | 'GJ-AHMEDABAD'
+  | 'WB-KOLKATA';
 
 export interface ReceiverPreferences {
   landmark?: string;

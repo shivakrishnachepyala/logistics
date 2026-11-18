@@ -60,17 +60,17 @@ export const ReceiverPortalPage: React.FC = () => {
 
   if (!shipment) {
     return (
-      <div className="flex-1 py-16 px-4 bg-slate-50 flex items-center justify-center">
-        <div className="bg-white border border-slate-200 rounded-2xl p-8 max-w-md w-full text-center shadow-sm">
-          <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3">
+      <div className="flex-1 py-16 px-4 bg-slate-50 dark:bg-[#0B1220] flex items-center justify-center">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-8 max-w-md w-full text-center shadow-sm">
+          <div className="w-12 h-12 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-3">
             <IndustrialIcon name="alert" size={28} />
           </div>
-          <h2 className="text-xl font-bold text-slate-900">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">
             {lang === 'hi' ? 'पार्सल रसीद नहीं मिली' : 'Consignment Not Found'}
           </h2>
-          <p className="text-xs text-slate-500 my-3">
+          <p className="text-xs text-slate-500 dark:text-slate-400 my-3">
             {lang === 'hi' ? 'इस नंबर का कोई पार्सल दर्ज नहीं है:' : 'No active shipment registered under:'}{' '}
-            <strong className="font-mono text-slate-800">{id}</strong>
+            <strong className="font-mono text-slate-800 dark:text-slate-200">{id}</strong>
           </p>
           <Link
             to="/"
@@ -84,22 +84,22 @@ export const ReceiverPortalPage: React.FC = () => {
   }
 
   return (
-    <div className="flex-1 py-8 sm:py-12 bg-slate-50 text-slate-900">
+    <div className="flex-1 py-8 sm:py-12 bg-slate-50 dark:bg-[#0B1220] text-slate-900 dark:text-slate-100">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 space-y-6">
 
         {/* Top Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-0.5">
+            <div className="text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-0.5">
               {lang === 'hi' ? 'प्राप्तकर्ता स्वयं-सेवा पोर्टल' : 'Consignee Self-Service Desk'}
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-tight">
               {lang === 'hi' ? 'नमस्ते, आपका पार्सल आ रहा है!' : 'Your Consignment is on the Way!'}
             </h1>
           </div>
           <Link
             to={`/track?id=${shipment.id}`}
-            className="bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold px-3.5 py-2 rounded-xl border border-slate-200 shadow-2xs shrink-0 flex items-center gap-1.5 transition-colors"
+            className="bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs shrink-0 flex items-center gap-1.5 transition-colors"
           >
             <IndustrialIcon name="compass" size={14} className="text-orange-500" />
             <span className="hidden sm:inline">{lang === 'hi' ? 'लाइव नक्शा' : 'Live Tracking Map'}</span>
@@ -107,33 +107,33 @@ export const ReceiverPortalPage: React.FC = () => {
         </div>
 
         {/* 1. Primary Handover OTP Security Card */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm relative overflow-hidden">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-7 shadow-sm relative overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div className="space-y-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className="bg-emerald-50 text-emerald-700 font-medium text-xs px-2.5 py-0.5 rounded-full border border-emerald-200">
+                <span className="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-medium text-xs px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
                   {lang === 'hi' ? 'सुरक्षित सुपुर्दगी' : 'Secure Consignee Handover'}
                 </span>
                 <span className="font-mono text-xs text-slate-400">ID: {shipment.id}</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-tight">
                 {lang === 'hi' ? 'डिलीवरी ओटीपी (हैंडओवर कोड)' : 'Delivery Handover OTP'}
               </h2>
-              <p className="text-xs text-slate-500 max-w-md leading-relaxed">
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md leading-relaxed">
                 {lang === 'hi'
                   ? 'यह 4-अंकों का कोड डिलीवरी साथी को केवल पार्सल हाथ में मिलने और भौतिक रूप से जांचने के बाद बताएं।'
                   : 'Share this 4-digit code with the delivery driver ONLY after physical inspection of your consignment.'}
               </p>
             </div>
 
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center shrink-0 min-w-[150px] shadow-2xs">
+            <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 text-center shrink-0 min-w-[150px] shadow-2xs">
               <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                 {lang === 'hi' ? 'आपका कोड' : 'YOUR OTP'}
               </div>
-              <div className="font-mono text-3xl sm:text-4xl font-black text-slate-900 tracking-widest my-1">
+              <div className="font-mono text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-widest my-1">
                 {shipment.deliveryOtp || '4829'}
               </div>
-              <div className="text-[11px] text-emerald-600 font-medium">
+              <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
                 {shipment.photoProof?.otpVerified ? '✓ Handover Completed' : 'Active for Handover'}
               </div>
             </div>
@@ -141,42 +141,42 @@ export const ReceiverPortalPage: React.FC = () => {
         </div>
 
         {/* 2. Consignment Status Snapshot */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm text-xs">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3 mb-4">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-5 sm:p-6 shadow-sm text-xs">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
             <div className="flex items-center gap-2">
-              <span className="font-mono font-bold text-slate-900 text-sm">{shipment.id}</span>
+              <span className="font-mono font-bold text-slate-900 dark:text-white text-sm">{shipment.id}</span>
               <StatusBadge status={shipment.status} size="sm" />
             </div>
             <div className="text-slate-400 font-mono text-[11px]">
-              LR: <strong className="text-slate-700">{shipment.billOfLading}</strong>
+              LR: <strong className="text-slate-700 dark:text-slate-300">{shipment.billOfLading}</strong>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3 bg-slate-50/70 border border-slate-200/80 rounded-xl">
+            <div className="p-3 bg-slate-50/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700 rounded-xl">
               <div className="text-[10px] text-slate-400 uppercase font-semibold">
                 {lang === 'hi' ? 'भेजने वाला (Sender)' : 'Shipper / Sender'}
               </div>
-              <div className="font-bold text-slate-900 mt-0.5">{shipment.sender.name}</div>
-              <div className="text-slate-500 text-[11px] truncate">{shipment.sender.company} ({shipment.sender.city})</div>
+              <div className="font-bold text-slate-900 dark:text-white mt-0.5">{shipment.sender.name}</div>
+              <div className="text-slate-500 dark:text-slate-400 text-[11px] truncate">{shipment.sender.company} ({shipment.sender.city})</div>
             </div>
 
-            <div className="p-3 bg-slate-50/70 border border-slate-200/80 rounded-xl">
+            <div className="p-3 bg-slate-50/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700 rounded-xl">
               <div className="text-[10px] text-slate-400 uppercase font-semibold">
                 {lang === 'hi' ? 'सामान व वजन' : 'Cargo & Weight'}
               </div>
-              <div className="font-bold text-slate-900 mt-0.5">{shipment.cargo.weightKg} KG</div>
-              <div className="text-slate-500 text-[11px] truncate">{shipment.cargo.type}</div>
+              <div className="font-bold text-slate-900 dark:text-white mt-0.5">{shipment.cargo.weightKg} KG</div>
+              <div className="text-slate-500 dark:text-slate-400 text-[11px] truncate">{shipment.cargo.type}</div>
             </div>
 
-            <div className="p-3 bg-slate-50/70 border border-slate-200/80 rounded-xl">
+            <div className="p-3 bg-slate-50/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700 rounded-xl">
               <div className="text-[10px] text-slate-400 uppercase font-semibold">
                 {lang === 'hi' ? 'पहुंचने का समय' : 'Scheduled Arrival'}
               </div>
-              <div className="font-bold text-orange-600 mt-0.5 truncate">
+              <div className="font-bold text-orange-600 dark:text-orange-400 mt-0.5 truncate">
                 {shipment.deliveryTimeEstimate || shipment.eta}
               </div>
-              <div className="text-emerald-700 text-[11px] font-semibold mt-0.5">
+              <div className="text-emerald-700 dark:text-emerald-400 text-[11px] font-semibold mt-0.5">
                 {shipment.paymentMethod === 'cod' ? `COD: ${formatCurrency(shipment.priceBreakdown?.total || 906)}` : 'Prepaid Online'}
               </div>
             </div>
@@ -193,24 +193,24 @@ export const ReceiverPortalPage: React.FC = () => {
         )}
 
         {/* 3. Receiver Preferences Form */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-sm text-xs">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-7 shadow-sm text-xs">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-5">
             <div>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                 {lang === 'hi' ? 'डिलीवरी निर्देश व समय चुनें' : 'Delivery Preferences & Time Slot'}
               </h2>
-              <div className="text-xs text-slate-500 mt-0.5">
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 {lang === 'hi' ? 'ड्राइवर के आने से पहले अपना लैंडमार्क व पसंदीदा समय दर्ज करें' : 'Help our driver find your exact address without repeated phone calls'}
               </div>
             </div>
-            <span className="bg-orange-50 text-orange-600 text-xs font-semibold px-2.5 py-1 rounded-full border border-orange-100 shrink-0">
+            <span className="bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-orange-100 dark:border-orange-800 shrink-0">
               {lang === 'hi' ? 'लाइव सिंक' : 'Dispatch Sync'}
             </span>
           </div>
 
           {saveSuccess && (
-            <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-4 flex items-center gap-2 text-emerald-800 text-xs font-semibold">
-              <IndustrialIcon name="check" size={16} className="text-emerald-600 shrink-0" />
+            <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4 mb-4 flex items-center gap-2 text-emerald-800 dark:text-emerald-300 text-xs font-semibold">
+              <IndustrialIcon name="check" size={16} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
               <span>
                 {lang === 'hi'
                   ? 'निर्देश सफलतापूर्वक सहेजे गए! ड्राइवर के सिस्टम में सूचना दर्ज हो गई है।'
@@ -222,7 +222,7 @@ export const ReceiverPortalPage: React.FC = () => {
           <form onSubmit={handlePreferencesSubmit} className="space-y-4">
             {/* Preferred Delivery Slot */}
             <div>
-              <label className="block font-semibold text-slate-700 mb-2">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 {lang === 'hi' ? 'पसंदीदा डिलीवरी समय (Choose Preferred Slot) *' : 'Select Preferred Delivery Window *'}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -237,13 +237,13 @@ export const ReceiverPortalPage: React.FC = () => {
                     onClick={() => setSlot(s.id)}
                     className={`p-3 text-left rounded-xl border transition-all ${
                       slot === s.id
-                        ? 'bg-slate-900 text-white border-slate-900 font-semibold shadow-xs'
-                        : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-100'
+                        ? 'bg-slate-900 dark:bg-orange-500 text-white border-slate-900 dark:border-orange-500 font-semibold shadow-xs'
+                        : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-750'
                     }`}
                   >
                     <div className="flex items-center justify-between text-xs">
                       <span>{s.label}</span>
-                      {slot === s.id && <span className="text-orange-400 font-bold">✓</span>}
+                      {slot === s.id && <span className="text-orange-400 dark:text-white font-bold">✓</span>}
                     </div>
                   </button>
                 ))}
@@ -252,7 +252,7 @@ export const ReceiverPortalPage: React.FC = () => {
 
             {/* Delivery Landmark Confirmation */}
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 {lang === 'hi' ? 'दुकान / घर का लैंडमार्क (Nearby Landmark)' : 'Nearby Landmark / Prominent Spot'}
               </label>
               <input
@@ -260,7 +260,7 @@ export const ReceiverPortalPage: React.FC = () => {
                 value={landmark}
                 onChange={(e) => setLandmark(e.target.value)}
                 placeholder={lang === 'hi' ? 'जैसे: सांगानेरी गेट के सामने, चाय की दुकान के पास' : 'e.g. Near Sanganeri Gate opposite Chai Corner'}
-                className="w-full bg-slate-50 text-slate-900 px-3.5 py-2.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white text-xs transition-all"
+                className="w-full bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white px-3.5 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 text-xs transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
               <span className="text-[11px] text-slate-400 mt-1 block">
                 {lang === 'hi' ? 'ड्राइवर को आपकी लोकेशन बिना कॉल किए आसानी से मिल जाएगी।' : 'Saves time and avoids delivery coordination delays.'}
@@ -269,7 +269,7 @@ export const ReceiverPortalPage: React.FC = () => {
 
             {/* Special Instructions */}
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 {lang === 'hi' ? 'अतिरिक्त निर्देश (Special Notes / In case unavailable)' : 'Special Delivery Notes (Optional)'}
               </label>
               <textarea
@@ -277,7 +277,7 @@ export const ReceiverPortalPage: React.FC = () => {
                 value={instructions}
                 onChange={(e) => setInstructions(e.target.value)}
                 placeholder={lang === 'hi' ? 'जैसे: पहुंचने से 10 मिनट पहले कॉल करें' : 'e.g. Call 10 minutes prior to arrival; if door locked hand over to neighbor'}
-                className="w-full bg-slate-50 text-slate-900 px-3.5 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white text-xs transition-all"
+                className="w-full bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white px-3.5 py-2 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 focus:bg-white dark:focus:bg-slate-900 text-xs transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
               />
             </div>
 
@@ -304,15 +304,15 @@ export const ReceiverPortalPage: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
             title="Chat on WhatsApp (+91 6303766064)"
-            className="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs flex items-center justify-between hover:border-emerald-300 transition-colors"
+            className="p-3.5 bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xs flex items-center justify-between hover:border-emerald-300 dark:hover:border-emerald-500 transition-colors"
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-emerald-50 text-[#25D366] flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-[#25D366] flex items-center justify-center shrink-0">
                 <IndustrialIcon name="phone" size={16} />
               </div>
               <div>
-                <div className="font-semibold text-slate-900">{lang === 'hi' ? 'व्हाट्सएप सहायता' : 'WhatsApp Support'}</div>
-                <div className="text-[11px] text-slate-500 font-mono">+91 6303766064</div>
+                <div className="font-semibold text-slate-900 dark:text-white">{lang === 'hi' ? 'व्हाट्सएप सहायता' : 'WhatsApp Support'}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">+91 6303766064</div>
               </div>
             </div>
             <span className="text-[#25D366] font-semibold text-xs">Chat ➔</span>
@@ -320,35 +320,35 @@ export const ReceiverPortalPage: React.FC = () => {
 
           <a
             href="mailto:support@veltrax.in"
-            className="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs flex items-center justify-between hover:border-slate-300 transition-colors"
+            className="p-3.5 bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xs flex items-center justify-between hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center shrink-0">
                 <IndustrialIcon name="phone" size={16} />
               </div>
               <div>
-                <div className="font-semibold text-slate-900">{lang === 'hi' ? 'हेल्प डेस्क सहायता' : 'Operations Help Desk'}</div>
-                <div className="text-[11px] text-slate-500">support@veltrax.in</div>
+                <div className="font-semibold text-slate-900 dark:text-white">{lang === 'hi' ? 'हेल्प डेस्क सहायता' : 'Operations Help Desk'}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400">support@veltrax.in</div>
               </div>
             </div>
-            <span className="text-orange-600 font-semibold text-xs">Email ➔</span>
+            <span className="text-orange-600 dark:text-orange-400 font-semibold text-xs">Email ➔</span>
           </a>
 
           <Link
             to={`/receipt/${shipment.id}`}
-            className="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs flex items-center justify-between hover:border-slate-300 transition-colors"
+            className="p-3.5 bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xs flex items-center justify-between hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
             title="View official electronic lorry receipt (e-LR / Bilty)"
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 flex items-center justify-center shrink-0">
                 <IndustrialIcon name="file" size={16} />
               </div>
               <div>
-                <div className="font-semibold text-slate-900">{lang === 'hi' ? 'पक्की बिलती रसीद' : 'Official LR Bilty'}</div>
-                <div className="text-[11px] text-slate-500 font-mono">{shipment.billOfLading}</div>
+                <div className="font-semibold text-slate-900 dark:text-white">{lang === 'hi' ? 'पक्की बिलती रसीद' : 'Official LR Bilty'}</div>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">{shipment.billOfLading}</div>
               </div>
             </div>
-            <span className="text-orange-600 font-semibold text-xs">View ➔</span>
+            <span className="text-orange-600 dark:text-orange-400 font-semibold text-xs">View ➔</span>
           </Link>
         </div>
 

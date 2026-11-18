@@ -8,7 +8,7 @@ import type { Shipment, ServiceMode } from '../../types';
 import { IndustrialIcon } from '../../components/common/IndustrialIcon';
 import { Barcode } from '../../components/common/Barcode';
 import { calculatePriceBreakdown } from '../../services/pricingService';
-import { formatCurrency, lookupPinCode, INDIAN_STATES } from '../../utils/indiaHelpers';
+import { formatCurrency, lookupPinCode, INDIAN_STATES, getHubCodeForCity } from '../../utils/indiaHelpers';
 
 // External generator helpers (avoids React compiler purity warnings)
 function generateRandomSuffix() {
@@ -219,9 +219,9 @@ export const CustomerBookShipmentPage: React.FC = () => {
         billOfLading: `LR-2026-${randomSuffix}`,
         bookingRef: `BKG-${originCode}-${destCode}-${randomSuffix.toString().slice(-2)}`,
         originHub: `${formData.senderCity} Regional Hub`,
-        originHubCode: `${originCode}-HUB`,
+        originHubCode: getHubCodeForCity(formData.senderCity),
         destinationHub: `${formData.receiverCity} Delivery Centre`,
-        destinationHubCode: `${destCode}-MAIN`,
+        destinationHubCode: getHubCodeForCity(formData.receiverCity),
         serviceMode: formData.serviceMode,
         status: 'pending',
         progressPercent: 5,
@@ -360,36 +360,36 @@ export const CustomerBookShipmentPage: React.FC = () => {
     const { shipment, booking } = confirmedBooking;
     return (
       <div className="max-w-2xl mx-auto py-6 space-y-6">
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-saas-md text-center">
-          <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-100 shadow-xs">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-6 sm:p-8 shadow-saas-md text-center">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-4 border border-emerald-100 dark:border-emerald-800 shadow-xs">
             <IndustrialIcon name="check" size={32} />
           </div>
 
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full">
             Booking Confirmed & Manifest Created
           </span>
 
-          <h1 className="text-2xl sm:text-3xl font-heading font-black text-slate-900 mt-2">
+          <h1 className="text-2xl sm:text-3xl font-heading font-black text-slate-900 dark:text-white mt-2">
             Consignment Registered!
           </h1>
-          <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
             Your shipment has been assigned to VELTRAX's domestic express corridor and linked to your customer account.
           </p>
 
           {/* Barcode & Key Identifiers */}
-          <div className="mt-6 p-5 bg-slate-50 rounded-xl border border-slate-200 text-left">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div className="mt-6 p-5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 text-left">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-700 pb-4">
               <div>
                 <div className="text-[10px] text-slate-400 font-bold uppercase">Tracking Number</div>
-                <div className="text-2xl font-mono font-bold text-slate-900 tracking-tight">
+                <div className="text-2xl font-mono font-bold text-slate-900 dark:text-white tracking-tight">
                   {shipment.id}
                 </div>
-                <div className="text-xs text-slate-500 font-mono mt-0.5">
+                <div className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5">
                   Booking ID: {booking.bookingId} • LR: {shipment.billOfLading}
                 </div>
               </div>
 
-              <div className="bg-white p-2 border border-slate-200 rounded-lg shrink-0">
+              <div className="bg-white p-2 border border-slate-200 dark:border-slate-700 rounded-lg shrink-0">
                 <Barcode value={shipment.id} height={40} />
               </div>
             </div>
@@ -397,21 +397,21 @@ export const CustomerBookShipmentPage: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 text-xs">
               <div>
                 <span className="text-[10px] text-slate-400 block uppercase">Origin</span>
-                <span className="font-bold text-slate-800">{shipment.sender.city}</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{shipment.sender.city}</span>
               </div>
               <div>
                 <span className="text-[10px] text-slate-400 block uppercase">Destination</span>
-                <span className="font-bold text-slate-800">{shipment.receiver.city}</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{shipment.receiver.city}</span>
               </div>
               <div>
                 <span className="text-[10px] text-slate-400 block uppercase">Delivery OTP</span>
-                <span className="font-mono font-bold text-orange-600 bg-orange-50 px-1.5 py-0.5 rounded">
+                <span className="font-mono font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/60 px-1.5 py-0.5 rounded">
                   {shipment.deliveryOtp}
                 </span>
               </div>
               <div>
                 <span className="text-[10px] text-slate-400 block uppercase">Total Amount</span>
-                <span className="font-bold text-slate-900">{formatCurrency(booking.totalAmount)}</span>
+                <span className="font-bold text-slate-900 dark:text-white">{formatCurrency(booking.totalAmount)}</span>
               </div>
             </div>
           </div>
@@ -428,7 +428,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
 
             <Link
               to="/account/shipments"
-              className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold text-xs px-5 py-2.5 rounded-xl transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold text-xs px-5 py-2.5 rounded-xl transition-all flex items-center justify-center gap-2"
             >
               <IndustrialIcon name="box" size={14} />
               <span>Go to My Shipments</span>
@@ -445,7 +445,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
                   receiverAddress: '',
                 }));
               }}
-              className="w-full sm:w-auto border border-slate-200 text-slate-600 hover:text-slate-900 text-xs font-semibold px-4 py-2.5 rounded-xl hover:bg-slate-50 transition-all"
+              className="w-full sm:w-auto border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold px-4 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
             >
               Book Another Consignment
             </button>
@@ -459,17 +459,17 @@ export const CustomerBookShipmentPage: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-6">
       {/* 1. Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-heading font-bold text-slate-900 dark:text-white tracking-tight">
           Book Self-Service Shipment
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
           Auto-populated sender information, saved address selection & transparent freight pricing
         </p>
       </div>
 
       {formError && (
-        <div className="bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl p-3.5 flex items-start gap-2">
-          <span className="text-rose-600 shrink-0 mt-0.5">
+        <div className="bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs rounded-xl p-3.5 flex items-start gap-2">
+          <span className="text-rose-600 dark:text-rose-400 shrink-0 mt-0.5">
             <IndustrialIcon name="alert" size={15} />
           </span>
           <span>{formError}</span>
@@ -478,17 +478,17 @@ export const CustomerBookShipmentPage: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* SECTION 1: SENDER INFORMATION (Auto-populated from customer profile) */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-5 sm:p-6 shadow-xs">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/80 pb-3 mb-4">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs">
+              <span className="w-6 h-6 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-xs">
                 1
               </span>
-              <h2 className="text-sm font-heading font-bold text-slate-900 uppercase tracking-wider">
+              <h2 className="text-sm font-heading font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                 Sender Information (Dispatch Origin)
               </h2>
             </div>
-            <span className="text-[11px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-full flex items-center gap-1">
               <IndustrialIcon name="check" size={11} />
               <span>Auto-filled from Profile</span>
             </span>
@@ -496,7 +496,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Sender Full Name <span className="text-rose-500">*</span>
               </label>
               <input
@@ -504,24 +504,24 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 required
                 value={formData.senderName}
                 onChange={(e) => setFormData({ ...formData, senderName: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Company / Shop Name
               </label>
               <input
                 type="text"
                 value={formData.senderCompany}
                 onChange={(e) => setFormData({ ...formData, senderCompany: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Mobile Number <span className="text-rose-500">*</span>
               </label>
               <input
@@ -529,12 +529,12 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 required
                 value={formData.senderMobile}
                 onChange={(e) => setFormData({ ...formData, senderMobile: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Street Address / Premises <span className="text-rose-500">*</span>
               </label>
               <input
@@ -543,12 +543,12 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 placeholder="e.g. Shop 44, Katra Neel, Chandni Chowk"
                 value={formData.senderAddress}
                 onChange={(e) => setFormData({ ...formData, senderAddress: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 PIN Code <span className="text-rose-500">*</span>
               </label>
               <input
@@ -557,27 +557,27 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 maxLength={6}
                 value={formData.senderPin}
                 onChange={(e) => handleSenderPinChange(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-mono focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">City</label>
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">City</label>
               <input
                 type="text"
                 required
                 value={formData.senderCity}
                 onChange={(e) => setFormData({ ...formData, senderCity: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">State</label>
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">State</label>
               <select
                 value={formData.senderState}
                 onChange={(e) => setFormData({ ...formData, senderState: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               >
                 {INDIAN_STATES.map((st) => (
                   <option key={st} value={st}>
@@ -588,26 +588,26 @@ export const CustomerBookShipmentPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">Sender GST Number</label>
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Sender GST Number</label>
               <input
                 type="text"
                 placeholder="Optional"
                 value={formData.senderGst}
                 onChange={(e) => setFormData({ ...formData, senderGst: e.target.value.toUpperCase() })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg uppercase text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg uppercase text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
           </div>
         </div>
 
         {/* SECTION 2: RECEIVER INFORMATION & SAVED ADDRESS SELECTION */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-2">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-5 sm:p-6 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 dark:border-slate-700/80 pb-3 mb-4 gap-2">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs">
+              <span className="w-6 h-6 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-xs">
                 2
               </span>
-              <h2 className="text-sm font-heading font-bold text-slate-900 uppercase tracking-wider">
+              <h2 className="text-sm font-heading font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                 Receiver & Delivery Destination
               </h2>
             </div>
@@ -615,11 +615,11 @@ export const CustomerBookShipmentPage: React.FC = () => {
             {/* Saved Address Book Selector */}
             {receiverAddresses.length > 0 && (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-500 font-medium">Select from Address Book:</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Select from Address Book:</span>
                 <select
                   value={selectedReceiverId}
                   onChange={(e) => handleSelectReceiver(e.target.value)}
-                  className="bg-orange-50 text-orange-900 border border-orange-200 text-xs px-2.5 py-1.5 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                  className="bg-orange-50 dark:bg-orange-950/40 text-orange-900 dark:text-orange-200 border border-orange-200 dark:border-orange-800 text-xs px-2.5 py-1.5 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                 >
                   <option value="custom">+ Enter New Receiver Address</option>
                   {receiverAddresses.map((addr) => (
@@ -634,7 +634,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Receiver Contact Person <span className="text-rose-500">*</span>
               </label>
               <input
@@ -643,12 +643,12 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 placeholder="e.g. Amit Gupta"
                 value={formData.receiverName}
                 onChange={(e) => setFormData({ ...formData, receiverName: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Receiver Firm / Shop Name
               </label>
               <input
@@ -656,12 +656,12 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 placeholder="e.g. Gupta Cloth Emporium"
                 value={formData.receiverCompany}
                 onChange={(e) => setFormData({ ...formData, receiverCompany: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Receiver Mobile Number <span className="text-rose-500">*</span>
               </label>
               <input
@@ -670,12 +670,12 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 placeholder="9414088210"
                 value={formData.receiverMobile}
                 onChange={(e) => setFormData({ ...formData, receiverMobile: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Complete Delivery Address <span className="text-rose-500">*</span>
               </label>
               <input
@@ -684,12 +684,12 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 placeholder="Shop No., Street, Market / Commercial Complex"
                 value={formData.receiverAddress}
                 onChange={(e) => setFormData({ ...formData, receiverAddress: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Delivery PIN Code <span className="text-rose-500">*</span>
               </label>
               <input
@@ -698,27 +698,27 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 maxLength={6}
                 value={formData.receiverPin}
                 onChange={(e) => handleReceiverPinChange(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-mono focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-mono focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">City <span className="text-rose-500">*</span></label>
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">City <span className="text-rose-500">*</span></label>
               <input
                 type="text"
                 required
                 value={formData.receiverCity}
                 onChange={(e) => setFormData({ ...formData, receiverCity: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">State <span className="text-rose-500">*</span></label>
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">State <span className="text-rose-500">*</span></label>
               <select
                 value={formData.receiverState}
                 onChange={(e) => setFormData({ ...formData, receiverState: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               >
                 {INDIAN_STATES.map((st) => (
                   <option key={st} value={st}>
@@ -729,21 +729,21 @@ export const CustomerBookShipmentPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">Landmark</label>
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Landmark</label>
               <input
                 type="text"
                 placeholder="e.g. Near Sanganeri Gate"
                 value={formData.receiverLandmark}
                 onChange={(e) => setFormData({ ...formData, receiverLandmark: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
           </div>
 
           {/* Option to Save to Address Book */}
           {selectedReceiverId === 'custom' && (
-            <div className="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
+            <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/80 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700 dark:text-slate-300">
                 <input
                   type="checkbox"
                   checked={saveReceiverToAddressBook}
@@ -759,7 +759,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
                   placeholder="Address Label (e.g. Jaipur Depot)"
                   value={receiverLabel}
                   onChange={(e) => setReceiverLabel(e.target.value)}
-                  className="px-2.5 py-1 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800"
+                  className="px-2.5 py-1 text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-800 dark:text-slate-200"
                 />
               )}
             </div>
@@ -767,25 +767,25 @@ export const CustomerBookShipmentPage: React.FC = () => {
         </div>
 
         {/* SECTION 3: PARCEL & CARGO SPECIFICATIONS */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs">
-          <div className="flex items-center gap-2 border-b border-slate-100 pb-3 mb-4">
-            <span className="w-6 h-6 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-5 sm:p-6 shadow-xs">
+          <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-3 mb-4">
+            <span className="w-6 h-6 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-xs">
               3
             </span>
-            <h2 className="text-sm font-heading font-bold text-slate-900 uppercase tracking-wider">
+            <h2 className="text-sm font-heading font-bold text-slate-900 dark:text-white uppercase tracking-wider">
               Cargo & Parcel Details
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Cargo Category <span className="text-rose-500">*</span>
               </label>
               <select
                 value={formData.cargoCategory}
                 onChange={(e) => setFormData({ ...formData, cargoCategory: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               >
                 <option value="Box / Carton (Clothes & Garments)">Box / Carton (Clothes & Garments)</option>
                 <option value="Textile Rolls & Yarn Bales">Textile Rolls & Yarn Bales</option>
@@ -797,7 +797,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Weight in Kilograms (kg) <span className="text-rose-500">*</span>
               </label>
               <input
@@ -807,12 +807,12 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 required
                 value={formData.weightKg}
                 onChange={(e) => setFormData({ ...formData, weightKg: Number(e.target.value) })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 font-bold focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-bold focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Number of Packages (Units) <span className="text-rose-500">*</span>
               </label>
               <input
@@ -821,12 +821,12 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 required
                 value={formData.quantity}
                 onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Detailed Contents Description
               </label>
               <input
@@ -834,31 +834,31 @@ export const CustomerBookShipmentPage: React.FC = () => {
                 placeholder="e.g. 5 boxes containing formal shirts and dress fabric"
                 value={formData.itemDescription}
                 onChange={(e) => setFormData({ ...formData, itemDescription: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 Declared Invoice Value (₹)
               </label>
               <input
                 type="number"
                 value={formData.declaredValueInr}
                 onChange={(e) => setFormData({ ...formData, declaredValueInr: Number(e.target.value) })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
               />
             </div>
           </div>
         </div>
 
         {/* SECTION 4: SPEED, PRICING & PAYMENT */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs">
-          <div className="flex items-center gap-2 border-b border-slate-100 pb-3 mb-4">
-            <span className="w-6 h-6 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-2xl p-5 sm:p-6 shadow-xs">
+          <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-3 mb-4">
+            <span className="w-6 h-6 rounded-lg bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-xs">
               4
             </span>
-            <h2 className="text-sm font-heading font-bold text-slate-900 uppercase tracking-wider">
+            <h2 className="text-sm font-heading font-bold text-slate-900 dark:text-white uppercase tracking-wider">
               Transit Priority, Pricing & Payment
             </h2>
           </div>
@@ -867,7 +867,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
             {/* Speed & Mode Options */}
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-2">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Select Delivery Priority
                 </label>
                 <div className="space-y-2">
@@ -880,8 +880,8 @@ export const CustomerBookShipmentPage: React.FC = () => {
                       key={speed.id}
                       className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
                         formData.deliverySpeed === speed.id
-                          ? 'border-orange-500 bg-orange-50/50 text-slate-900'
-                          : 'border-slate-200 hover:border-slate-300 text-slate-600'
+                          ? 'border-orange-500 bg-orange-50/50 dark:bg-orange-950/30 text-slate-900 dark:text-white'
+                          : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300'
                       }`}
                     >
                       <div className="flex items-center gap-2.5">
@@ -894,11 +894,11 @@ export const CustomerBookShipmentPage: React.FC = () => {
                           className="text-orange-500 focus:ring-orange-500"
                         />
                         <div>
-                          <div className="text-xs font-bold text-slate-900">{speed.name}</div>
-                          <div className="text-[11px] text-slate-500">{speed.time}</div>
+                          <div className="text-xs font-bold text-slate-900 dark:text-white">{speed.name}</div>
+                          <div className="text-[11px] text-slate-500 dark:text-slate-400">{speed.time}</div>
                         </div>
                       </div>
-                      <span className="text-[11px] font-semibold text-orange-600 bg-orange-100/60 px-2 py-0.5 rounded">
+                      <span className="text-[11px] font-semibold text-orange-600 dark:text-orange-400 bg-orange-100/60 dark:bg-orange-950/60 px-2 py-0.5 rounded">
                         {speed.rate}
                       </span>
                     </label>
@@ -907,7 +907,7 @@ export const CustomerBookShipmentPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-2">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Payment Method
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -921,8 +921,8 @@ export const CustomerBookShipmentPage: React.FC = () => {
                       key={pm.id}
                       className={`p-2.5 rounded-xl border text-xs font-semibold flex items-center gap-2 cursor-pointer transition-all ${
                         formData.paymentMethod === pm.id
-                          ? 'border-orange-500 bg-orange-50/60 text-orange-900'
-                          : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                          ? 'border-orange-500 bg-orange-50/60 dark:bg-orange-950/40 text-orange-900 dark:text-orange-200'
+                          : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                       }`}
                     >
                       <input
@@ -946,44 +946,44 @@ export const CustomerBookShipmentPage: React.FC = () => {
             </div>
 
             {/* Transparent Pricing Summary Card */}
-            <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col justify-between">
+            <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-5 flex flex-col justify-between">
               <div>
-                <div className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center justify-between">
+                <div className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3 flex items-center justify-between">
                   <span>Transparent Freight Tariff</span>
                   <span className="text-[10px] text-slate-400 font-normal">GST 18% Included</span>
                 </div>
 
-                <div className="space-y-2 text-xs border-b border-slate-200 pb-3">
-                  <div className="flex justify-between text-slate-600">
+                <div className="space-y-2 text-xs border-b border-slate-200 dark:border-slate-700 pb-3">
+                  <div className="flex justify-between text-slate-600 dark:text-slate-300">
                     <span>Base Freight ({formData.weightKg} kg):</span>
-                    <span className="font-semibold text-slate-800">{formatCurrency(priceBreakdown.baseCharge)}</span>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">{formatCurrency(priceBreakdown.baseCharge)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-slate-600 dark:text-slate-300">
                     <span>Fuel Surcharge:</span>
-                    <span className="font-semibold text-slate-800">{formatCurrency(priceBreakdown.fuelCharge)}</span>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">{formatCurrency(priceBreakdown.fuelCharge)}</span>
                   </div>
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-slate-600 dark:text-slate-300">
                     <span>Doorstep Pickup Handling:</span>
-                    <span className="font-semibold text-slate-800">{formatCurrency(priceBreakdown.pickupCharge)}</span>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">{formatCurrency(priceBreakdown.pickupCharge)}</span>
                   </div>
                   {priceBreakdown.codFee > 0 && (
-                    <div className="flex justify-between text-slate-600">
+                    <div className="flex justify-between text-slate-600 dark:text-slate-300">
                       <span>Cash Handling Fee (COD):</span>
-                      <span className="font-semibold text-slate-800">{formatCurrency(priceBreakdown.codFee)}</span>
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">{formatCurrency(priceBreakdown.codFee)}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-slate-600">
+                  <div className="flex justify-between text-slate-600 dark:text-slate-300">
                     <span>GST (18% Integrated Tax):</span>
-                    <span className="font-semibold text-slate-800">{formatCurrency(priceBreakdown.gstAmount)}</span>
+                    <span className="font-semibold text-slate-800 dark:text-slate-200">{formatCurrency(priceBreakdown.gstAmount)}</span>
                   </div>
                 </div>
 
                 <div className="pt-3 flex items-baseline justify-between">
                   <div>
-                    <div className="text-xs font-bold text-slate-900">Total Payable Amount</div>
-                    <div className="text-[10px] text-slate-500">Official Waybill Receipt Guarantee</div>
+                    <div className="text-xs font-bold text-slate-900 dark:text-white">Total Payable Amount</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400">Official Waybill Receipt Guarantee</div>
                   </div>
-                  <div className="text-2xl font-heading font-black text-slate-900">
+                  <div className="text-2xl font-heading font-black text-slate-900 dark:text-white">
                     {formatCurrency(priceBreakdown.total)}
                   </div>
                 </div>

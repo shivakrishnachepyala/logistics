@@ -226,30 +226,30 @@ export const TransportationAssignmentPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* 1. Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-xl border border-slate-200 shadow-saas-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-[#1E293B] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-saas-sm">
         <div>
           <div className="flex items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-heading font-bold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-heading font-bold text-slate-900 dark:text-white tracking-tight">
               Multimodal Transportation Assignment
             </h1>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-50 text-orange-700 border border-orange-200">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">
               <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
               Dispatch Desk
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Allocate and dispatch consignments across Road, Rail Intermodal, Air Cargo, and Ocean Container lines for <strong className="text-slate-700 font-semibold">{branchLabel}</strong>.
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+            Allocate and dispatch consignments across Road, Rail Intermodal, Air Cargo, and Ocean Container lines for <strong className="text-slate-700 dark:text-slate-200 font-semibold">{branchLabel}</strong>.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="text-xs bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg text-slate-600">
+          <div className="text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300">
             Pending Queue:{' '}
-            <strong className="text-orange-600 font-bold">{pendingShipments.length}</strong> consignments
+            <strong className="text-orange-600 dark:text-orange-400 font-bold">{pendingShipments.length}</strong> consignments
           </div>
           <Link
             to="/shipments"
-            className="px-3.5 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
+            className="px-3.5 py-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg transition-colors"
           >
             All Shipments
           </Link>
@@ -258,19 +258,19 @@ export const TransportationAssignmentPage: React.FC = () => {
 
       {/* 2. Success Alert Toast */}
       {successToast && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-emerald-900 shadow-saas-sm flex items-center justify-between gap-3 animate-fade-in">
+        <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4 text-emerald-900 dark:text-emerald-200 shadow-saas-sm flex items-center justify-between gap-3 animate-fade-in">
           <div className="flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0">
               <AppIcon name="check" size={15} />
             </div>
             <div className="text-xs sm:text-sm">
               <span className="font-bold">{successToast.message}</span>
-              <span className="font-mono text-emerald-700 ml-2">[{successToast.assignmentId}]</span>
+              <span className="font-mono text-emerald-700 dark:text-emerald-400 ml-2">[{successToast.assignmentId}]</span>
             </div>
           </div>
           <button
             onClick={() => setSuccessToast(null)}
-            className="text-emerald-700 hover:text-emerald-950 p-1"
+            className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-950 dark:hover:text-emerald-200 p-1"
           >
             <AppIcon name="x" size={14} />
           </button>
@@ -281,17 +281,17 @@ export const TransportationAssignmentPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Multimodal Assignment Form */}
         <div className="lg:col-span-2 space-y-6">
-          <form onSubmit={handleDispatchSubmit} className="bg-white p-5 sm:p-6 rounded-xl border border-slate-200 shadow-saas-sm space-y-6">
+          <form onSubmit={handleDispatchSubmit} className="bg-white dark:bg-[#1E293B] p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-saas-sm space-y-6">
 
             {/* Step A: Shipment Selection */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
                 1. Select Consignment to Dispatch
               </label>
               <select
                 value={selectedShipmentId}
                 onChange={(e) => handleSelectShipment(e.target.value)}
-                className="w-full text-xs font-medium bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full text-xs font-medium bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg p-2.5 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               >
                 {shipments.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -302,21 +302,21 @@ export const TransportationAssignmentPage: React.FC = () => {
 
               {/* Selected Shipment Summary Card */}
               {selectedShipment && (
-                <div className="mt-3 bg-slate-50 border border-slate-200 rounded-lg p-3.5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                <div className="mt-3 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg p-3.5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                   <div>
                     <div className="text-slate-400 text-[10px] uppercase font-semibold">Origin Hub</div>
-                    <div className="font-semibold text-slate-800">{selectedShipment.originHubCode}</div>
-                    <div className="text-[11px] text-slate-500 truncate">{selectedShipment.originHub}</div>
+                    <div className="font-semibold text-slate-800 dark:text-slate-200">{selectedShipment.originHubCode}</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{selectedShipment.originHub}</div>
                   </div>
                   <div>
                     <div className="text-slate-400 text-[10px] uppercase font-semibold">Destination Hub</div>
-                    <div className="font-semibold text-slate-800">{selectedShipment.destinationHubCode}</div>
-                    <div className="text-[11px] text-slate-500 truncate">{selectedShipment.destinationHub}</div>
+                    <div className="font-semibold text-slate-800 dark:text-slate-200">{selectedShipment.destinationHubCode}</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{selectedShipment.destinationHub}</div>
                   </div>
                   <div>
                     <div className="text-slate-400 text-[10px] uppercase font-semibold">Cargo Spec</div>
-                    <div className="font-semibold text-slate-800">{selectedShipment.cargo.weightKg} kg</div>
-                    <div className="text-[11px] text-slate-500 truncate">{selectedShipment.cargo.type}</div>
+                    <div className="font-semibold text-slate-800 dark:text-slate-200">{selectedShipment.cargo.weightKg} kg</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{selectedShipment.cargo.type}</div>
                   </div>
                   <div>
                     <div className="text-slate-400 text-[10px] uppercase font-semibold">Current State</div>
@@ -912,12 +912,12 @@ export const TransportationAssignmentPage: React.FC = () => {
         {/* Right Col: Dispatch Summary & Driver Telemetry */}
         <div className="space-y-6">
           {/* Driver Availability Card */}
-          <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-saas-sm">
+          <div className="bg-white dark:bg-[#1E293B] p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-saas-sm">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-heading font-bold text-sm text-slate-900">
+              <h3 className="font-heading font-bold text-sm text-slate-900 dark:text-white">
                 Hub Fleet Resources
               </h3>
-              <span className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
+              <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 {drivers.filter(d => d.status === 'available').length} Available
               </span>
@@ -934,19 +934,19 @@ export const TransportationAssignmentPage: React.FC = () => {
                   }}
                   className={`p-2.5 rounded-lg border text-xs cursor-pointer transition-colors ${
                     activeMode === 'road' && roadDriverId === drv.id
-                      ? 'border-orange-500 bg-orange-50/20'
-                      : 'border-slate-100 hover:bg-slate-50'
+                      ? 'border-orange-500 bg-orange-50/20 dark:bg-orange-950/40'
+                      : 'border-slate-100 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-800/60'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-800">{drv.name}</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">{drv.name}</span>
                     <span
                       className={`px-1.5 py-0.2 rounded text-[10px] font-bold uppercase ${
                         drv.status === 'available'
-                          ? 'bg-emerald-50 text-emerald-700'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300'
                           : drv.status === 'on_route'
-                          ? 'bg-sky-50 text-sky-700'
-                          : 'bg-slate-100 text-slate-600'
+                          ? 'bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                       }`}
                     >
                       {drv.status.replace('_', ' ')}
@@ -961,12 +961,12 @@ export const TransportationAssignmentPage: React.FC = () => {
           </div>
 
           {/* Quick Guide */}
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-slate-600 space-y-2">
-            <div className="font-heading font-bold text-slate-800 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+          <div className="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl p-4 text-xs text-slate-600 dark:text-slate-300 space-y-2">
+            <div className="font-heading font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
               <AppIcon name="shield" size={14} className="text-orange-500" />
               <span>Multi-Modal Dispatch Compliance</span>
             </div>
-            <p className="text-[11px] leading-relaxed text-slate-500">
+            <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
               Assigning a carrier updates the official electronic consignment record, records the transaction in the system audit stream, and updates live telemetry coordinates for tracking.
             </p>
           </div>
@@ -974,13 +974,13 @@ export const TransportationAssignmentPage: React.FC = () => {
       </div>
 
       {/* 4. Assignment History & Operational Audit Table */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-saas-sm overflow-hidden">
-        <div className="p-4 sm:p-5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="bg-white dark:bg-[#1E293B] rounded-xl border border-slate-200 dark:border-slate-700 shadow-saas-sm overflow-hidden">
+        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="font-heading font-bold text-sm sm:text-base text-slate-900">
+            <h2 className="font-heading font-bold text-sm sm:text-base text-slate-900 dark:text-white">
               Recent Dispatches & Carrier Assignments
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Audit log of multimodal transport allocations and route manifests
             </p>
           </div>
@@ -991,7 +991,7 @@ export const TransportationAssignmentPage: React.FC = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left">
-            <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
+            <thead className="bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
               <tr>
                 <th className="py-3 px-4">Assignment ID</th>
                 <th className="py-3 px-4">Consignment</th>
@@ -1017,38 +1017,38 @@ export const TransportationAssignmentPage: React.FC = () => {
                 }
 
                 return (
-                  <tr key={asn.id} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="py-3 px-4 font-mono font-bold text-slate-900">
+                  <tr key={asn.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/50 transition-colors">
+                    <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-white">
                       {asn.id}
                     </td>
-                    <td className="py-3 px-4 font-mono font-semibold text-orange-600">
+                    <td className="py-3 px-4 font-mono font-semibold text-orange-600 dark:text-orange-400">
                       <Link to={`/manager/shipment/${asn.shipmentId}`} className="hover:underline">
                         {asn.shipmentId}
                       </Link>
                     </td>
                     <td className="py-3 px-4">
-                      <span className="inline-flex items-center gap-1 font-semibold uppercase text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                      <span className="inline-flex items-center gap-1 font-semibold uppercase text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                         <AppIcon name={asn.mode === 'road' ? 'truck' : asn.mode === 'rail' ? 'train' : asn.mode === 'air' ? 'plane' : 'ship'} size={12} />
                         <span>{asn.mode}</span>
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-medium text-slate-800">
+                    <td className="py-3 px-4 font-medium text-slate-800 dark:text-slate-200">
                       {asn.carrierName}
                     </td>
-                    <td className="py-3 px-4 font-mono text-slate-600 text-[11px]">
+                    <td className="py-3 px-4 font-mono text-slate-600 dark:text-slate-400 text-[11px]">
                       {refDisplay}
                     </td>
-                    <td className="py-3 px-4 font-mono text-slate-500 text-[11px]">
+                    <td className="py-3 px-4 font-mono text-slate-500 dark:text-slate-400 text-[11px]">
                       {asn.dispatchedAt || asn.assignedAt}
                     </td>
                     <td className="py-3 px-4">
                       <span
                         className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                           asn.status === 'in_transit'
-                            ? 'bg-sky-50 text-sky-700 border border-sky-200'
+                            ? 'bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800'
                             : asn.status === 'completed'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-slate-100 text-slate-700'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
                         }`}
                       >
                         {asn.status.replace('_', ' ')}
@@ -1058,14 +1058,14 @@ export const TransportationAssignmentPage: React.FC = () => {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           to={`/tracking?id=${asn.shipmentId}`}
-                          className="text-xs font-semibold text-sky-600 hover:text-sky-700"
+                          className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700"
                         >
                           Track
                         </Link>
                         <span>•</span>
                         <Link
                           to={`/manager/shipment/${asn.shipmentId}`}
-                          className="text-xs font-semibold text-slate-600 hover:text-slate-900"
+                          className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                         >
                           Manifest
                         </Link>
